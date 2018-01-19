@@ -3,7 +3,10 @@ import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import { findDOMNode } from 'react-dom'
 import { DragSource, DropTarget } from 'react-dnd'
-import {addField, swapFields} from '../../store/form/actions'
+import { swapFields, insertField } from '../../store/form/actions'
+import { getLatestAddedFieldId } from '../../store/form/reducer'
+import FIELD_OPTION_CONFIG from '../../constants/fieldOptionConfig'
+
 
 const style = {
   border: '1px dashed gray',
@@ -18,6 +21,7 @@ const cardSource = {
     return {
       id: props.id,
       index: props.index,
+      type: 'field'
     }
   },
   isDragging(props, monitor) {
@@ -29,7 +33,6 @@ const cardTarget = {
   hover(props, monitor, component) {
     const dragIndex = monitor.getItem().index
     const hoverIndex = props.index
-
     // Don't replace items with themselves
     if (dragIndex === hoverIndex) {
       return
@@ -62,14 +65,29 @@ const cardTarget = {
     }
 
     // Time to actually perform the action
-    props.moveCard(dragIndex, hoverIndex)
+    if (monitor.getItem().type === 'field') {
+      props.moveCard(dragIndex, hoverIndex, 'field')
+      // Note: we're mutating the monitor item here!
+      // Generally it's better to avoid mutations,
+      // but it's good here for the sake of performance
+      // to avoid expensive index searches.
+      monitor.getItem().index = hoverIndex
+    } else {
+      const item = monitor.getItem()
+      const dropFieldId = props.id
+      if (dropFieldId && !item['inserted']) {
+        props.insertField(FIELD_OPTION_CONFIG[item.optionId], dropFieldId)
+        monitor.getItem().inserted = true
+      } else {
+        props.moveCard(props.latestAddedFieldId, hoverIndex, 'option')
+        monitor.getItem().index = hoverIndex
+      }
+    }
 
-    // Note: we're mutating the monitor item here!
-    // Generally it's better to avoid mutations,
-    // but it's good here for the sake of performance
-    // to avoid expensive index searches.
-    console.log(monitor.getItem())
-    monitor.getItem().index = hoverIndex
+
+  },
+  drop(props) {
+    return { fieldId: props.id }
   }
 }
 
@@ -80,7 +98,7 @@ const cardTarget = {
   connectDragSource: connect.dragSource(),
   isDragging: monitor.isDragging(),
 }))
-class EditableField extends Component {
+class DraggableField extends Component {
   static propTypes = {
     connectDragSource: PropTypes.func.isRequired,
     connectDropTarget: PropTypes.func.isRequired,
@@ -91,6 +109,8 @@ class EditableField extends Component {
     description: PropTypes.string,
     moveCard: PropTypes.func.isRequired,
     swapFields: PropTypes.func.isRequired,
+    insertField: PropTypes.func.isRequired,
+    latestAddedFieldId: PropTypes.string.isRequired,
   }
 
   render() {
@@ -112,9 +132,10 @@ class EditableField extends Component {
 
 
 const mapState = (state) => ({
+  latestAddedFieldId: getLatestAddedFieldId(state)
 })
 
 
-const actions = { swapFields }
+const actions = { swapFields, insertField }
 
-export default connect(mapState, actions)(EditableField)
+export default connect(mapState, actions)(DraggableField)

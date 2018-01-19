@@ -19,17 +19,20 @@ const boxSource = {
   beginDrag(props) {
     return {
       optionLabel: props.optionLabel,
-      optionId: props.optionId
+      optionId: props.optionId,
+      inserted: false
     }
   },
-
   endDrag(props, monitor) {
     const item = monitor.getItem()
-    const dropResult = monitor.getDropResult()
-    console.log(item)
-    if (dropResult) {
+    const dropFieldId = monitor.getDropResult().fieldId
+    if (dropFieldId === 'emptyDropZone') {
       props.addField(FIELD_OPTION_CONFIG[item.optionId])
     }
+  },
+  isDragging(props, monitor) {
+    const item = monitor.getItem()
+    return item.optionId === props.optionId
   },
 }
 
@@ -37,7 +40,7 @@ const boxSource = {
   connectDragSource: connect.dragSource(),
   isDragging: monitor.isDragging(),
 }))
-class FieldOption extends Component {
+class DraggableFieldOption extends Component {
   static propTypes = {
     connectDragSource: PropTypes.func.isRequired,
     isDragging: PropTypes.bool.isRequired,
@@ -62,4 +65,4 @@ const mapState = (state) => ({
 
 const actions = { addField }
 
-export default connect(mapState, actions)(FieldOption)
+export default connect(mapState, actions)(DraggableFieldOption)

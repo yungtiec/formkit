@@ -1,7 +1,6 @@
 import * as types from './actionTypes';
 
 export const addField = field => {
-  console.log('hello')
   return ({ type: types.FIELD_ADD, field })
 }
 

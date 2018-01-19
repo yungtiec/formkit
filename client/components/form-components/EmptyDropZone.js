@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
-import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import { DropTarget } from 'react-dnd'
-import {addField} from '../../store/form/actions'
 
 const style = {
   height: '800px',
@@ -11,7 +9,7 @@ const style = {
 
 const boxTarget = {
   drop() {
-    return { name: 'EditingPanel' }
+    return { fieldId: 'emptyDropZone' }
   },
 }
 
@@ -20,7 +18,7 @@ const boxTarget = {
   isOver: monitor.isOver(),
   canDrop: monitor.canDrop(),
 }))
-export default class EditingPanel extends Component {
+export default class EmptyDropZone extends Component {
   static propTypes = {
     connectDropTarget: PropTypes.func.isRequired,
     isOver: PropTypes.bool.isRequired,
@@ -45,11 +43,3 @@ export default class EditingPanel extends Component {
     )
   }
 }
-
-// const mapState = (state) => ({
-// })
-
-
-// const actions = { addField }
-
-// export default connect(mapState, actions)(EditingPanel)

@@ -14,6 +14,7 @@ const initialState = {
   },
   formData: {},
   currentIndex: 0,
+  latestAddedFieldId: ''
 };
 
 
@@ -34,6 +35,7 @@ function addField(state, field) {
   state.currentIndex += 1;
   const name = `Question ${state.currentIndex}`;
   const id = slugify(name);
+  state.latestAddedFieldId = id;
   state.schema.properties[id] = { ...field.jsonSchema, title: name, fieldId: field.id, id };
   state.uiSchema[id] = field.uiSchema;
   state.uiSchema['ui:order'] = (state.uiSchema['ui:order'] || []).concat(id);
@@ -113,6 +115,7 @@ function insertField(state, field, before) {
     order.slice(idxBefore, order.length - 1)
   );
   insertedState.uiSchema['ui:order'] = newOrder;
+  insertedState.latestAddedFieldId = added;
   return { ...insertedState, error: null };
 }
 
@@ -172,4 +175,8 @@ export default function form(state = initialState, action) {
 
 export function getForm(state) {
   return state.form
+}
+
+export function getLatestAddedFieldId(state) {
+  return state.form.latestAddedFieldId
 }
