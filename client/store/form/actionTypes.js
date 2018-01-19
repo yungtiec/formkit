@@ -1,0 +1,9 @@
+export const FIELD_ADD = "FIELD_ADD";
+export const FIELD_SWITCH = "FIELD_SWITCH";
+export const FIELD_REMOVE = "FIELD_REMOVE";
+export const FIELD_UPDATE = "FIELD_UPDATE";
+export const FIELD_INSERT = "FIELD_INSERT";
+export const FIELD_SWAP = "FIELD_SWAP";
+export const FORM_RESET = "FORM_RESET";
+export const FORM_UPDATE_TITLE = "FORM_UPDATE_TITLE";
+export const FORM_UPDATE_DESCRIPTION = "FORM_UPDATE_DESCRIPTION";

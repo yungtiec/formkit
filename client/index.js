@@ -1,11 +1,13 @@
+import 'normalize.css'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'jQuery'
+import 'Tether'
+import 'bootstrap/dist/js/bootstrap.min.js'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import {Provider} from 'react-redux'
 import store from './store'
 import Routes from './routes'
-
-// establishes socket connection
-import './socket'
 
 ReactDOM.render(
   <Provider store={store}>

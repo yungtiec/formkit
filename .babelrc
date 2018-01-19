@@ -1,5 +1,6 @@
 {
-  presets: ['react', 'env', 'stage-2']
+  presets: ['react', 'env', 'stage-2'],
+  plugins: ["syntax-async-functions","transform-decorators-legacy", "transform-async-to-generator"]
   /*
     Babel uses these "presets" to know how to transpile your Javascript code. Here's what we're saying with these:
 
