@@ -25,6 +25,7 @@ const boxSource = {
   },
   endDrag(props, monitor) {
     const item = monitor.getItem()
+    if (!monitor.getDropResult()) return
     const dropFieldId = monitor.getDropResult().fieldId
     if (dropFieldId === 'emptyDropZone') {
       props.addField(FIELD_OPTION_CONFIG[item.optionId])

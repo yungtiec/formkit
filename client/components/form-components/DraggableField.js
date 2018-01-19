@@ -86,15 +86,18 @@ const cardTarget = {
 
 
   },
-  drop(props) {
+  drop(props, monitor) {
+    monitor.getItem().dropped = true
     return { fieldId: props.id }
   }
 }
 
-@DropTarget('fieldOption', cardTarget, connect => ({
+@DropTarget(['fieldOption', 'draggableField'], cardTarget, (connect, monitor) => ({
   connectDropTarget: connect.dropTarget(),
+  isOver: !monitor.getItem(),
+  draggingType: monitor.getItemType(),
 }))
-@DragSource('fieldOption', cardSource, (connect, monitor) => ({
+@DragSource('draggableField', cardSource, (connect, monitor) => ({
   connectDragSource: connect.dragSource(),
   isDragging: monitor.isDragging(),
 }))
@@ -104,6 +107,8 @@ class DraggableField extends Component {
     connectDropTarget: PropTypes.func.isRequired,
     index: PropTypes.number.isRequired,
     isDragging: PropTypes.bool.isRequired,
+    isOver: PropTypes.bool.isRequired,
+    draggingType: PropTypes.string,
     id: PropTypes.any.isRequired,
     title: PropTypes.string.isRequired,
     description: PropTypes.string,
@@ -120,12 +125,20 @@ class DraggableField extends Component {
       isDragging,
       connectDragSource,
       connectDropTarget,
-      fieldId
+      id,
+      latestAddedFieldId,
+      isOver,
+      isOverCurrent,
+      draggingType,
     } = this.props
     const opacity = isDragging ? 0 : 1
 
+    const displayTitle = (latestAddedFieldId === id &&
+        draggingType === 'fieldOption' && !isOver) ?
+      'Your new field goes here' : title
+
     return connectDragSource(
-      connectDropTarget(<div style={{ ...style, opacity }}>{title}</div>),
+      connectDropTarget(<div style={{ ...style, opacity }}>{displayTitle}</div>),
     )
   }
 }
