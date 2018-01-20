@@ -1,17 +1,13 @@
+import './DraggableField.scss'
 import React, { Component } from 'react'
-import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import { findDOMNode } from 'react-dom'
 import { DragSource, DropTarget } from 'react-dnd'
-import { swapFields, insertField } from '../../store/form/actions'
-import { getLatestAddedFieldId } from '../../store/form/reducer'
-import FIELD_OPTION_CONFIG from '../../constants/fieldOptionConfig'
-
+import FontAwesome from 'react-fontawesome'
 
 const style = {
   border: '1px dashed gray',
-  padding: '0.5rem 1rem',
-  marginBottom: '.5rem',
+  marginBottom: '15px',
   backgroundColor: 'white',
   cursor: 'move',
 }
@@ -75,18 +71,20 @@ const fieldTarget = {
       const item = monitor.getItem()
       const dropFieldId = props.id
       if (dropFieldId && !item['inserted']) {
-        props.insertField(FIELD_OPTION_CONFIG[item.optionId], dropFieldId)
+        props.insertField(props.FIELD_OPTION_CONFIG[item.optionId], dropFieldId)
         monitor.getItem().inserted = true
       } else {
         props.moveCard(props.latestAddedFieldId, hoverIndex, 'option')
         monitor.getItem().index = hoverIndex
       }
     }
-
-
   },
   drop(props, monitor) {
     monitor.getItem().dropped = true
+    if (monitor.getItemType() === 'fieldOption') {
+      props.changeToolbarTab('fieldSettings')
+      props.updateFieldInFocus(props.latestAddedFieldId)
+    }
     return { fieldId: props.id }
   }
 }
@@ -100,7 +98,7 @@ const fieldTarget = {
   connectDragSource: connect.dragSource(),
   isDragging: monitor.isDragging(),
 }))
-class DraggableField extends Component {
+export default class DraggableField extends Component {
   static propTypes = {
     connectDragSource: PropTypes.func.isRequired,
     connectDropTarget: PropTypes.func.isRequired,
@@ -111,9 +109,6 @@ class DraggableField extends Component {
     id: PropTypes.any.isRequired,
     title: PropTypes.string.isRequired,
     description: PropTypes.string,
-    moveCard: PropTypes.func.isRequired,
-    swapFields: PropTypes.func.isRequired,
-    insertField: PropTypes.func.isRequired,
     latestAddedFieldId: PropTypes.string.isRequired,
   }
 
@@ -127,30 +122,47 @@ class DraggableField extends Component {
       id,
       latestAddedFieldId,
       isOver,
-      isOverCurrent,
       draggingType,
     } = this.props
     const opacity = isDragging ? 0 : 1
 
     const displayTitle = (latestAddedFieldId === id &&
         draggingType === 'fieldOption' && !isOver) ?
-      'Your new field goes here' : title
+      'Your new field goes here' : ''
 
     return connectDragSource(
       connectDropTarget(
-        <div style={{ ...style, opacity }}>
-          {displayTitle}
+        <div
+          className="builder__draggable-field"
+          style={{ opacity }}>
+          <div className="draggable-field__control-btn-group"> <div className="draggable-field__control-btn arrows">
+              <FontAwesome
+                className=""
+                name="arrows"
+                size="md"
+              />
+            </div>
+            <div className="draggable-field__control-btn trash-o">
+              <FontAwesome
+                className=""
+                name="trash-o"
+                size="md"
+              />
+            </div>
+          </div>
+          <div>
+            {
+              (latestAddedFieldId === id &&
+                draggingType === 'fieldOption' && !isOver) ?
+              'Your new field goes here' :
+              <div>
+                <input className="draggable-field__title-input" type="text" placeholder="Enter your question..." />
+                <span className="draggable-field__title-input-bar"></span>
+              </div>
+            }
+            </div>
         </div>)
     )
   }
 }
 
-
-const mapState = (state) => ({
-  latestAddedFieldId: getLatestAddedFieldId(state)
-})
-
-
-const actions = { swapFields, insertField }
-
-export default connect(mapState, actions)(DraggableField)

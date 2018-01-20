@@ -50,6 +50,7 @@
     "react-dnd-html5-backend": "^2.5.4",
     "react-dom": "^16.0.0",
     "react-drag-and-drop": "^2.4.0",
+    "react-fontawesome": "^1.6.1",
     "react-jsonschema-form": "^1.0.0",
     "react-redux": "^5.0.2",
     "react-router-dom": "^4.1.1",

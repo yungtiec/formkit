@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
-import {Logo} from '../components'
 import {logout} from '../store'
 
 /**
@@ -16,15 +15,7 @@ const Main = (props) => {
 
   return (
     <div id="main">
-
-      <div class="main__sidebar">
-        <Logo />
-      </div>
-
-      <div class="main__content">
-        {children}
-      </div>
-
+      {children}
     </div>
   )
 }

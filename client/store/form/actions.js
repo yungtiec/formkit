@@ -1,9 +1,9 @@
 import * as types from './actionTypes';
 
-export const addField = field => {
-  return ({ type: types.FIELD_ADD, field })
-}
-
+export const addField = field => ({
+  type: types.FIELD_ADD,
+  field
+})
 
 export function switchField(property, newField) {
   return { type: types.FIELD_SWITCH, property, newField };

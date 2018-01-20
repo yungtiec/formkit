@@ -1,13 +1,14 @@
 import React, {Component} from 'react'
 import autoBind from 'react-autobind';
 import {connect} from 'react-redux'
-import {Route, Switch, Router} from 'react-router-dom'
-import PropTypes from 'prop-types'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { DragDropContext } from 'react-dnd'
-import Form from "react-jsonschema-form";
-
-import {FieldListOptionsContainer, FormEditor} from '../containers'
+import {
+  BuilderEditingPanel,
+  BuilderRenderPanel,
+  Sidebar
+}
+from '../scenes'
 import {getForm} from '../store/form/reducer'
 
 @DragDropContext(HTML5Backend)
@@ -20,15 +21,15 @@ class FormPlayground extends Component {
 
   render() {
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col-md-2">
-            <FieldListOptionsContainer />
+      <div className="form-builder">
+        <Sidebar className="form-builder__sidebar" />
+        <div className="form-builder__container">
+          <div className="form-builder__nav">
           </div>
-          <div className="col-md-6">
-            <FormEditor />
+          <div className="form-builder__content">
+            <BuilderEditingPanel className="builder__editing-panel"/>
+            <BuilderRenderPanel className="builder__render-panel"/>
           </div>
-
         </div>
       </div>
     )
