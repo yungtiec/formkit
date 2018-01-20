@@ -15,7 +15,7 @@ const style = {
   float: 'left',
 }
 
-const boxSource = {
+const fieldOptionSource = {
   beginDrag(props) {
     return {
       optionLabel: props.optionLabel,
@@ -37,7 +37,7 @@ const boxSource = {
   },
 }
 
-@DragSource('fieldOption', boxSource, (connect, monitor) => ({
+@DragSource('fieldOption', fieldOptionSource, (connect, monitor) => ({
   connectDragSource: connect.dragSource(),
   isDragging: monitor.isDragging(),
 }))
@@ -45,9 +45,7 @@ class DraggableFieldOption extends Component {
   static propTypes = {
     connectDragSource: PropTypes.func.isRequired,
     isDragging: PropTypes.bool.isRequired,
-    optionId: PropTypes.string.isRequired,
     optionLabel: PropTypes.string.isRequired,
-    addField: PropTypes.func.isRequired,
   }
 
   render() {
@@ -55,15 +53,15 @@ class DraggableFieldOption extends Component {
     const { optionLabel } = this.props
     const opacity = isDragging ? 0.4 : 1
 
-    return connectDragSource(<div style={{ ...style, opacity }}>{optionLabel}</div>)
+    return connectDragSource(
+      <div style={{ ...style, opacity }}>
+        {optionLabel}
+      </div>
+    )
   }
 }
 
 
-const mapState = (state) => ({
-})
-
-
 const actions = { addField }
 
-export default connect(mapState, actions)(DraggableFieldOption)
+export default connect(() => ({}), actions)(DraggableFieldOption)

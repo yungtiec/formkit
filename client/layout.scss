@@ -1,0 +1,28 @@
+html,
+body,
+#app,
+#main {
+  height: 100%;
+  width: 100%;
+  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+  overflow: hidden;
+}
+
+#main {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex
+}
+
+.main__sidebar {
+  -ms-flex-preferred-size: 200px;
+  flex-basis: 200px;
+}
+
+
+.main__content {
+  -webkit-box-flex: 3;
+  -ms-flex-positive: 3;
+  flex-grow: 3;
+}

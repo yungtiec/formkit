@@ -16,12 +16,11 @@ const style = {
   cursor: 'move',
 }
 
-const cardSource = {
+const fieldSource = {
   beginDrag(props) {
     return {
       id: props.id,
       index: props.index,
-      type: 'field'
     }
   },
   isDragging(props, monitor) {
@@ -29,7 +28,7 @@ const cardSource = {
   }
 }
 
-const cardTarget = {
+const fieldTarget = {
   hover(props, monitor, component) {
     const dragIndex = monitor.getItem().index
     const hoverIndex = props.index
@@ -65,14 +64,14 @@ const cardTarget = {
     }
 
     // Time to actually perform the action
-    if (monitor.getItem().type === 'field') {
+    if (monitor.getItemType() === 'draggableField') {
       props.moveCard(dragIndex, hoverIndex, 'field')
       // Note: we're mutating the monitor item here!
       // Generally it's better to avoid mutations,
       // but it's good here for the sake of performance
       // to avoid expensive index searches.
       monitor.getItem().index = hoverIndex
-    } else {
+    } else if (monitor.getItemType() === 'fieldOption') {
       const item = monitor.getItem()
       const dropFieldId = props.id
       if (dropFieldId && !item['inserted']) {
@@ -92,12 +91,12 @@ const cardTarget = {
   }
 }
 
-@DropTarget(['fieldOption', 'draggableField'], cardTarget, (connect, monitor) => ({
+@DropTarget(['fieldOption', 'draggableField'], fieldTarget, (connect, monitor) => ({
   connectDropTarget: connect.dropTarget(),
   isOver: !monitor.getItem(),
   draggingType: monitor.getItemType(),
 }))
-@DragSource('draggableField', cardSource, (connect, monitor) => ({
+@DragSource('draggableField', fieldSource, (connect, monitor) => ({
   connectDragSource: connect.dragSource(),
   isDragging: monitor.isDragging(),
 }))
@@ -138,7 +137,10 @@ class DraggableField extends Component {
       'Your new field goes here' : title
 
     return connectDragSource(
-      connectDropTarget(<div style={{ ...style, opacity }}>{displayTitle}</div>),
+      connectDropTarget(
+        <div style={{ ...style, opacity }}>
+          {displayTitle}
+        </div>)
     )
   }
 }

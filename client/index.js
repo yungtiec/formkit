@@ -1,4 +1,5 @@
 import 'normalize.css'
+import './layout.scss'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'jQuery'
 import 'Tether'

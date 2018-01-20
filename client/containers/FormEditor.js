@@ -4,7 +4,7 @@ import autoBind from 'react-autobind';
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
-import {addField, swapFields} from '../store/form/actions'
+import {swapFields} from '../store/form/actions'
 import {getForm} from '../store/form/reducer'
 import {DraggableField, EmptyDropZone} from '../components'
 
@@ -25,27 +25,24 @@ class FormEditor extends Component {
 
   render() {
 
-    const dropAreaContainerStyle = {
-      height: '800px',
-      background: 'grey'
-    }
-
-    const dropAreaStyle = {
-      height: '100%'
-    }
-
     const isEmptyFrom = _.isEmpty(this.props.form.schema.properties)
 
-    const formFields = isEmptyFrom ? null : this.props.form.schema.properties
+    const formFields = isEmptyFrom ?
+      null : this.props.form.schema.properties
+
     return (
       <div>
         {
           isEmptyFrom ?
           <EmptyDropZone /> :
-          this.props.form.uiSchema['ui:order'].map((fieldId, i) => (
-            <DraggableField {...formFields[fieldId]} key={i} index={i} moveCard={this.moveCard} dropTargetName={formFields[fieldId].id}/>
-
-          ))
+          this.props.form.uiSchema['ui:order']
+            .map((fieldId, index) => (
+              <DraggableField
+                {...formFields[fieldId]}
+                key={index}
+                index={index}
+                moveCard={this.moveCard} />
+            ))
         }
       </div>
     )
@@ -53,7 +50,7 @@ class FormEditor extends Component {
 }
 
 FormEditor.propTypes = {
-  addField: PropTypes.func.isRequired
+  swapFields: PropTypes.func.isRequired
 
 }
 
@@ -63,6 +60,6 @@ const mapState = (state) => ({
 })
 
 
-const actions = { addField, swapFields }
+const actions = { swapFields }
 
 export default connect(mapState, actions)(FormEditor)

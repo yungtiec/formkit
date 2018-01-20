@@ -5,6 +5,7 @@
  */
 export {default as Main} from './main'
 export {default as UserHome} from './user-home'
+export {default as Logo} from './Logo'
 export {Login, Signup} from './auth-form'
 export {default as FormMinimalisticOne} from './form-minimalistic/FormMinimalisticOne'
 export {default as SortableField} from './SortableField'

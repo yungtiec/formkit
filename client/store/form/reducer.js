@@ -6,6 +6,7 @@ const initialState = {
   schema: {
     type: 'object',
     title: 'Untitled form',
+    required: [],
     description: 'Enter some description for your form here',
     properties: {}
   },
@@ -30,14 +31,17 @@ function unique(array) {
   return Array.from(new Set(array));
 }
 
-function addField(state, field) {
+function addField(state, fieldOption) {
   // Generating a usually temporary random, unique field name.
   state.currentIndex += 1;
-  const name = `Question ${state.currentIndex}`;
-  const id = slugify(name);
+  const id = `question_${state.currentIndex}`;
   state.latestAddedFieldId = id;
-  state.schema.properties[id] = { ...field.jsonSchema, title: name, fieldId: field.id, id };
-  state.uiSchema[id] = field.uiSchema;
+  state.schema.properties[id] = {
+    ...fieldOption.jsonSchema,
+    fieldOptionId: fieldOption.id,
+    id
+  };
+  state.uiSchema[id] = fieldOption.uiSchema;
   state.uiSchema['ui:order'] = (state.uiSchema['ui:order'] || []).concat(id);
   return state;
 }

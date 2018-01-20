@@ -5,7 +5,7 @@ export default {
     label: "Short text",
     jsonSchema: {
       type: "string",
-      title: "Edit me",
+      title: "Untitled short text input",
       description: "",
       default: ""
     },
@@ -28,7 +28,7 @@ export default {
     label: "Long text",
     jsonSchema: {
       type: "string",
-      title: "Edit me",
+      title: "Untitled long text input",
       description: "",
       default: ""
     },
@@ -45,33 +45,13 @@ export default {
     },
     formData: {}
   },
-  checkbox: {
-    id: "checkbox",
-    icon: "check",
-    label: "Checkbox",
-    jsonSchema: {
-      type: "boolean",
-      title: "Edit me",
-      default: false,
-    },
-    uiSchema: {
-      editSchema: {
-        type: "object",
-        properties: {
-          title: { type: "string", title: "Label" },
-          required: { type: "boolean" },
-        }
-      },
-    },
-    formData: {}
-  },
-  "multiple-checkbox": {
-    id: "multiple-checkbox",
+  "multiple-choices": {
+    id: "multiple-choices",
     icon: "check",
     label: "Multiple choices",
     jsonSchema: {
       type: "array",
-      title: "A multiple choices list",
+      title: "Untitled multiple choices",
       items: {
         type: "string",
         enum: ["choice 1", "choice 2", "choice 3"],
@@ -104,13 +84,13 @@ export default {
     },
     formData: {}
   },
-  "radiobuttonlist": {
-    id: "radiobuttonlist",
+  "multiple-choice": {
+    id: "multiple-choice",
     icon: "list",
-    label: "Choice list",
+    label: "Multiple choice",
     jsonSchema: {
       type: "string",
-      title: "Edit me",
+      title: "Untitled multiple choice",
       enum: ["option 1", "option 2", "option 3"],
     },
     uiSchema: {
@@ -135,11 +115,11 @@ export default {
   select: {
     id: "select",
     icon: "chevron-down",
-    label: "Select List",
+    label: "Dropdown",
     jsonSchema: {
       type: "string",
       format: "string",
-      title: "Edit me",
+      title: "Untitled dropdown menu",
       enum: ["option 1", "option 2", "option 3"],
     },
     uiSchema: {
@@ -168,7 +148,7 @@ export default {
     jsonSchema: {
       type: "string",
       format: "date",
-      title: "Edit me",
+      title: "Untitled date picker",
     },
     uiSchema: {
       "ui:widget": "alt-date",
