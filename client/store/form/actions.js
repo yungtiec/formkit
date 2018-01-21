@@ -1,16 +1,23 @@
 import * as types from './actionTypes';
 
-export const addField = field => ({
-  type: types.FIELD_ADD,
-  field
-})
+export const addField = field =>
+  (dispatch, getState) => dispatch({
+    type: types.FIELD_ADD,
+    field,
+    currentIndex: getState().form.tally.currentIndex
+  })
 
 export function switchField(property, newField) {
   return { type: types.FIELD_SWITCH, property, newField };
 }
 
 export function insertField(field, before) {
-  return { type: types.FIELD_INSERT, field, before };
+  return (dispatch, getState) => dispatch({
+    type: types.FIELD_INSERT,
+    field,
+    before,
+    currentIndex: getState().form.tally.currentIndex
+  })
 }
 
 export function removeField(name) {

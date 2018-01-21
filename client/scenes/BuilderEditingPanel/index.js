@@ -9,7 +9,10 @@ import {
   changeToolbarTab,
   updateFieldInFocus
 } from '../../store'
-import {getForm, getLatestAddedFieldId} from '../../store/form/reducer'
+import {
+  getFormFieldSchema,
+  getLatestAddedFieldId
+} from '../../store/form/field/reducer'
 import DraggableField from './scenes/DraggableField'
 import EmptyDropZone from './components/EmptyDropZone'
 import TextInputField from './components/TextInputField'
@@ -22,7 +25,7 @@ class BuilderEditingPanel extends Component {
     insertField: PropTypes.func.isRequired,
     changeToolbarTab: PropTypes.func.isRequired,
     updateFieldInFocus: PropTypes.func.isRequired,
-    form: PropTypes.object,
+    fieldSchema: PropTypes.object,
     latestAddedFieldId: PropTypes.string
   }
 
@@ -32,8 +35,8 @@ class BuilderEditingPanel extends Component {
   }
 
   moveCard(dragIndexOrId, hoverIndex, fieldType) {
-    if (!this.props.form) return
-    const uiOrder = this.props.form.uiSchema['ui:order']
+    if (!this.props.fieldSchema) return
+    const uiOrder = this.props.fieldSchema.order
     const dragFieldId = fieldType === 'field' ? uiOrder[dragIndexOrId] : dragIndexOrId
     if (!dragFieldId) return
     const hoverFieldId = uiOrder[hoverIndex]
@@ -42,13 +45,10 @@ class BuilderEditingPanel extends Component {
 
   render() {
 
-    const isEmptyFrom = _.isEmpty(this.props.form.schema.properties)
+    const isEmptyFrom = _.isEmpty(this.props.fieldSchema.properties)
 
     const formFields = isEmptyFrom ?
-      null : this.props.form.schema.properties
-
-    const formUiSchema = isEmptyFrom ?
-      null : this.props.form.uiSchema
+      null : this.props.fieldSchema.properties
 
     return (
       <div className={this.props.className}>
@@ -57,7 +57,7 @@ class BuilderEditingPanel extends Component {
           <EmptyDropZone
             changeToolbarTab={this.props.changeToolbarTab}
             updateFieldInFocus={this.props.updateFieldInFocus} /> :
-          this.props.form.uiSchema['ui:order']
+          this.props.fieldSchema.order
             .map((fieldId, index) => (
               <DraggableField
                 {...formFields[fieldId]}
@@ -80,7 +80,7 @@ class BuilderEditingPanel extends Component {
 }
 
 const mapState = (state) => ({
-  form: getForm(state),
+  fieldSchema: getFormFieldSchema(state),
   latestAddedFieldId: getLatestAddedFieldId(state),
 })
 
