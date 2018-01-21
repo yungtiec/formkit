@@ -1,4 +1,4 @@
-import './DraggableField.scss'
+import './index.scss'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { findDOMNode } from 'react-dom'
@@ -110,6 +110,7 @@ export default class DraggableField extends Component {
     title: PropTypes.string.isRequired,
     description: PropTypes.string,
     latestAddedFieldId: PropTypes.string.isRequired,
+    fieldIcon: PropTypes.string.isRequired
   }
 
   render() {
@@ -123,6 +124,9 @@ export default class DraggableField extends Component {
       latestAddedFieldId,
       isOver,
       draggingType,
+      fieldIcon,
+      index,
+      children
     } = this.props
     const opacity = isDragging ? 0 : 1
 
@@ -135,18 +139,27 @@ export default class DraggableField extends Component {
         <div
           className="builder__draggable-field"
           style={{ opacity }}>
-          <div className="draggable-field__control-btn-group"> <div className="draggable-field__control-btn arrows">
+          <div className="draggable-field__control-btn-group">
+            <div className="draggable-field__control-btn question">
+              <p>
+                <FontAwesome
+                  className="fa-md"
+                  name={fieldIcon}
+                />
+                {`Q${index + 1}`}
+              </p>
+            </div>
+
+            <div className="draggable-field__control-btn arrows">
               <FontAwesome
-                className=""
+                className="fa-md"
                 name="arrows"
-                size="md"
               />
             </div>
             <div className="draggable-field__control-btn trash-o">
               <FontAwesome
-                className=""
+                className="fa-md"
                 name="trash-o"
-                size="md"
               />
             </div>
           </div>
@@ -155,10 +168,7 @@ export default class DraggableField extends Component {
               (latestAddedFieldId === id &&
                 draggingType === 'fieldOption' && !isOver) ?
               'Your new field goes here' :
-              <div>
-                <input className="draggable-field__title-input" type="text" placeholder="Enter your question..." />
-                <span className="draggable-field__title-input-bar"></span>
-              </div>
+              children
             }
             </div>
         </div>)

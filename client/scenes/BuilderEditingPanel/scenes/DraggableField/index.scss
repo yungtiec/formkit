@@ -1,8 +1,7 @@
 .builder__draggable-field {
   opacity: 1;
-  width: 90%;
-  padding: 2%;
-  margin: 15px auto;
+  width: 92%;
+  margin: 10px auto;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -34,6 +33,15 @@
   height: 30px;
   text-align: center;
   line-height: 20px;
+}
+
+.draggable-field__control-btn.question {
+  cursor: move;
+  width: 60px;
+}
+
+.draggable-field__control-btn.question p .fa {
+  margin-right: 5px;
 }
 
 .draggable-field__control-btn.arrows {

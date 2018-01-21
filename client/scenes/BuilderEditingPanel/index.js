@@ -10,7 +10,9 @@ import {
   updateFieldInFocus
 } from '../../store'
 import {getForm, getLatestAddedFieldId} from '../../store/form/reducer'
-import {DraggableField, EmptyDropZone} from './components'
+import DraggableField from './scenes/DraggableField'
+import EmptyDropZone from './components/EmptyDropZone'
+import TextInputField from './components/TextInputField'
 import FIELD_OPTION_CONFIG from '../../constants/fieldOptionConfig'
 
 
@@ -45,6 +47,9 @@ class BuilderEditingPanel extends Component {
     const formFields = isEmptyFrom ?
       null : this.props.form.schema.properties
 
+    const formUiSchema = isEmptyFrom ?
+      null : this.props.form.uiSchema
+
     return (
       <div className={this.props.className}>
         {
@@ -64,7 +69,9 @@ class BuilderEditingPanel extends Component {
                 latestAddedFieldId={this.props.latestAddedFieldId}
                 changeToolbarTab={this.props.changeToolbarTab}
                 updateFieldInFocus={this.props.updateFieldInFocus}
-                FIELD_OPTION_CONFIG={FIELD_OPTION_CONFIG} />
+                FIELD_OPTION_CONFIG={FIELD_OPTION_CONFIG}>
+                <TextInputField />
+              </DraggableField>
             ))
         }
       </div>

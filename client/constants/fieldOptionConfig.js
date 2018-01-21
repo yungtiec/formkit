@@ -1,7 +1,7 @@
 export default {
   text: {
     id: "text",
-    icon: "text-color",
+    icon: "bars",
     label: "Short text",
     jsonSchema: {
       type: "string",
@@ -24,7 +24,7 @@ export default {
   },
   multilinetext: {
     id: "multilinetext",
-    icon: "align-left",
+    icon: "paragraph",
     label: "Long text",
     jsonSchema: {
       type: "string",
@@ -47,7 +47,7 @@ export default {
   },
   "multiple-choices": {
     id: "multiple-choices",
-    icon: "check",
+    icon: "list-ui",
     label: "Multiple choices",
     jsonSchema: {
       type: "array",
@@ -86,7 +86,7 @@ export default {
   },
   "multiple-choice": {
     id: "multiple-choice",
-    icon: "list",
+    icon: "check",
     label: "Multiple choice",
     jsonSchema: {
       type: "string",
@@ -143,7 +143,7 @@ export default {
   },
   date: {
     id: "date",
-    icon: "calendar",
+    icon: "calendar-o",
     label: "Date",
     jsonSchema: {
       type: "string",

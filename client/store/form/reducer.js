@@ -38,6 +38,7 @@ function addField(state, fieldOption) {
   state.latestAddedFieldId = id;
   state.schema.properties[id] = {
     ...fieldOption.jsonSchema,
+    fieldIcon: fieldOption.icon,
     fieldOptionId: fieldOption.id,
     id
   };
