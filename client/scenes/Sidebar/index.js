@@ -5,13 +5,34 @@ import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {Logo} from '../../components'
 import BuilderFieldOptions from './scenes/BuilderFieldOptions'
+import BuilderFieldSettings from './scenes/BuilderFieldSettings'
 import BuilderToolbar from './scenes/BuilderToolbar'
-import {getCurrentToolbarTab} from '../../store/sidebar/reducer'
-
+import {getFormFieldSchema} from '../../store/form/field/reducer'
+import {getRequiredFields} from '../../store/form/validation/reducer'
+import {
+  getCurrentToolbarTab,
+  getCurrentFieldIdInFocus
+}
+from '../../store/sidebar/reducer'
+import {
+  addField,
+  changeToolbarTab,
+  updateFieldInFocus,
+  toggleRequiredField,
+  toggleShowDescription
+} from '../../store'
 
 class Sidebar extends Component {
   static propTypes = {
-    currentToolbarTab: PropTypes.string.isRequired
+    currentToolbarTab: PropTypes.string.isRequired,
+    currentFieldIdInFocus: PropTypes.string,
+    addField: PropTypes.func.isRequired,
+    changeToolbarTab: PropTypes.func.isRequired,
+    updateFieldInFocus: PropTypes.func.isRequired,
+    toggleRequiredField: PropTypes.func.isRequired,
+    toggleShowDescription: PropTypes.func.isRequired,
+    requiredFields: PropTypes.array,
+    fieldSchema: PropTypes.object,
   }
 
   constructor(props) {
@@ -22,9 +43,20 @@ class Sidebar extends Component {
   getToolbarTabDisplay() {
     switch (this.props.currentToolbarTab) {
       case 'fieldOptions':
-        return <BuilderFieldOptions className="builder__field-options" />
+        return <BuilderFieldOptions
+          className="builder__field-options"
+          addField={this.props.addField}
+          changeToolbarTab={this.props.changeToolbarTab}
+          updateFieldInFocus={this.props.updateFieldInFocus} />
       case 'fieldSettings':
-        return (<div></div>)
+        return <BuilderFieldSettings
+          className="builder__field-settings"
+          currentFieldIdInFocus={this.props.currentFieldIdInFocus}
+          fieldSchema={this.props.fieldSchema}
+          toggleRequiredField={this.props.toggleRequiredField}
+          toggleShowDescription={this.props.toggleShowDescription}
+          requiredFields={this.props.requiredFields}
+        />
       case 'fieldLayout':
         return (<div></div>)
       case 'fieldStyling':
@@ -39,7 +71,10 @@ class Sidebar extends Component {
       <div className={this.props.className}>
         <Logo />
         <div className="builder__control-panel">
-          <BuilderToolbar className="builder__toolbar"/>
+          <BuilderToolbar
+            className="builder__toolbar"
+            changeToolbarTab={this.props.changeToolbarTab}
+            currentToolbarTab={this.props.currentToolbarTab} />
           {this.getToolbarTabDisplay()}
         </div>
       </div>
@@ -48,9 +83,19 @@ class Sidebar extends Component {
 }
 
 const mapState = (state) => ({
-  currentToolbarTab: getCurrentToolbarTab(state)
+  currentToolbarTab: getCurrentToolbarTab(state),
+  currentFieldIdInFocus: getCurrentFieldIdInFocus(state),
+  fieldSchema: getFormFieldSchema(state),
+  requiredFields: getRequiredFields(state)
 })
 
-const actions = {}
+const actions = {
+  addField,
+  changeToolbarTab,
+  updateFieldInFocus,
+  toggleRequiredField,
+  toggleShowDescription
+}
+
 
 export default connect(mapState, actions)(Sidebar)

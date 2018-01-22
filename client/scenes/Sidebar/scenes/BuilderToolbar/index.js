@@ -3,11 +3,8 @@ import FontAwesome from 'react-fontawesome'
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import autoBind from 'react-autobind'
-import {connect} from 'react-redux'
-import {getCurrentToolbarTab} from '../../../../store/sidebar/reducer'
-import {changeToolbarTab} from '../../../../store'
 
-class BuilderToolbar extends Component {
+export default class BuilderToolbar extends Component {
 
   static propTypes = {
     currentToolbarTab: PropTypes.string.isRequired,
@@ -68,11 +65,3 @@ class BuilderToolbar extends Component {
     </div>)
   }
 }
-
-const mapState = (state) => ({
-  currentToolbarTab: getCurrentToolbarTab(state)
-})
-
-const actions = { changeToolbarTab }
-
-export default connect(mapState, actions)(BuilderToolbar)

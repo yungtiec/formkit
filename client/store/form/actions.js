@@ -20,8 +20,8 @@ export function insertField(field, before) {
   })
 }
 
-export function removeField(name) {
-  return { type: types.FIELD_REMOVE, name };
+export function removeField(fieldId) {
+  return { type: types.FIELD_REMOVE, fieldId };
 }
 
 export function updateField(name, schema, required, newName) {

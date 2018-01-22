@@ -1,13 +1,12 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import autoBind from 'react-autobind'
-import {connect} from 'react-redux'
 import FIELD_OPTION_CONFIG from '../../../../constants/fieldOptionConfig'
 import DraggableFieldOption from './components/DraggableFieldOption'
 import _ from 'lodash'
-import {addField} from '../../../../store'
 
-class FieldOptionsContainer extends Component {
+export default class FieldOptionsContainer extends Component {
+
   static propTypes = {
     addField: PropTypes.func.isRequired
   }
@@ -30,6 +29,8 @@ class FieldOptionsContainer extends Component {
                 optionId={fieldOption.id}
                 optionLabel={fieldOption.label}
                 addField={this.props.addField}
+                changeToolbarTab={this.props.changeToolbarTab}
+                updateFieldInFocus={this.props.updateFieldInFocus}
                 FIELD_OPTION_CONFIG={FIELD_OPTION_CONFIG} />))
           }
         </ul>
@@ -37,7 +38,3 @@ class FieldOptionsContainer extends Component {
     )
   }
 }
-
-const actions = { addField }
-
-export default connect(() => ({}), actions)(FieldOptionsContainer)

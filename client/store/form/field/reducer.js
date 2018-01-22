@@ -1,13 +1,11 @@
-import * as types from '../actionTypes';
+import * as generalTypes from '../actionTypes';
+import * as fieldType from './actionTypes'
 
 const initialState = {
   error: null,
   schema: {
     type: 'object',
-    title: 'Untitled form',
-    required: [],
     order: [],
-    description: 'Enter some description for your form here',
     properties: {}
   },
   latestAddedFieldId: ''
@@ -18,7 +16,7 @@ function clone(obj) {
 }
 
 function addField(state, fieldOption, currentIndex) {
-  const id = `question_${currentIndex}`;
+  const id = `Q${currentIndex}`;
   state.latestAddedFieldId = id;
   state.schema.properties[id] = {
     ...fieldOption.jsonSchema,
@@ -26,7 +24,7 @@ function addField(state, fieldOption, currentIndex) {
     fieldOptionId: fieldOption.id,
     id
   };
-  state.schema.order = (state.schema.order|| []).concat(id);
+  state.schema.order = (state.schema.order || []).concat(id);
   return state;
 }
 
@@ -73,52 +71,42 @@ function swapFields(state, source, target) {
   return { ...state, error: null };
 }
 
-function updateFormTitle(state, { title }) {
-  state.schema.title = title;
-  return { ...state, error: null };
-}
-
-function updateFormDescription(state, { description }) {
-  state.schema.description = description;
-  return { ...state, error: null };
-}
-
 function setSchema(state, data) {
   state.schema = data.schema;
-  state.uiSchema = data.uiSchema;
   return { ...state, error: null };
+}
+
+function updateShowDescription(state, fieldId) {
+  state.schema.properties[fieldId].showDescription = !state.schema.properties[fieldId].showDescription
+  return {...state}
 }
 
 export default function form(state = initialState, action) {
   switch (action.type) {
-    case types.FIELD_ADD:
+    case generalTypes.FIELD_ADD:
       return addField(clone(state), action.field, action.currentIndex);
-    case types.FIELD_SWITCH:
+    case generalTypes.FIELD_SWITCH:
       return switchField(clone(state), action.property, action.newField);
-    case types.FIELD_REMOVE:
-      return removeField(clone(state), action.name);
-    case types.FIELD_UPDATE:
+    case generalTypes.FIELD_REMOVE:
+      return removeField(clone(state), action.fieldId);
+    case generalTypes.FIELD_UPDATE:
       const { name, schema, required, newName } = action;
       return updateField(clone(state), name, schema, required, newName);
-    case types.FIELD_INSERT:
+    case generalTypes.FIELD_INSERT:
       return insertField(clone(state), action.field, action.before, action.currentIndex);
-    case types.FIELD_SWAP:
+    case generalTypes.FIELD_SWAP:
       return swapFields(clone(state), action.source, action.target);
-    case types.FORM_RESET:
-      return initialState;
-    case types.FORM_UPDATE_TITLE:
-      return updateFormTitle(clone(state), action.title);
-    case types.FORM_UPDATE_DESCRIPTION:
-      return updateFormDescription(clone(state), action.description);
-    case types.SCHEMA_RETRIEVAL_DONE:
+    case generalTypes.SCHEMA_RETRIEVAL_DONE:
       return setSchema(clone(state), action.data);
+    case fieldType.SHOW_DESCRIPTION_TOGGLED:
+      return updateShowDescription(clone(state), action.fieldId)
     default:
       return state;
   }
 }
 
 export const getFormFieldSchema = state =>
-  state.form.field.schema
+  state.form ? state.form.field.schema : {}
 
 export const getLatestAddedFieldId = state =>
   state.form.field.latestAddedFieldId

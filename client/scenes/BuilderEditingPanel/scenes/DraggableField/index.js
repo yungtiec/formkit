@@ -1,16 +1,10 @@
 import './index.scss'
 import React, { Component } from 'react'
+import autoBind from 'react-autobind';
 import PropTypes from 'prop-types'
 import { findDOMNode } from 'react-dom'
 import { DragSource, DropTarget } from 'react-dnd'
 import FontAwesome from 'react-fontawesome'
-
-const style = {
-  border: '1px dashed gray',
-  marginBottom: '15px',
-  backgroundColor: 'white',
-  cursor: 'move',
-}
 
 const fieldSource = {
   beginDrag(props) {
@@ -72,6 +66,8 @@ const fieldTarget = {
       const dropFieldId = props.id
       if (dropFieldId && !item['inserted']) {
         props.insertField(props.FIELD_OPTION_CONFIG[item.optionId], dropFieldId)
+        props.changeToolbarTab('fieldSettings')
+        props.updateFieldInFocus()
         monitor.getItem().inserted = true
       } else {
         props.moveCard(props.latestAddedFieldId, hoverIndex, 'option')
@@ -81,10 +77,6 @@ const fieldTarget = {
   },
   drop(props, monitor) {
     monitor.getItem().dropped = true
-    if (monitor.getItemType() === 'fieldOption') {
-      props.changeToolbarTab('fieldSettings')
-      props.updateFieldInFocus(props.latestAddedFieldId)
-    }
     return { fieldId: props.id }
   }
 }
@@ -110,7 +102,29 @@ export default class DraggableField extends Component {
     title: PropTypes.string.isRequired,
     description: PropTypes.string,
     latestAddedFieldId: PropTypes.string.isRequired,
-    fieldIcon: PropTypes.string.isRequired
+    fieldIcon: PropTypes.string.isRequired,
+    swapFields: PropTypes.func.isRequired,
+    insertField: PropTypes.func.isRequired,
+    removeField: PropTypes.func.isRequired,
+    changeToolbarTab: PropTypes.func.isRequired,
+    updateFieldInFocus: PropTypes.func.isRequired,
+    handleFieldOnClick: PropTypes.func.isRequired,
+    fieldOrder: PropTypes.array
+  }
+
+  constructor(props) {
+    super(props)
+    autoBind(this)
+  }
+
+  handleRemove() {
+    var newFieldInFocusByOrderIndex = this.props.index - 1;
+    if (newFieldInFocusByOrderIndex === -1) {
+      newFieldInFocusByOrderIndex = this.props.index + 1
+    }
+    this.props.removeField(this.props.id)
+    this.props.updateFieldInFocus(
+      this.props.fieldOrder[newFieldInFocusByOrderIndex] || 'none')
   }
 
   render() {
@@ -140,7 +154,8 @@ export default class DraggableField extends Component {
           className="builder__draggable-field"
           style={{ opacity }}>
           <div className="draggable-field__control-btn-group">
-            <div className="draggable-field__control-btn question">
+            <div
+              className="draggable-field__control-btn question">
               <p>
                 <FontAwesome
                   className="fa-md"
@@ -156,14 +171,15 @@ export default class DraggableField extends Component {
                 name="arrows"
               />
             </div>
-            <div className="draggable-field__control-btn trash-o">
+            <div className="draggable-field__control-btn trash-o" onClick={this.handleRemove}>
               <FontAwesome
                 className="fa-md"
                 name="trash-o"
               />
             </div>
           </div>
-          <div>
+          <div
+            className="draggable-field__field-container">
             {
               (latestAddedFieldId === id &&
                 draggingType === 'fieldOption' && !isOver) ?

@@ -20,8 +20,8 @@ function switchField(state, fieldId, newField) {
   return state;
 }
 
-function removeField(state, name) {
-  delete state.schema[name];
+function removeField(state, fieldId) {
+  delete state.schema[fieldId];
   return { ...state, error: null };
 }
 
@@ -37,7 +37,7 @@ export default function form(state = initialState, action) {
     case types.FIELD_SWITCH:
       return switchField(clone(state), action.property, action.newField);
     case types.FIELD_REMOVE:
-      return removeField(clone(state), action.name);
+      return removeField(clone(state), action.fieldId);
     case types.FORM_RESET:
       return initialState;
     case types.SCHEMA_RETRIEVAL_DONE:

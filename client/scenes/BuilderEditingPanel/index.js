@@ -6,6 +6,7 @@ import _ from 'lodash'
 import {
   swapFields,
   insertField,
+  removeField,
   changeToolbarTab,
   updateFieldInFocus
 } from '../../store'
@@ -23,6 +24,7 @@ class BuilderEditingPanel extends Component {
   static propTypes = {
     swapFields: PropTypes.func.isRequired,
     insertField: PropTypes.func.isRequired,
+    removeField: PropTypes.func.isRequired,
     changeToolbarTab: PropTypes.func.isRequired,
     updateFieldInFocus: PropTypes.func.isRequired,
     fieldSchema: PropTypes.object,
@@ -41,6 +43,11 @@ class BuilderEditingPanel extends Component {
     if (!dragFieldId) return
     const hoverFieldId = uiOrder[hoverIndex]
     this.props.swapFields(dragFieldId, hoverFieldId)
+  }
+
+
+  handleFieldOnClick() {
+    this.inputElement.focus();
   }
 
   render() {
@@ -66,11 +73,17 @@ class BuilderEditingPanel extends Component {
                 moveCard={this.moveCard}
                 swapFields={this.props.swapFields}
                 insertField={this.props.insertField}
+                removeField={this.props.removeField}
                 latestAddedFieldId={this.props.latestAddedFieldId}
                 changeToolbarTab={this.props.changeToolbarTab}
                 updateFieldInFocus={this.props.updateFieldInFocus}
-                FIELD_OPTION_CONFIG={FIELD_OPTION_CONFIG}>
-                <TextInputField />
+                FIELD_OPTION_CONFIG={FIELD_OPTION_CONFIG}
+                fieldOrder={this.props.fieldSchema.order}
+                handleFieldOnClick={this.handleFieldOnClick}>
+                <TextInputField
+                  changeToolbarTab={this.props.changeToolbarTab}
+                  updateFieldInFocus={this.props.updateFieldInFocus}
+                  fieldId={fieldId} />
               </DraggableField>
             ))
         }
@@ -87,6 +100,7 @@ const mapState = (state) => ({
 const actions = {
   swapFields,
   insertField,
+  removeField,
   changeToolbarTab,
   updateFieldInFocus
 }

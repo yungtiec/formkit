@@ -7,7 +7,23 @@ import validation from './validation/reducer'
 const initialState = {
   error: null,
   currentIndex: 1,
+  title: 'Untitled form',
+  description: 'Enter some description for your form here'
 };
+
+function clone(obj) {
+  return JSON.parse(JSON.stringify(obj));
+}
+
+function updateFormTitle(state, { title }) {
+  state.title = title;
+  return { ...state, error: null };
+}
+
+function updateFormDescription(state, { description }) {
+  state.description = description;
+  return { ...state, error: null };
+}
 
 function tally(state = initialState, action) {
   switch (action.type) {
@@ -15,6 +31,12 @@ function tally(state = initialState, action) {
       return {...state, currentIndex: state.currentIndex + 1}
     case types.FIELD_INSERT:
       return {...state, currentIndex: state.currentIndex + 1}
+    case types.FORM_RESET:
+      return initialState;
+    case types.FORM_UPDATE_TITLE:
+      return updateFormTitle(clone(state), action.title);
+    case types.FORM_UPDATE_DESCRIPTION:
+      return updateFormDescription(clone(state), action.description);
     default:
       return state;
   }

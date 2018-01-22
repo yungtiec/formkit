@@ -9,8 +9,6 @@ const style = {
 
 const boxTarget = {
   drop(props) {
-    props.changeToolbarTab('fieldSettings')
-    props.updateFieldInFocus(props.latestAddedFieldId)
     return { fieldId: 'emptyDropZone' }
   },
 }

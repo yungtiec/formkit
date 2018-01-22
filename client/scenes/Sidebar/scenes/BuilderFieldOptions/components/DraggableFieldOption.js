@@ -1,18 +1,7 @@
 import './DraggableFieldOption.scss'
 import React, { Component } from 'react'
-import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import { DragSource } from 'react-dnd'
-
-const style = {
-  border: '1px dashed gray',
-  backgroundColor: 'white',
-  padding: '0.5rem 1rem',
-  marginRight: '1.5rem',
-  marginBottom: '1.5rem',
-  cursor: 'move',
-  float: 'left',
-}
 
 const fieldOptionSource = {
   beginDrag(props) {
@@ -28,6 +17,8 @@ const fieldOptionSource = {
     const dropFieldId = monitor.getDropResult().fieldId
     if (dropFieldId === 'emptyDropZone') {
       props.addField(props.FIELD_OPTION_CONFIG[item.optionId])
+      props.changeToolbarTab('fieldSettings')
+      props.updateFieldInFocus()
     }
   },
   isDragging(props, monitor) {

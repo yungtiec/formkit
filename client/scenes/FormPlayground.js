@@ -12,7 +12,7 @@ from '../scenes'
 import {getForm} from '../store/form/reducer'
 
 @DragDropContext(HTML5Backend)
-class FormPlayground extends Component {
+export default class FormPlayground extends Component {
   constructor(props) {
     super(props)
     autoBind(this)
@@ -35,13 +35,3 @@ class FormPlayground extends Component {
     )
   }
 }
-
-const mapState = (state) => ({
-  form: getForm(state)
-})
-
-
-FormPlayground.propTypes = {
-}
-
-export default connect(mapState)(FormPlayground)
