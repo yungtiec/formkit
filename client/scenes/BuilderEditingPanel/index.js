@@ -8,7 +8,9 @@ import {
   insertField,
   removeField,
   changeToolbarTab,
-  updateFieldInFocus
+  updateFieldInFocus,
+  updateFieldTitle,
+  updateFieldDescription
 } from '../../store'
 import {
   getFormFieldSchema,
@@ -27,6 +29,8 @@ class BuilderEditingPanel extends Component {
     removeField: PropTypes.func.isRequired,
     changeToolbarTab: PropTypes.func.isRequired,
     updateFieldInFocus: PropTypes.func.isRequired,
+    updateFieldTitle: PropTypes.func.isRequired,
+    updateFieldDescription: PropTypes.func.isRequired,
     fieldSchema: PropTypes.object,
     latestAddedFieldId: PropTypes.string
   }
@@ -81,8 +85,12 @@ class BuilderEditingPanel extends Component {
                 fieldOrder={this.props.fieldSchema.order}
                 handleFieldOnClick={this.handleFieldOnClick}>
                 <TextInputField
+                  title={formFields[fieldId].title}
+                  description={formFields[fieldId].description}
                   changeToolbarTab={this.props.changeToolbarTab}
                   updateFieldInFocus={this.props.updateFieldInFocus}
+                  updateFieldTitle={this.props.updateFieldTitle}
+                  updateFieldDescription={this.props.updateFieldDescription}
                   fieldId={fieldId} />
               </DraggableField>
             ))
@@ -102,7 +110,9 @@ const actions = {
   insertField,
   removeField,
   changeToolbarTab,
-  updateFieldInFocus
+  updateFieldInFocus,
+  updateFieldTitle,
+  updateFieldDescription
 }
 
 

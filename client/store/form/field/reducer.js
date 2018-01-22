@@ -81,6 +81,17 @@ function updateShowDescription(state, fieldId) {
   return {...state}
 }
 
+function updateTitle(state, fieldId, title) {
+  state.schema.properties[fieldId].title = title
+  return {...state}
+}
+
+function updateDescription(state, fieldId, description) {
+  state.schema.properties[fieldId].description = description
+  return {...state}
+}
+
+
 export default function form(state = initialState, action) {
   switch (action.type) {
     case generalTypes.FIELD_ADD:
@@ -89,9 +100,6 @@ export default function form(state = initialState, action) {
       return switchField(clone(state), action.property, action.newField);
     case generalTypes.FIELD_REMOVE:
       return removeField(clone(state), action.fieldId);
-    case generalTypes.FIELD_UPDATE:
-      const { name, schema, required, newName } = action;
-      return updateField(clone(state), name, schema, required, newName);
     case generalTypes.FIELD_INSERT:
       return insertField(clone(state), action.field, action.before, action.currentIndex);
     case generalTypes.FIELD_SWAP:
@@ -100,6 +108,10 @@ export default function form(state = initialState, action) {
       return setSchema(clone(state), action.data);
     case fieldType.SHOW_DESCRIPTION_TOGGLED:
       return updateShowDescription(clone(state), action.fieldId)
+    case fieldType.TITLE_UPDATED:
+      return updateTitle(clone(state), action.fieldId, action.title)
+    case fieldType.DESCRIPTION_UPDATED:
+      return updateDescription(clone(state), action.fieldId, action.description)
     default:
       return state;
   }

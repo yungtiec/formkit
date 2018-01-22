@@ -1,0 +1,70 @@
+.draggable-field__title-input-container {
+  width: 270px;
+  height: 44px;
+  position: relative;
+}
+
+
+.draggable-field__title-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 16px;
+  line-height: 24px;
+  padding: 0.625em 0.625em 0.625em 0.3125em;
+  display: block;
+  border: none;
+  max-width: 270px;
+  width: 270px;
+}
+
+.draggable-field__title-input--placeholder {
+  color: #b4bcc3;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.draggable-field__title-input div {
+  width: 100%;
+  word-wrap: break-word;
+}
+
+.draggable-field__title-input div:focus {
+  outline: none;
+}
+
+.draggable-field__title-input-bar {
+  position: relative;
+  display: block;
+}
+
+.draggable-field__title-input-bar:before,
+.draggable-field__title-input-bar:after {
+  content: '';
+  height: 2px;
+  width: 0;
+  bottom: 1px;
+  position: absolute;
+  background: #57AAED;
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
+}
+
+.draggable-field__title-input-bar:before {
+  left: 50%;
+}
+
+.draggable-field__title-input-bar:after {
+  right: 50%;
+}
+
+
+
+/* active state */
+
+.draggable-field__title-input:focus~.draggable-field__title-input-bar:before,
+.draggable-field__title-input:focus~.draggable-field__title-input-bar:after {
+  width: 50%;
+}

@@ -40,6 +40,7 @@
 .draggable-field__control-btn.question {
   cursor: move;
   width: 60px;
+  font-size: 12px;
 }
 
 .draggable-field__control-btn.question p .fa {
@@ -54,54 +55,9 @@
   cursor: pointer;
 }
 
-.draggable-field__title-input {
-  font-size: 18px;
-  padding: 0.625em 0.625em 0.625em 0.3125em;
-  display: block;
-  border: none;
-}
-
-.draggable-field__title-input:focus {
-  outline: none;
-}
-
-.draggable-field__title-input-bar {
-  position: relative;
-  display: block;
-}
-
-.draggable-field__title-input-bar:before,
-.draggable-field__title-input-bar:after {
-  content: '';
-  height: 2px;
-  width: 0;
-  bottom: 1px;
-  position: absolute;
-  background: #57AAED;
-  transition: 0.2s ease all;
-  -moz-transition: 0.2s ease all;
-  -webkit-transition: 0.2s ease all;
-}
-
-.draggable-field__title-input-bar:before {
-  left: 50%;
-}
-
-.draggable-field__title-input-bar:after {
-  right: 50%;
-}
-
-
-
-/* active state */
-
-.draggable-field__title-input:focus~.draggable-field__title-input-bar:before,
-.draggable-field__title-input:focus~.draggable-field__title-input-bar:after {
-  width: 50%;
-}
-
 .draggable-field__field-container {
   -webkit-box-flex: 3;
   -ms-flex-positive: 3;
   flex-grow: 3;
 }
+

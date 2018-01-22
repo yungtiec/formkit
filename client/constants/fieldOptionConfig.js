@@ -5,7 +5,7 @@ export default {
     label: "Short text",
     jsonSchema: {
       type: "string",
-      title: "Untitled short text input",
+      title: "",
       showDescription: false,
       description: "",
       default: ""
