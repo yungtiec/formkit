@@ -1,0 +1,107 @@
+.builder__draggable-field {
+  opacity: 1;
+  width: 92%;
+  margin: 10px auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+}
+
+.draggable-field__control-btn-group {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-flex: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.draggable-field__control-btn {
+  padding: 5px;
+  background: #F7F7F7;
+  margin-right: 5px;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  line-height: 20px;
+}
+
+.draggable-field__control-btn.question {
+  cursor: move;
+  width: 60px;
+}
+
+.draggable-field__control-btn.question p .fa {
+  margin-right: 5px;
+}
+
+.draggable-field__control-btn.arrows {
+  cursor: move;
+}
+
+.draggable-field__control-btn.trash-o {
+  cursor: pointer;
+}
+
+.draggable-field__title-input {
+  font-size: 18px;
+  padding: 0.625em 0.625em 0.625em 0.3125em;
+  display: block;
+  border: none;
+}
+
+.draggable-field__title-input:focus {
+  outline: none;
+}
+
+.draggable-field__title-input-bar {
+  position: relative;
+  display: block;
+}
+
+.draggable-field__title-input-bar:before,
+.draggable-field__title-input-bar:after {
+  content: '';
+  height: 2px;
+  width: 0;
+  bottom: 1px;
+  position: absolute;
+  background: #57AAED;
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
+}
+
+.draggable-field__title-input-bar:before {
+  left: 50%;
+}
+
+.draggable-field__title-input-bar:after {
+  right: 50%;
+}
+
+
+
+/* active state */
+
+.draggable-field__title-input:focus~.draggable-field__title-input-bar:before,
+.draggable-field__title-input:focus~.draggable-field__title-input-bar:after {
+  width: 50%;
+}
+
+.draggable-field__field-container {
+  -webkit-box-flex: 3;
+  -ms-flex-positive: 3;
+  flex-grow: 3;
+}

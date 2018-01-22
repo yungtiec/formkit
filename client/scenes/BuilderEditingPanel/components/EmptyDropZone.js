@@ -3,12 +3,12 @@ import PropTypes from 'prop-types'
 import { DropTarget } from 'react-dnd'
 
 const style = {
-  height: '800px',
-  background: 'grey'
+  height: '100vh',
+  width: '100%',
 }
 
 const boxTarget = {
-  drop() {
+  drop(props) {
     return { fieldId: 'emptyDropZone' }
   },
 }
@@ -29,16 +29,8 @@ export default class EmptyDropZone extends Component {
     const { canDrop, isOver, connectDropTarget } = this.props
     const isActive = canDrop && isOver
 
-    let backgroundColor = '#222'
-    if (isActive) {
-      backgroundColor = 'darkgreen'
-    } else if (canDrop) {
-      backgroundColor = 'darkkhaki'
-    }
-
     return connectDropTarget(
-      <div style={{ ...style, backgroundColor }}>
-        {isActive ? 'Release to drop' : 'Drag a box here'}
+      <div style={style}>
       </div>,
     )
   }

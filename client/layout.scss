@@ -1,7 +1,8 @@
 html,
 body,
 #app,
-#main {
+#main,
+.form-builder {
   height: 100%;
   width: 100%;
   font-family: 'Open Sans', sans-serif;
@@ -9,20 +10,62 @@ body,
   overflow: hidden;
 }
 
-#main {
+.form-builder {
   display: -webkit-box;
   display: -ms-flexbox;
-  display: flex
+  display: flex;
 }
 
-.main__sidebar {
+.form-builder__sidebar {
   -ms-flex-preferred-size: 200px;
-  flex-basis: 200px;
+  flex-basis: 350px;
 }
 
-
-.main__content {
+.form-builder__container {
+  /* flex box item */
   -webkit-box-flex: 3;
   -ms-flex-positive: 3;
-  flex-grow: 3;
+  flex-grow: 3; // -webkit-box-shadow: 0 7px 12px rgba(0, 0, 0, 0.28);
+  // -moz-box-shadow: 0 7px 12px rgba(0, 0, 0, 0.28);
+  // box-shadow: 0 7px 12px rgba(0, 0, 0, 0.28);
+  /* flex box container */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  height: 100%;
+}
+
+.form-builder__nav {
+  min-height: 50px;
+  border-bottom: 1.5px solid #F2F4F8;
+}
+
+.form-builder__content {
+  flex-grow: 1;
+  /* flex box container */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+}
+
+.builder__editing-panel {
+  -webkit-box-flex: 4;
+  -ms-flex-positive: 4;
+  flex-grow: 4;
+  max-width: 480px;
+}
+
+.builder__render-panel {
+  -webkit-box-flex: 6;
+  -ms-flex-positive: 6;
+  flex-grow: 6;
+  border-left: 1.5px solid #F2F4F8;
 }

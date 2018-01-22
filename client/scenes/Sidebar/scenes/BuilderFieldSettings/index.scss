@@ -1,0 +1,46 @@
+.field-setting__item {
+  padding: 0.5rem 1rem;
+  margin-bottom: 15px;
+  width: 190px;
+  height: 42px;
+}
+
+.field-setting__item--current-question {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.field-setting__item--current-question span {
+  margin-right: 8px;
+}
+
+.field-setting__item--current-question span.fa {
+  margin-right: 5px;
+}
+
+.field-setting__item--toggle {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+  -ms-flex-align: end;
+  align-items: end;
+}
+
+.field-setting__item--toggle p {
+  -webkit-box-flex: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  flex-basis: 95px;
+}
+
+.field-setting__item--toggle div {
+  -webkit-box-flex: 2;
+  -ms-flex-positive: 2;
+  flex-grow: 2;
+}
+
+.field-setting__react-toggle.react-toggle--checked .react-toggle-track {
+  background-color: #57AAED;
+}

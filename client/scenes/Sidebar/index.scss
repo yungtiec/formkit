@@ -1,0 +1,24 @@
+.form-builder__sidebar {
+  background: #F2F4F8;
+  height: 100%;
+  padding: 15px 25px;
+}
+
+.builder__control-panel {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.builder__toolbar {
+  -webkit-box-flex: 2;
+  -ms-flex-positive: 2;
+  flex-grow: 2;
+}
+
+.builder__field-options,
+.builder__field-settings {
+  -webkit-box-flex: 3;
+  -ms-flex-positive: 3;
+  flex-grow: 3;
+}

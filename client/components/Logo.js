@@ -3,6 +3,12 @@ import { doesBrowserSupportSVG } from '../utils'
 import { Link } from 'react-router-dom'
 
 const Logo = props => {
+  const style = {
+    display: 'block',
+    width: '130px',
+    height: '50px',
+    margin: '20px 20px 50px'
+  }
 
   var logoSource = './assets/logo.svg'
 
@@ -11,7 +17,7 @@ const Logo = props => {
   }
 
   return (
-    <Link className="logo" to="/" style={{display: 'block', width: '200px', height: '50px', margin: '10px'}}>
+    <Link className="logo" to="/" style={style}>
       <img
         height="50px"
         className="logo__large"

@@ -4,7 +4,7 @@ import {Route, Switch, Router} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import history from './history'
 import {Main, Login, Signup, UserHome} from './components'
-import { FormPlayground } from './containers'
+import { FormPlayground } from './scenes'
 import {me} from './store'
 
 /**

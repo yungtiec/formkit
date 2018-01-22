@@ -1,20 +1,10 @@
+import './index.scss'
 import React, { Component } from 'react'
-import {connect} from 'react-redux'
+import autoBind from 'react-autobind';
 import PropTypes from 'prop-types'
 import { findDOMNode } from 'react-dom'
 import { DragSource, DropTarget } from 'react-dnd'
-import { swapFields, insertField } from '../../store/form/actions'
-import { getLatestAddedFieldId } from '../../store/form/reducer'
-import FIELD_OPTION_CONFIG from '../../constants/fieldOptionConfig'
-
-
-const style = {
-  border: '1px dashed gray',
-  padding: '0.5rem 1rem',
-  marginBottom: '.5rem',
-  backgroundColor: 'white',
-  cursor: 'move',
-}
+import FontAwesome from 'react-fontawesome'
 
 const fieldSource = {
   beginDrag(props) {
@@ -75,15 +65,15 @@ const fieldTarget = {
       const item = monitor.getItem()
       const dropFieldId = props.id
       if (dropFieldId && !item['inserted']) {
-        props.insertField(FIELD_OPTION_CONFIG[item.optionId], dropFieldId)
+        props.insertField(props.FIELD_OPTION_CONFIG[item.optionId], dropFieldId)
+        props.changeToolbarTab('fieldSettings')
+        props.updateFieldInFocus()
         monitor.getItem().inserted = true
       } else {
         props.moveCard(props.latestAddedFieldId, hoverIndex, 'option')
         monitor.getItem().index = hoverIndex
       }
     }
-
-
   },
   drop(props, monitor) {
     monitor.getItem().dropped = true
@@ -100,7 +90,7 @@ const fieldTarget = {
   connectDragSource: connect.dragSource(),
   isDragging: monitor.isDragging(),
 }))
-class DraggableField extends Component {
+export default class DraggableField extends Component {
   static propTypes = {
     connectDragSource: PropTypes.func.isRequired,
     connectDropTarget: PropTypes.func.isRequired,
@@ -111,10 +101,30 @@ class DraggableField extends Component {
     id: PropTypes.any.isRequired,
     title: PropTypes.string.isRequired,
     description: PropTypes.string,
-    moveCard: PropTypes.func.isRequired,
+    latestAddedFieldId: PropTypes.string.isRequired,
+    fieldIcon: PropTypes.string.isRequired,
     swapFields: PropTypes.func.isRequired,
     insertField: PropTypes.func.isRequired,
-    latestAddedFieldId: PropTypes.string.isRequired,
+    removeField: PropTypes.func.isRequired,
+    changeToolbarTab: PropTypes.func.isRequired,
+    updateFieldInFocus: PropTypes.func.isRequired,
+    handleFieldOnClick: PropTypes.func.isRequired,
+    fieldOrder: PropTypes.array
+  }
+
+  constructor(props) {
+    super(props)
+    autoBind(this)
+  }
+
+  handleRemove() {
+    var newFieldInFocusByOrderIndex = this.props.index - 1;
+    if (newFieldInFocusByOrderIndex === -1) {
+      newFieldInFocusByOrderIndex = this.props.index + 1
+    }
+    this.props.removeField(this.props.id)
+    this.props.updateFieldInFocus(
+      this.props.fieldOrder[newFieldInFocusByOrderIndex] || 'none')
   }
 
   render() {
@@ -127,30 +137,58 @@ class DraggableField extends Component {
       id,
       latestAddedFieldId,
       isOver,
-      isOverCurrent,
       draggingType,
+      fieldIcon,
+      index,
+      children
     } = this.props
     const opacity = isDragging ? 0 : 1
 
     const displayTitle = (latestAddedFieldId === id &&
         draggingType === 'fieldOption' && !isOver) ?
-      'Your new field goes here' : title
+      'Your new field goes here' : ''
 
     return connectDragSource(
       connectDropTarget(
-        <div style={{ ...style, opacity }}>
-          {displayTitle}
+        <div
+          className="builder__draggable-field"
+          style={{ opacity }}>
+          <div className="draggable-field__control-btn-group">
+            <div
+              className="draggable-field__control-btn question">
+              <p>
+                <FontAwesome
+                  className="fa-md"
+                  name={fieldIcon}
+                />
+                {`Q${index + 1}`}
+              </p>
+            </div>
+
+            <div className="draggable-field__control-btn arrows">
+              <FontAwesome
+                className="fa-md"
+                name="arrows"
+              />
+            </div>
+            <div className="draggable-field__control-btn trash-o" onClick={this.handleRemove}>
+              <FontAwesome
+                className="fa-md"
+                name="trash-o"
+              />
+            </div>
+          </div>
+          <div
+            className="draggable-field__field-container">
+            {
+              (latestAddedFieldId === id &&
+                draggingType === 'fieldOption' && !isOver) ?
+              'Your new field goes here' :
+              children
+            }
+            </div>
         </div>)
     )
   }
 }
 
-
-const mapState = (state) => ({
-  latestAddedFieldId: getLatestAddedFieldId(state)
-})
-
-
-const actions = { swapFields, insertField }
-
-export default connect(mapState, actions)(DraggableField)

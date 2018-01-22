@@ -4,11 +4,12 @@ import thunkMiddleware from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import user from './user/reducer'
 import form from './form/reducer'
-
+import sidebar from './sidebar/reducer'
 
 const reducer = combineReducers({
   user,
-  form
+  form,
+  sidebar
 })
 const middleware = composeWithDevTools(applyMiddleware(
   thunkMiddleware,
@@ -19,3 +20,6 @@ const store = createStore(reducer, middleware)
 export default store
 export * from './user/actions'
 export * from './form/actions'
+export * from './sidebar/actions'
+export * from './form/validation/actions'
+export * from './form/field/actions'
