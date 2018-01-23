@@ -16,3 +16,9 @@ export const updateFieldDescription = (fieldId, description) => ({
   fieldId,
   description
 })
+
+export const updateFieldEnum = (fieldId, fieldEnum) => ({
+  type: types.ENUM_UPDATED,
+  fieldId,
+  fieldEnum
+})

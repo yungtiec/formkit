@@ -183,7 +183,7 @@ export default class DraggableField extends Component {
             {
               (latestAddedFieldId === id &&
                 draggingType === 'fieldOption' && !isOver) ?
-              'Your new field goes here' :
+              <div className="draggable-field__drag-preview">Your new field goes here</div> :
               children
             }
             </div>

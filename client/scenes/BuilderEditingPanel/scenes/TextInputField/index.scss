@@ -1,0 +1,88 @@
+.draggable-field__title-input-container {
+  width: 270px;
+  height: auto;
+  position: relative;
+}
+
+.draggable-field__title-input--hidden {
+  visibility: hidden;
+  z-index: -1;
+  padding: 0.625em 0.625em 0.625em 0.3125em;
+}
+
+.draggable-field__title-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 16px;
+  line-height: 24px;
+  padding: 0.625em 0.625em 0.625em 0.3125em;
+  display: block;
+  border: none;
+  max-width: 270px;
+  width: 270px;
+}
+
+.draggable-field__title-input--placeholder {
+  color: #b4bcc3;
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.draggable-field__title-input div {
+  width: 100%;
+  word-wrap: break-word;
+}
+
+.draggable-field__title-input div:focus {
+  outline: none;
+}
+
+.draggable-field__description-input-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 270px;
+  height: auto;
+  position: relative;
+}
+
+.draggable-field__description-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 16px;
+  line-height: 24px;
+  padding: 0 0.625em 0 0.3125em;
+  display: block;
+  border: none;
+  max-width: 270px;
+  width: 270px;
+  font-size: 13px;
+}
+
+.draggable-field__description-input--hidden {
+  visibility: hidden;
+  z-index: -1;
+  padding: 0 0.625em 0 0.3125em;
+  width: 270px;
+}
+
+.draggable-field__description-input--placeholder {
+  color: #b4bcc3;
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.draggable-field__description-input div {
+  width: 100%;
+  word-wrap: break-word;
+}
+
+.draggable-field__description-input div:focus {
+  outline: none;
+}

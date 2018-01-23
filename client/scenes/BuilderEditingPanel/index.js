@@ -10,15 +10,17 @@ import {
   changeToolbarTab,
   updateFieldInFocus,
   updateFieldTitle,
-  updateFieldDescription
+  updateFieldDescription,
+  updateFieldEnum
 } from '../../store'
 import {
   getFormFieldSchema,
   getLatestAddedFieldId
 } from '../../store/form/field/reducer'
 import DraggableField from './scenes/DraggableField'
+import TextInputField from './scenes/TextInputField'
+import MultipleChoiceField from './scenes/MultipleChoiceField'
 import EmptyDropZone from './components/EmptyDropZone'
-import TextInputField from './components/TextInputField'
 import FIELD_OPTION_CONFIG from '../../constants/fieldOptionConfig'
 
 
@@ -31,6 +33,7 @@ class BuilderEditingPanel extends Component {
     updateFieldInFocus: PropTypes.func.isRequired,
     updateFieldTitle: PropTypes.func.isRequired,
     updateFieldDescription: PropTypes.func.isRequired,
+    updateFieldEnum: PropTypes.func.isRequired,
     fieldSchema: PropTypes.object,
     latestAddedFieldId: PropTypes.string
   }
@@ -61,6 +64,7 @@ class BuilderEditingPanel extends Component {
     const formFields = isEmptyFrom ?
       null : this.props.fieldSchema.properties
 
+
     return (
       <div className={this.props.className}>
         {
@@ -84,14 +88,28 @@ class BuilderEditingPanel extends Component {
                 FIELD_OPTION_CONFIG={FIELD_OPTION_CONFIG}
                 fieldOrder={this.props.fieldSchema.order}
                 handleFieldOnClick={this.handleFieldOnClick}>
+
                 <TextInputField
                   title={formFields[fieldId].title}
                   description={formFields[fieldId].description}
+                  showDescription={formFields[fieldId].showDescription}
                   changeToolbarTab={this.props.changeToolbarTab}
                   updateFieldInFocus={this.props.updateFieldInFocus}
                   updateFieldTitle={this.props.updateFieldTitle}
                   updateFieldDescription={this.props.updateFieldDescription}
                   fieldId={fieldId} />
+                {
+                  (formFields[fieldId].fieldOptionId === 'multiple-choice' ||
+                  formFields[fieldId].fieldOptionId === 'select') ?
+                    <MultipleChoiceField
+                      changeToolbarTab={this.props.changeToolbarTab}
+                      updateFieldInFocus={this.props.updateFieldInFocus}
+                      updateFieldEnum={this.props.updateFieldEnum}
+                      fieldId={fieldId}
+                      fieldEnum={formFields[fieldId].enum} /> :
+                    ''
+                }
+
               </DraggableField>
             ))
         }
@@ -112,7 +130,8 @@ const actions = {
   changeToolbarTab,
   updateFieldInFocus,
   updateFieldTitle,
-  updateFieldDescription
+  updateFieldDescription,
+  updateFieldEnum
 }
 
 

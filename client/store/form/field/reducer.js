@@ -91,6 +91,11 @@ function updateDescription(state, fieldId, description) {
   return {...state}
 }
 
+function updateEnum(state, fieldId, fieldEnum) {
+  state.schema.properties[fieldId].fieldEnum = fieldEnum
+  return {...state}
+}
+
 
 export default function form(state = initialState, action) {
   switch (action.type) {
@@ -112,6 +117,8 @@ export default function form(state = initialState, action) {
       return updateTitle(clone(state), action.fieldId, action.title)
     case fieldType.DESCRIPTION_UPDATED:
       return updateDescription(clone(state), action.fieldId, action.description)
+    case fieldType.ENUM_UPDATED:
+      return updateEnum(clone(state), action.fieldId, action.fieldEnum)
     default:
       return state;
   }
