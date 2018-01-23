@@ -5,10 +5,9 @@ export default {
     label: "Short text",
     jsonSchema: {
       type: "string",
-      title: "Untitled short text input",
+      title: "",
       showDescription: false,
       description: "",
-      default: ""
     },
     uiSchema: {
       "ui:field": "textinput",
@@ -22,50 +21,30 @@ export default {
     label: "Long text",
     jsonSchema: {
       type: "string",
-      title: "Untitled long text input",
+      title: "",
       showDescription: false,
       description: "",
-      default: ""
     },
     uiSchema: {
       "ui:field": "textarea",
-
-    },
-    formData: {}
-  },
-  "multiple-choices": {
-    id: "multiple-choices",
-    icon: "list",
-    label: "Multiple choices",
-    jsonSchema: {
-      type: "array",
-      title: "Untitled multiple choices",
-      showDescription: false,
-      items: {
-        type: "string",
-        enum: ["choice 1", "choice 2", "choice 3"],
-      },
-      uniqueItems: true,
-    },
-    uiSchema: {
-      "ui:field": "checkboxes",
-
     },
     formData: {}
   },
   "multiple-choice": {
     id: "multiple-choice",
-    icon: "check",
-    label: "Multiple choice",
+    icon: "list",
+    label: "Multiple choices",
     jsonSchema: {
-      type: "string",
-      title: "Untitled multiple choice",
+      type: "array",
+      title: "",
       showDescription: false,
-      enum: ["option 1", "option 2", "option 3"],
+      enum: [""],
+      multiple: true,
     },
     uiSchema: {
-      "ui:field": "radio",
-
+      "ui:field": "checkboxes",
+      // multiple:true => checkboxes
+      // multiple:false => radio
     },
     formData: {}
   },
@@ -76,9 +55,9 @@ export default {
     jsonSchema: {
       type: "string",
       format: "string",
-      title: "Untitled dropdown menu",
+      title: "",
       showDescription: false,
-      enum: ["option 1", "option 2", "option 3"],
+      enum: [""],
     },
     uiSchema: {
       "ui:field": "select",
@@ -93,7 +72,7 @@ export default {
     jsonSchema: {
       type: "string",
       format: "date",
-      title: "Untitled date picker",
+      title: "",
       showDescription: false,
     },
     uiSchema: {

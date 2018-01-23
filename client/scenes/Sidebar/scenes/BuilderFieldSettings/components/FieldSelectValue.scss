@@ -1,0 +1,14 @@
+.Select-value-label {
+  display: flex;
+  justify-content: baseline;
+  align-items: baseline;
+  font-size: 13px;
+}
+
+.Select-value-label .fa {
+  margin-right: 10px;
+}
+
+.Select-value-label p {
+  text-transform: lowercase;
+}

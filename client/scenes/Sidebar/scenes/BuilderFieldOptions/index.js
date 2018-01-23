@@ -28,6 +28,7 @@ export default class FieldOptionsContainer extends Component {
                 key={index}
                 optionId={fieldOption.id}
                 optionLabel={fieldOption.label}
+                optionIcon={fieldOption.icon}
                 addField={this.props.addField}
                 changeToolbarTab={this.props.changeToolbarTab}
                 updateFieldInFocus={this.props.updateFieldInFocus}

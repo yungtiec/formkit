@@ -1,6 +1,7 @@
 import './DraggableFieldOption.scss'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import FontAwesome from 'react-fontawesome'
 import { DragSource } from 'react-dnd'
 
 const fieldOptionSource = {
@@ -36,16 +37,24 @@ export default class DraggableFieldOption extends Component {
     connectDragSource: PropTypes.func.isRequired,
     isDragging: PropTypes.bool.isRequired,
     optionLabel: PropTypes.string.isRequired,
-    FIELD_OPTION_CONFIG: PropTypes.object.isRequired
+    optionIcon: PropTypes.string.isRequired,
+    FIELD_OPTION_CONFIG: PropTypes.object.isRequired,
+    addField: PropTypes.func.isRequired,
+    changeToolbarTab: PropTypes.func.isRequired,
+    updateFieldInFocus: PropTypes.func.isRequired,
   }
 
   render() {
     const { isDragging, connectDragSource } = this.props
-    const { optionLabel } = this.props
+    const { optionLabel, optionIcon } = this.props
     const opacity = isDragging ? 0.4 : 1
 
     return connectDragSource(
       <div className="builder__field-option" style={{ opacity }}>
+        <FontAwesome
+          className="fa-md"
+          name={optionIcon}
+        />
         {optionLabel}
       </div>
     )
