@@ -68,6 +68,7 @@ const fieldTarget = {
         props.insertField(props.FIELD_OPTION_CONFIG[item.optionId], dropFieldId)
         props.changeToolbarTab('fieldSettings')
         props.updateFieldInFocus()
+        props.updatePropertyInFocus('title')
         monitor.getItem().inserted = true
       } else {
         props.moveCard(props.latestAddedFieldId, hoverIndex, 'option')
@@ -108,6 +109,7 @@ export default class DraggableField extends Component {
     removeField: PropTypes.func.isRequired,
     changeToolbarTab: PropTypes.func.isRequired,
     updateFieldInFocus: PropTypes.func.isRequired,
+    updatePropertyInFocus: PropTypes.func.isRequired,
     handleFieldOnClick: PropTypes.func.isRequired,
     fieldOrder: PropTypes.array
   }

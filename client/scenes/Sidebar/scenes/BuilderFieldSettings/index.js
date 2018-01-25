@@ -15,7 +15,10 @@ import FieldSelectValue from './components/FieldSelectValue'
 export default class BuilderFieldSettings extends Component {
   static propTypes = {
     currentFieldIdInFocus: PropTypes.string,
-    fieldSchema: PropTypes.object.isRequired
+    fieldSchema: PropTypes.object.isRequired,
+    toggleRequiredField: PropTypes.func.isRequired,
+    toggleShowDescription: PropTypes.func.isRequired,
+    updatePropertyInFocus: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -29,6 +32,7 @@ export default class BuilderFieldSettings extends Component {
 
   handleDescriptionOnChange() {
     this.props.toggleShowDescription(this.props.currentFieldIdInFocus)
+    this.props.updatePropertyInFocus('description')
   }
 
   render() {
@@ -82,11 +86,3 @@ export default class BuilderFieldSettings extends Component {
 
   }
 }
-// <span>
-//   <FontAwesome
-//     className="fa-md"
-//     name={FIELD_OPTION_CONFIG[field.fieldOptionId].icon}
-//   />
-//   {`Q${fieldOrder}`}
-// </span>
-// <p>{FIELD_OPTION_CONFIG[field.fieldOptionId].label}</p>

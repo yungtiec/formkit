@@ -32,6 +32,7 @@ export default class FieldOptionsContainer extends Component {
                 addField={this.props.addField}
                 changeToolbarTab={this.props.changeToolbarTab}
                 updateFieldInFocus={this.props.updateFieldInFocus}
+                updatePropertyInFocus={this.props.updatePropertyInFocus}
                 FIELD_OPTION_CONFIG={FIELD_OPTION_CONFIG} />))
           }
         </ul>

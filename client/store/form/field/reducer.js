@@ -1,5 +1,6 @@
 import * as generalTypes from '../actionTypes';
 import * as fieldType from './actionTypes'
+import { keys } from 'lodash'
 
 const initialState = {
   error: null,
@@ -76,24 +77,65 @@ function setSchema(state, data) {
   return { ...state, error: null };
 }
 
+function updateFieldTraversalArray(state, fieldId, fieldProperty, fieldEnum) {
+  var traverseArray = state
+    .schema.properties[fieldId].traverseArray
+  var hasDescription = state
+    .schema.properties[fieldId].showDescription
+  var updatedTraverseArray
+  if (fieldProperty === 'description') {
+    updatedTraverseArray = toggleDescriptionInFieldTraversalArray(
+      hasDescription, clone(traverseArray))
+
+  } else if (fieldProperty === 'enum') {
+    updatedTraverseArray = updateEnumInFieldTraversalArray(hasDescription, clone(traverseArray), fieldEnum)
+  }
+  return updatedTraverseArray
+}
+
+function toggleDescriptionInFieldTraversalArray(hasDescription, traverseArray) {
+  hasDescription ?
+    traverseArray.splice(1, 0, 'description') :
+    traverseArray.splice(1, 1)
+  return traverseArray
+}
+
+function updateEnumInFieldTraversalArray(hasDescription, traverseArray, fieldEnum) {
+  return hasDescription ?
+    traverseArray.slice(0, 2).concat(keys(fieldEnum)) :
+    traverseArray.slice(0, 1).concat(keys(fieldEnum))
+}
+
+
 function updateShowDescription(state, fieldId) {
+  var updatedTraverseArray
   state.schema.properties[fieldId].showDescription = !state.schema.properties[fieldId].showDescription
-  return {...state}
+  updatedTraverseArray = updateFieldTraversalArray(state, fieldId, 'description')
+  state.schema.properties[fieldId].traverseArray = updatedTraverseArray
+  return { ...state }
 }
 
 function updateTitle(state, fieldId, title) {
   state.schema.properties[fieldId].title = title
-  return {...state}
+  return { ...state }
 }
 
 function updateDescription(state, fieldId, description) {
   state.schema.properties[fieldId].description = description
-  return {...state}
+  return { ...state }
 }
 
 function updateEnum(state, fieldId, fieldEnum) {
-  state.schema.properties[fieldId].fieldEnum = fieldEnum
-  return {...state}
+  state.schema.properties[fieldId].enum = fieldEnum
+  return { ...state }
+}
+
+function addEnum(state, fieldId, updatedEnumArray) {
+  var updatedTraverseArray
+  state.schema.properties[fieldId].enum = updatedEnumArray
+  updatedTraverseArray = updateFieldTraversalArray(state, fieldId, 'enum', updatedEnumArray)
+  state.schema.properties[fieldId].traverseArray = updatedTraverseArray
+  return { ...state }
 }
 
 
@@ -117,6 +159,8 @@ export default function form(state = initialState, action) {
       return updateTitle(clone(state), action.fieldId, action.title)
     case fieldType.DESCRIPTION_UPDATED:
       return updateDescription(clone(state), action.fieldId, action.description)
+    case fieldType.ENUM_ADDED:
+      return addEnum(clone(state), action.fieldId, action.updatedEnumArray)
     case fieldType.ENUM_UPDATED:
       return updateEnum(clone(state), action.fieldId, action.fieldEnum)
     default:

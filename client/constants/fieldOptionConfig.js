@@ -8,6 +8,7 @@ export default {
       title: "",
       showDescription: false,
       description: "",
+      traverseArray: ['title']
     },
     uiSchema: {
       "ui:field": "textinput",
@@ -24,6 +25,7 @@ export default {
       title: "",
       showDescription: false,
       description: "",
+      traverseArray: ['title']
     },
     uiSchema: {
       "ui:field": "textarea",
@@ -40,6 +42,7 @@ export default {
       showDescription: false,
       enum: [""],
       multiple: true,
+      traverseArray: ['title', '0']
     },
     uiSchema: {
       "ui:field": "checkboxes",
@@ -58,6 +61,7 @@ export default {
       title: "",
       showDescription: false,
       enum: [""],
+      traverseArray: ['title', '0']
     },
     uiSchema: {
       "ui:field": "select",
@@ -74,6 +78,7 @@ export default {
       format: "date",
       title: "",
       showDescription: false,
+      traverseArray: ['title']
     },
     uiSchema: {
       "ui:field": "alt-date",
