@@ -7,7 +7,6 @@ export const updatePropertyInFocus = (newPropertyInFocus, fieldId) =>
     if (fieldId) {
       traverseArray = field.schema.properties[fieldId].traverseArray
       newPropertyInFocus = traverseArray[traverseArray.length - 1]
-      console.log(newPropertyInFocus)
     }
     dispatch({
       type: types.PROPERTY_IN_FOCUS_CHANGED,
