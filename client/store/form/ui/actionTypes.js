@@ -1,0 +1,1 @@
+export const DESCRIPTION_UPDATED = 'form.ui.DESCRIPTION_UPDATED'

@@ -5,13 +5,13 @@ export default {
     label: "Short text",
     jsonSchema: {
       type: "string",
-      title: "",
+      title: "test",
       showDescription: false,
       description: "",
+      traverseArray: ['title']
     },
     uiSchema: {
-      "ui:field": "textinput",
-
+      classNames: "col-lg-12"
     },
     formData: {}
   },
@@ -21,12 +21,14 @@ export default {
     label: "Long text",
     jsonSchema: {
       type: "string",
-      title: "",
+      title: "test",
       showDescription: false,
       description: "",
+      traverseArray: ['title']
     },
     uiSchema: {
-      "ui:field": "textarea",
+      "ui:widget": "textarea",
+      classNames: "col-lg-12"
     },
     formData: {}
   },
@@ -36,13 +38,18 @@ export default {
     label: "Multiple choices",
     jsonSchema: {
       type: "array",
-      title: "",
+      title: "test",
       showDescription: false,
-      enum: [""],
+      items: {
+        type: "string",
+        enum: [""],
+      },
       multiple: true,
+      traverseArray: ['title', '0']
     },
     uiSchema: {
-      "ui:field": "checkboxes",
+      "ui:widget": "checkboxes",
+      classNames: "col-lg-12"
       // multiple:true => checkboxes
       // multiple:false => radio
     },
@@ -55,13 +62,14 @@ export default {
     jsonSchema: {
       type: "string",
       format: "string",
-      title: "",
+      title: "test",
       showDescription: false,
       enum: [""],
+      traverseArray: ['title', '0']
     },
     uiSchema: {
-      "ui:field": "select",
-
+      "ui:widget": "select",
+      classNames: "col-lg-12"
     },
     formData: {}
   },
@@ -72,12 +80,13 @@ export default {
     jsonSchema: {
       type: "string",
       format: "date",
-      title: "",
+      title: "test",
       showDescription: false,
+      traverseArray: ['title']
     },
     uiSchema: {
-      "ui:field": "alt-date",
-
+      "ui:widget": "alt-date",
+      classNames: "col-lg-12"
     },
     formData: {}
   }

@@ -1,0 +1,1 @@
+export const PROPERTY_IN_FOCUS_CHANGED = 'keyNavigation.PROPERTY_IN_FOCUS_CHANGED'

@@ -1,19 +1,68 @@
 import React, {Component} from 'react'
 import autoBind from 'react-autobind';
 import PropTypes from 'prop-types'
-import ContentEditable from 'react-contenteditable'
+import ContentEditable from '../../../components/react-contenteditable'
+import clone from 'lodash'
 
+const createKeyDownHandler = ({
+    property,
+    traverseArray,
+    updatePropertyInFocus,
+    updateFieldInFocus,
+    currentFieldIdInFocus,
+    fieldOrder}) => e => {
+  var nextTraverseIndex, nextFieldIdOrderIndex
+  if (e.key === 'ArrowUp' || e.shiftKey && e.key === 'Tab') {
+    e.preventDefault()
+    nextTraverseIndex = traverseArray.indexOf(property) + -1
+    if (nextTraverseIndex < 0) {
+      nextFieldIdOrderIndex = fieldOrder.indexOf(currentFieldIdInFocus) - 1
+      if (nextFieldIdOrderIndex < 0) {
+        updatePropertyInFocus(null, fieldOrder[fieldOrder.length - 1])
+        updateFieldInFocus(fieldOrder[fieldOrder.length - 1])
+      } else {
+        updatePropertyInFocus(null, fieldOrder[nextFieldIdOrderIndex])
+        updateFieldInFocus(fieldOrder[nextFieldIdOrderIndex])
+      }
+    } else {
+      updatePropertyInFocus(traverseArray[nextTraverseIndex])
+    }
+  } else if (e.key === 'Enter' || e.key === 'ArrowDown' || e.key === 'Tab') {
+    e.preventDefault()
+    nextTraverseIndex = traverseArray.indexOf(property) + 1
+    if (nextTraverseIndex >= traverseArray.length) {
+      nextFieldIdOrderIndex = fieldOrder.indexOf(currentFieldIdInFocus) + 1
+
+      if (nextFieldIdOrderIndex >= fieldOrder.length) {
+        updatePropertyInFocus('title')
+        updateFieldInFocus(fieldOrder[0])
+      } else {
+        updatePropertyInFocus('title')
+        updateFieldInFocus(fieldOrder[nextFieldIdOrderIndex])
+      }
+    } else {
+      updatePropertyInFocus(traverseArray[nextTraverseIndex])
+    }
+  }
+}
 
 export default class EditableDiv extends Component {
   static propTypes = {
-    propertyLabel: PropTypes.string.isRequired,
+    property: PropTypes.string.isRequired,
+    propertyLabel:  PropTypes.string.isRequired,
     propertyValue: PropTypes.string,
     changeToolbarTab: PropTypes.func.isRequired,
     updateFieldInFocus: PropTypes.func.isRequired,
     updateProperty: PropTypes.func.isRequired,
+    updatePropertyInFocus: PropTypes.func.isRequired,
     fieldId: PropTypes.string.isRequired,
+    currentFieldIdInFocus: PropTypes.string.isRequired,
+    currentPropertyInFocus: PropTypes.string.isRequired,
+    traverseArray: PropTypes.array.isRequired,
     className: PropTypes.string.isRequired,
-    optionIndex: PropTypes.number
+    optionIndex: PropTypes.number,
+    handleKeyDown: PropTypes.func,
+    fieldOrder: PropTypes.array.isRequired,
   }
 
   constructor(props) {
@@ -24,8 +73,21 @@ export default class EditableDiv extends Component {
     }
   }
 
-  componentDidMount(){
-    this.refs.input.htmlEl.focus()
+  componentDidMount() {
+    if (this.props.currentFieldIdInFocus === this.props.fieldId &&
+        this.props.currentPropertyInFocus === this.props.property) {
+      this.refs.input.htmlEl.focus()
+    }
+  }
+
+  componentDidUpdate(prevProps){
+    if (prevProps.currentPropertyInFocus === this.props.currentPropertyInFocus &&
+        prevProps.currentFieldIdInFocus === this.props.currentFieldIdInFocus) return
+    if (this.props.currentFieldIdInFocus === this.props.fieldId &&
+        this.props.currentPropertyInFocus === this.props.property) {
+      this.refs.input.htmlEl.focus()
+    }
+
   }
 
   componentWillMount() {
@@ -34,7 +96,15 @@ export default class EditableDiv extends Component {
     })
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      property: nextProps.propertyValue
+    })
+  }
+
   handlePlaceholderOnclick() {
+    // because of its z-index, probably never invoke
+    // placeholder is always beneath input
     this.setState({
       focus: true
     })
@@ -47,6 +117,7 @@ export default class EditableDiv extends Component {
     this.refs.input.htmlEl.focus()
     this.props.changeToolbarTab('fieldSettings')
     this.props.updateFieldInFocus(this.props.fieldId)
+    this.props.updatePropertyInFocus(this.props.property)
   }
 
   handleOnBlur(e){
@@ -60,6 +131,127 @@ export default class EditableDiv extends Component {
     this.setState({
       property: e.target.value
     })
+  }
+
+  handleOptionKeyDown(e) {
+    const {
+      fieldId,
+      property,
+      optionIndex,
+      traverseArray,
+      currentPropertyInFocus,
+      currentFieldIdInFocus,
+      fieldOrder,
+      updatePropertyInFocus,
+      updateFieldInFocus,
+      updateProperty,
+      addEnum
+    } = this.props
+
+    const shiftTab = clone(e.shiftKey && e.key === 'Tab').value()
+    var nextTraverseIndex, nextFieldIdOrderIndex
+    if (shiftTab || (e.key === 'ArrowUp')) {
+      e.preventDefault()
+      if (this.state.property) {
+        updateProperty(
+          fieldId,
+          this.state.property,
+          optionIndex)
+      }
+      nextTraverseIndex = traverseArray
+        .indexOf(property) - 1
+      if (nextTraverseIndex < 0) {
+        nextFieldIdOrderIndex = fieldOrder.indexOf(currentFieldIdInFocus) - 1
+        if (nextFieldIdOrderIndex < 0) {
+          updatePropertyInFocus(null, fieldOrder[fieldOrder.length - 1])
+          updateFieldInFocus(fieldOrder[fieldOrder.length - 1])
+        } else {
+          updatePropertyInFocus(null, fieldOrder[nextFieldIdOrderIndex])
+          updateFieldInFocus(fieldOrder[nextFieldIdOrderIndex])
+        }
+      } else {
+        updatePropertyInFocus(traverseArray[nextTraverseIndex])
+      }
+    } else if (e.key === 'Enter') {
+      e.preventDefault()
+      var nextPropertyInFocus = Number(currentPropertyInFocus) + 1
+      if (this.state.property) {
+        updateProperty(
+          fieldId,
+          this.state.property,
+          optionIndex)
+      }
+      addEnum(fieldId, currentPropertyInFocus)
+      updatePropertyInFocus(nextPropertyInFocus.toString())
+    } else if (e.key === 'ArrowDown' || e.key === 'Tab') {
+      e.preventDefault()
+      if (this.state.property) {
+        updateProperty(
+          fieldId,
+          this.state.property,
+          optionIndex)
+      }
+      nextTraverseIndex = traverseArray
+        .indexOf(property) + 1
+      if (nextTraverseIndex >= traverseArray.length) {
+      nextFieldIdOrderIndex = fieldOrder.indexOf(currentFieldIdInFocus) + 1
+
+      if (nextFieldIdOrderIndex >= fieldOrder.length) {
+          updatePropertyInFocus('title')
+          updateFieldInFocus(fieldOrder[0])
+        } else {
+          updatePropertyInFocus('title')
+          updateFieldInFocus(fieldOrder[nextFieldIdOrderIndex])
+        }
+      } else {
+        updatePropertyInFocus(traverseArray[nextTraverseIndex])
+      }
+    }
+  }
+
+
+  handleKeyDown(e) {
+
+    var handleTitleKeyDown = createKeyDownHandler({
+      property: 'title',
+      traverseArray: this.props.traverseArray,
+      updatePropertyInFocus: this.props.updatePropertyInFocus,
+      updateFieldInFocus: this.props.updateFieldInFocus,
+      currentFieldIdInFocus: this.props.currentFieldIdInFocus,
+      fieldOrder: this.props.fieldOrder
+    })
+
+
+    var handleDescriptionKeyDown = createKeyDownHandler({
+      property: 'description',
+      traverseArray: this.props.traverseArray,
+      updatePropertyInFocus: this.props.updatePropertyInFocus,
+      updateFieldInFocus: this.props.updateFieldInFocus,
+      currentFieldIdInFocus: this.props.currentFieldIdInFocus,
+      fieldOrder: this.props.fieldOrder
+    })
+
+    switch (this.props.property) {
+      case 'title':
+        if (this.state.property) {
+            this.props.updateProperty(
+             this.props.fieldId,
+             this.state.property)
+          }
+        handleTitleKeyDown(e)
+        break
+      case 'description':
+        if (this.state.property) {
+            this.props.updateProperty(
+             this.props.fieldId,
+             this.state.property)
+          }
+        handleDescriptionKeyDown(e)
+        break
+      default:
+        this.handleOptionKeyDown(e)
+    }
+
   }
 
   render() {
@@ -85,6 +277,7 @@ export default class EditableDiv extends Component {
             disabled={false}
             onChange={this.handleOnChange}
             onBlur={this.handleOnBlur}
+            onKeyDown={this.handleKeyDown}
           />
         </div>
         <div

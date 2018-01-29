@@ -20,6 +20,7 @@ const fieldOptionSource = {
       props.addField(props.FIELD_OPTION_CONFIG[item.optionId])
       props.changeToolbarTab('fieldSettings')
       props.updateFieldInFocus()
+      props.updatePropertyInFocus('title')
     }
   },
   isDragging(props, monitor) {
@@ -42,6 +43,7 @@ export default class DraggableFieldOption extends Component {
     addField: PropTypes.func.isRequired,
     changeToolbarTab: PropTypes.func.isRequired,
     updateFieldInFocus: PropTypes.func.isRequired,
+    updatePropertyInFocus: PropTypes.func.isRequired,
   }
 
   render() {

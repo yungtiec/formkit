@@ -19,7 +19,8 @@ import {
   changeToolbarTab,
   updateFieldInFocus,
   toggleRequiredField,
-  toggleShowDescription
+  toggleShowDescription,
+  updatePropertyInFocus,
 } from '../../store'
 
 class Sidebar extends Component {
@@ -29,6 +30,7 @@ class Sidebar extends Component {
     addField: PropTypes.func.isRequired,
     changeToolbarTab: PropTypes.func.isRequired,
     updateFieldInFocus: PropTypes.func.isRequired,
+    updatePropertyInFocus: PropTypes.func.isRequired,
     toggleRequiredField: PropTypes.func.isRequired,
     toggleShowDescription: PropTypes.func.isRequired,
     requiredFields: PropTypes.array,
@@ -46,6 +48,7 @@ class Sidebar extends Component {
         return <BuilderFieldOptions
           className="builder__field-options"
           addField={this.props.addField}
+          updatePropertyInFocus={this.props.updatePropertyInFocus}
           changeToolbarTab={this.props.changeToolbarTab}
           updateFieldInFocus={this.props.updateFieldInFocus} />
       case 'fieldSettings':
@@ -55,6 +58,7 @@ class Sidebar extends Component {
           fieldSchema={this.props.fieldSchema}
           toggleRequiredField={this.props.toggleRequiredField}
           toggleShowDescription={this.props.toggleShowDescription}
+          updatePropertyInFocus={this.props.updatePropertyInFocus}
           requiredFields={this.props.requiredFields}
         />
       case 'fieldLayout':
@@ -93,8 +97,9 @@ const actions = {
   addField,
   changeToolbarTab,
   updateFieldInFocus,
+  updatePropertyInFocus,
   toggleRequiredField,
-  toggleShowDescription
+  toggleShowDescription,
 }
 
 
