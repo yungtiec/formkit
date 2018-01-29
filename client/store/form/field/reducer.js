@@ -4,10 +4,23 @@ import { keys } from 'lodash'
 
 const initialState = {
   error: null,
+  title: 'This is your new form',
+  description: '',
+  type: 'object',
   schema: {
-    type: 'object',
+    properties: {
+      // Q1: {
+      //   title:'test',
+      //   description:'',
+      //   traverseArray: ['title'],
+      //   showDescription: false,
+      //   fieldIcon: 'bars',
+      //   fieldOptionId: 'text',
+      //   type: 'string',
+      //   id: 'Q1'
+      // }
+    },
     order: [],
-    properties: {}
   },
   latestAddedFieldId: ''
 };
@@ -120,19 +133,25 @@ function updateTitle(state, fieldId, title) {
   return { ...state }
 }
 
-function updateDescription(state, fieldId, description) {
-  state.schema.properties[fieldId].description = description
-  return { ...state }
-}
-
 function updateEnum(state, fieldId, fieldEnum) {
-  state.schema.properties[fieldId].enum = fieldEnum
+  var updatedTraverseArray
+  if ('enum' in state.schema.properties[fieldId]) {
+    state.schema.properties[fieldId].enum = fieldEnum
+  } else {
+    state.schema.properties[fieldId].items.enum = fieldEnum
+  }
+  updatedTraverseArray = updateFieldTraversalArray(state, fieldId, 'enum', fieldEnum)
+  state.schema.properties[fieldId].traverseArray = updatedTraverseArray
   return { ...state }
 }
 
 function addEnum(state, fieldId, updatedEnumArray) {
   var updatedTraverseArray
-  state.schema.properties[fieldId].enum = updatedEnumArray
+  if ('enum' in state.schema.properties[fieldId]) {
+    state.schema.properties[fieldId].enum = updatedEnumArray
+  } else {
+    state.schema.properties[fieldId].items.enum = updatedEnumArray
+  }
   updatedTraverseArray = updateFieldTraversalArray(state, fieldId, 'enum', updatedEnumArray)
   state.schema.properties[fieldId].traverseArray = updatedTraverseArray
   return { ...state }
@@ -157,8 +176,6 @@ export default function form(state = initialState, action) {
       return updateShowDescription(clone(state), action.fieldId)
     case fieldType.TITLE_UPDATED:
       return updateTitle(clone(state), action.fieldId, action.title)
-    case fieldType.DESCRIPTION_UPDATED:
-      return updateDescription(clone(state), action.fieldId, action.description)
     case fieldType.ENUM_ADDED:
       return addEnum(clone(state), action.fieldId, action.updatedEnumArray)
     case fieldType.ENUM_UPDATED:
@@ -167,6 +184,9 @@ export default function form(state = initialState, action) {
       return state;
   }
 }
+
+export const getFormField = state =>
+  state.form ? state.form.field : {}
 
 export const getFormFieldSchema = state =>
   state.form ? state.form.field.schema : {}

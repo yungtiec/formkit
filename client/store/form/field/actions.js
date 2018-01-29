@@ -12,12 +12,6 @@ export const updateFieldTitle = (fieldId, title) => ({
   title
 })
 
-export const updateFieldDescription = (fieldId, description) => ({
-  type: types.DESCRIPTION_UPDATED,
-  fieldId,
-  description
-})
-
 export const updateFieldEnum = (fieldId, fieldEnum) => ({
   type: types.ENUM_UPDATED,
   fieldId,

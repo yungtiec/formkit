@@ -121,7 +121,7 @@ class BuilderEditingPanel extends Component {
                       updateFieldInFocus={this.props.updateFieldInFocus}
                       updateFieldEnum={this.props.updateFieldEnum}
                       fieldId={fieldId}
-                      fieldEnum={formFields[fieldId].enum}
+                      fieldEnum={formFields[fieldId].enum || formFields[fieldId].items.enum}
                       addEnum={this.props.addEnum}
                       currentFieldIdInFocus={this.props.currentFieldIdInFocus}
                       currentPropertyInFocus={this.props.currentPropertyInFocus}

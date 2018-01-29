@@ -4,16 +4,6 @@ import autoBind from 'react-autobind';
 import PropTypes from 'prop-types'
 import EditableDiv from '../../components/EditableDiv'
 
-
-const creatKeyDownHandler = (property, traverseArray, updatePropertyInFocus) => event => {
-  var nextTraverseIndex = traverseArray.indexOf(property) + 1
-  if (event.key === 'Enter') {
-    event.preventDefault()
-    if (nextTraverseIndex >= traverseArray.length) return
-    updatePropertyInFocus(traverseArray[nextTraverseIndex])
-  }
-}
-
 export default class TextInputField extends Component {
   static propTypes = {
     changeToolbarTab: PropTypes.func.isRequired,

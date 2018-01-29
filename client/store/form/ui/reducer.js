@@ -1,4 +1,5 @@
 import * as types from '../actionTypes';
+import * as uiTypes from './actionTypes'
 
 const initialState = {
   error: null,
@@ -10,7 +11,7 @@ function clone(obj) {
 }
 
 function addField(state, fieldOption, currentIndex) {
-  const id = `question_${currentIndex}`;
+  const id = `Q${currentIndex}`;
   state.schema[id] = fieldOption.uiSchema;
   return state;
 }
@@ -18,6 +19,12 @@ function addField(state, fieldOption, currentIndex) {
 function switchField(state, fieldId, newField) {
   state.schema[fieldId] = newField.uiSchema;
   return state;
+}
+
+function insertField(state, field, before, currentIndex) {
+  const id = `Q${currentIndex}`;
+  state.schema[id] = field.uiSchema
+  return { ...state, error: null };
 }
 
 function removeField(state, fieldId) {
@@ -30,10 +37,17 @@ function setSchema(state, data) {
   return { ...state, error: null };
 }
 
+function updateDescription(state, fieldId, description) {
+  state.schema[fieldId]['ui:description'] = description
+  return { ...state }
+}
+
 export default function form(state = initialState, action) {
   switch (action.type) {
     case types.FIELD_ADD:
       return addField(clone(state), action.field, action.currentIndex);
+    case types.FIELD_INSERT:
+      return insertField(clone(state), action.field, action.before, action.currentIndex);
     case types.FIELD_SWITCH:
       return switchField(clone(state), action.property, action.newField);
     case types.FIELD_REMOVE:
@@ -42,6 +56,8 @@ export default function form(state = initialState, action) {
       return initialState;
     case types.SCHEMA_RETRIEVAL_DONE:
       return setSchema(clone(state), action.data);
+    case uiTypes.DESCRIPTION_UPDATED:
+      return updateDescription(clone(state), action.fieldId, action.description)
     default:
       return state;
   }
