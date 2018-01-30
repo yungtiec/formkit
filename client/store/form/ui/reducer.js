@@ -1,5 +1,6 @@
 import * as types from '../actionTypes';
 import * as uiTypes from './actionTypes'
+import * as fieldTypes from '../field/actionTypes'
 
 const initialState = {
   error: null,
@@ -42,6 +43,15 @@ function updateDescription(state, fieldId, description) {
   return { ...state }
 }
 
+function updateMultipleChoiceWidget(state, fieldId) {
+  if (state.schema[fieldId]['ui:widget'] === 'checkboxes') {
+    state.schema[fieldId]['ui:widget'] = 'radio'
+  } else {
+    state.schema[fieldId]['ui:widget'] = 'checkboxes'
+  }
+  return { ...state }
+}
+
 export default function form(state = initialState, action) {
   switch (action.type) {
     case types.FIELD_ADD:
@@ -58,6 +68,8 @@ export default function form(state = initialState, action) {
       return setSchema(clone(state), action.data);
     case uiTypes.DESCRIPTION_UPDATED:
       return updateDescription(clone(state), action.fieldId, action.description)
+    case fieldTypes.ALLOW_MULTIPLE_TOGGLED:
+      return updateMultipleChoiceWidget(clone(state), action.fieldId)
     default:
       return state;
   }

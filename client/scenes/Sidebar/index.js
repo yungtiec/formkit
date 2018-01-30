@@ -52,15 +52,7 @@ class Sidebar extends Component {
           changeToolbarTab={this.props.changeToolbarTab}
           updateFieldInFocus={this.props.updateFieldInFocus} />
       case 'fieldSettings':
-        return <BuilderFieldSettings
-          className="builder__field-settings"
-          currentFieldIdInFocus={this.props.currentFieldIdInFocus}
-          fieldSchema={this.props.fieldSchema}
-          toggleRequiredField={this.props.toggleRequiredField}
-          toggleShowDescription={this.props.toggleShowDescription}
-          updatePropertyInFocus={this.props.updatePropertyInFocus}
-          requiredFields={this.props.requiredFields}
-        />
+        return <BuilderFieldSettings />
       case 'fieldLayout':
         return (<div></div>)
       case 'fieldStyling':

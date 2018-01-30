@@ -1,4 +1,43 @@
 export default {
+  double: {
+    id: "double",
+    icon: "circle-o",
+    label: "Number",
+    jsonSchema: {
+      type: "number",
+      title: "test",
+      htmlEncodedTitle: "test",
+      showDescription: false,
+      isInteger: false,
+      description: "",
+      traverseArray: ['title']
+    },
+    uiSchema: {
+      classNames: "col-lg-12 field__default-bootstrap"
+    },
+    formData: {},
+    default: false
+  },
+  integer: {
+    id: "integer",
+    icon: "clone",
+    label: "Number",
+    jsonSchema: {
+      type: "integer",
+      title: "test",
+      htmlEncodedTitle: "test",
+      showDescription: false,
+      isInteger: true,
+      description: "",
+      traverseArray: ['title']
+    },
+    uiSchema: {
+      classNames: "col-lg-12 field__default-bootstrap",
+      "ui:widget": "updown"
+    },
+    formData: {},
+    default: true
+  },
   text: {
     id: "text",
     icon: "bars",
@@ -6,14 +45,16 @@ export default {
     jsonSchema: {
       type: "string",
       title: "test",
+      htmlEncodedTitle: "test",
       showDescription: false,
       description: "",
       traverseArray: ['title']
     },
     uiSchema: {
-      classNames: "col-lg-12"
+      classNames: "col-lg-12 field__default-bootstrap"
     },
-    formData: {}
+    formData: {},
+    default: true
   },
   multilinetext: {
     id: "multilinetext",
@@ -22,38 +63,63 @@ export default {
     jsonSchema: {
       type: "string",
       title: "test",
+      htmlEncodedTitle: "test",
       showDescription: false,
       description: "",
       traverseArray: ['title']
     },
     uiSchema: {
       "ui:widget": "textarea",
-      classNames: "col-lg-12"
+      classNames: "col-lg-12 field__default-bootstrap"
     },
-    formData: {}
+    formData: {},
+    default: true
   },
-  "multiple-choice": {
-    id: "multiple-choice",
+  "multiple-checkbox": {
+    id: "multiple-checkbox",
     icon: "list",
-    label: "Multiple choices",
+    label: "Multiple choice",
     jsonSchema: {
       type: "array",
       title: "test",
+      htmlEncodedTitle: "test",
       showDescription: false,
       items: {
         type: "string",
-        enum: [""],
+        enum: ["option 1"],
       },
-      multiple: true,
+      allowMultiple: true,
+      uniqueItems: true,
       traverseArray: ['title', '0']
     },
     uiSchema: {
       "ui:widget": "checkboxes",
-      classNames: "col-lg-12"
+      classNames: "col-lg-12 field__default-bootstrap"
       // multiple:true => checkboxes
       // multiple:false => radio
     },
-    formData: {}
+    formData: {},
+    default: true
+  },
+  radiobuttonlist: {
+    id: "radiobuttonlist",
+    icon: "list",
+    label: "Multiple choice",
+    jsonSchema: {
+      type: "string",
+      title: "test",
+      htmlEncodedTitle: "test",
+      enum: ["option 1"],
+      showDescription: false,
+      allowMultiple: false,
+      traverseArray: ['title', '0']
+    },
+    uiSchema: {
+      "ui:widget": "radio",
+      classNames: "col-lg-12 field__default-bootstrap"
+    },
+    formData: {},
+    default: false
   },
   select: {
     id: "select",
@@ -63,15 +129,17 @@ export default {
       type: "string",
       format: "string",
       title: "test",
+      htmlEncodedTitle: "test",
       showDescription: false,
       enum: [""],
       traverseArray: ['title', '0']
     },
     uiSchema: {
       "ui:widget": "select",
-      classNames: "col-lg-12"
+      classNames: "col-lg-12 field__default-bootstrap"
     },
-    formData: {}
+    formData: {},
+    default: true
   },
   date: {
     id: "date",
@@ -81,13 +149,15 @@ export default {
       type: "string",
       format: "date",
       title: "test",
+      htmlEncodedTitle: "test",
       showDescription: false,
-      traverseArray: ['title']
+      traverseArray: ['title'],
+      "format": "date"
     },
     uiSchema: {
-      "ui:widget": "alt-date",
-      classNames: "col-lg-12"
+      classNames: "col-lg-12 field__default-bootstrap"
     },
-    formData: {}
+    formData: {},
+    default: true
   }
 }

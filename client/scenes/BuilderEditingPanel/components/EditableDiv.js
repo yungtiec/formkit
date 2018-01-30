@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import autoBind from 'react-autobind';
 import PropTypes from 'prop-types'
 import ContentEditable from '../../../components/react-contenteditable'
-import clone from 'lodash'
+import { clone } from 'lodash'
 
 const createKeyDownHandler = ({
     property,
@@ -12,6 +12,8 @@ const createKeyDownHandler = ({
     currentFieldIdInFocus,
     fieldOrder}) => e => {
   var nextTraverseIndex, nextFieldIdOrderIndex
+
+
   if (e.key === 'ArrowUp' || e.shiftKey && e.key === 'Tab') {
     e.preventDefault()
     nextTraverseIndex = traverseArray.indexOf(property) + -1
@@ -90,18 +92,6 @@ export default class EditableDiv extends Component {
 
   }
 
-  componentWillMount() {
-    this.setState({
-      property: this.props.propertyValue
-    })
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      property: nextProps.propertyValue
-    })
-  }
-
   handlePlaceholderOnclick() {
     // because of its z-index, probably never invoke
     // placeholder is always beneath input
@@ -121,16 +111,19 @@ export default class EditableDiv extends Component {
   }
 
   handleOnBlur(e){
-    this.props.updateProperty(this.props.fieldId, this.state.property, this.props.optionIndex)
+    // this.props.updateProperty(this.props.fieldId, this.state.property, this.props.optionIndex)
     this.setState({
       focus: false
     })
   }
 
   handleOnChange(e) {
-    this.setState({
-      property: e.target.value
-    })
+    if (e.target.value) {
+      this.props.updateProperty(
+        this.props.fieldId,
+        e.target.value)
+    }
+
   }
 
   handleOptionKeyDown(e) {
@@ -148,7 +141,7 @@ export default class EditableDiv extends Component {
       addEnum
     } = this.props
 
-    const shiftTab = clone(e.shiftKey && e.key === 'Tab').value()
+    const shiftTab = clone(e.shiftKey && e.key === 'Tab')
     var nextTraverseIndex, nextFieldIdOrderIndex
     if (shiftTab || (e.key === 'ArrowUp')) {
       e.preventDefault()
@@ -233,19 +226,9 @@ export default class EditableDiv extends Component {
 
     switch (this.props.property) {
       case 'title':
-        if (this.state.property) {
-            this.props.updateProperty(
-             this.props.fieldId,
-             this.state.property)
-          }
         handleTitleKeyDown(e)
         break
       case 'description':
-        if (this.state.property) {
-            this.props.updateProperty(
-             this.props.fieldId,
-             this.state.property)
-          }
         handleDescriptionKeyDown(e)
         break
       default:
@@ -255,7 +238,7 @@ export default class EditableDiv extends Component {
   }
 
   render() {
-    const hasProperty = !!this.state.property
+    const hasProperty = !!this.props.propertyValue
 
     const hidden = {
       opacity: 0,
@@ -273,7 +256,7 @@ export default class EditableDiv extends Component {
           className={this.props.className}>
           <ContentEditable
             ref="input"
-            html={this.state.property}
+            html={this.props.propertyValue}
             disabled={false}
             onChange={this.handleOnChange}
             onBlur={this.handleOnBlur}
@@ -284,7 +267,7 @@ export default class EditableDiv extends Component {
           className={`${this.props.className}--hidden`}>
           <ContentEditable
             disabled={false}
-            html={this.state.property}
+            html={this.props.propertyValue}
           />
         </div>
         <div

@@ -100,7 +100,7 @@ class BuilderEditingPanel extends Component {
                 handleFieldOnClick={this.handleFieldOnClick}>
 
                 <TextInputField
-                  title={formFields[fieldId].title}
+                  title={formFields[fieldId].htmlEncodedTitle}
                   description={formFields[fieldId].description}
                   showDescription={formFields[fieldId].showDescription}
                   changeToolbarTab={this.props.changeToolbarTab}
@@ -114,8 +114,9 @@ class BuilderEditingPanel extends Component {
                   traverseArray={formFields[fieldId].traverseArray}
                   fieldOrder={this.props.fieldSchema.order} />
                 {
-                  (formFields[fieldId].fieldOptionId === 'multiple-choice' ||
-                  formFields[fieldId].fieldOptionId === 'select') ?
+                  (formFields[fieldId].fieldOptionId === 'multiple-checkbox' ||
+                  formFields[fieldId].fieldOptionId === 'select' ||
+                  formFields[fieldId].fieldOptionId === 'radiobuttonlist') ?
                     <MultipleChoiceField
                       changeToolbarTab={this.props.changeToolbarTab}
                       updateFieldInFocus={this.props.updateFieldInFocus}

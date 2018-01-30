@@ -1,3 +1,4 @@
+import './form-bootstrap.scss'
 import React from 'react'
 import autoBind from 'react-autobind';
 import {connect} from 'react-redux'
@@ -14,6 +15,7 @@ const BuilderRenderPanel = props => {
     <div className="builder__render-panel">
       <Form schema={props.jsonSchema}
         uiSchema={props.uiSchema}
+        className="form form__bootstrap-default"
         onChange={log('changed')}
         onSubmit={log('submitted')}
         onError={log('errors')} />

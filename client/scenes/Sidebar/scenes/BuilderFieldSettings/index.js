@@ -2,23 +2,36 @@ import './index.scss'
 import './react-toggle.scss'
 import 'react-select/dist/react-select.css';
 import React, {Component} from 'react'
-import FontAwesome from 'react-fontawesome'
+import { connect } from 'react-redux'
 import Toggle from 'react-toggle'
 import Select from 'react-select';
 import autoBind from 'react-autobind';
 import PropTypes from 'prop-types'
-import {isEmpty} from 'lodash'
+import {isEmpty, values } from 'lodash'
 import FIELD_OPTION_CONFIG from '../../../../constants/fieldOptionConfig'
 import FieldSelectOption from './components/FieldSelectOption'
 import FieldSelectValue from './components/FieldSelectValue'
+import { getFormFieldSchema } from '../../../../store/form/field/reducer'
+import { getRequiredFields } from '../../../../store/form/validation/reducer'
+import { getCurrentFieldIdInFocus } from '../../../../store/sidebar/reducer'
+import {
+  toggleRequiredField,
+  toggleShowDescription,
+  updatePropertyInFocus,
+  toggleIsInteger,
+  toggleAllowMultiple
+} from '../../../../store'
 
-export default class BuilderFieldSettings extends Component {
+class BuilderFieldSettings extends Component {
   static propTypes = {
     currentFieldIdInFocus: PropTypes.string,
     fieldSchema: PropTypes.object.isRequired,
     toggleRequiredField: PropTypes.func.isRequired,
     toggleShowDescription: PropTypes.func.isRequired,
     updatePropertyInFocus: PropTypes.func.isRequired,
+    toggleIsInteger: PropTypes.func.isRequired,
+    toggleAllowMultiple: PropTypes.func.isRequired,
+    requiredFields: PropTypes.array,
   }
 
   constructor(props) {
@@ -33,6 +46,43 @@ export default class BuilderFieldSettings extends Component {
   handleDescriptionOnChange() {
     this.props.toggleShowDescription(this.props.currentFieldIdInFocus)
     this.props.updatePropertyInFocus('description')
+  }
+
+  handleIntegerOnChange() {
+    this.props.toggleIsInteger(this.props.currentFieldIdInFocus)
+  }
+
+  handleAllowMultipleOnChange() {
+    this.props.toggleAllowMultiple(this.props.currentFieldIdInFocus)
+  }
+
+  renderSettingsBaseOnFieldOption(field) {
+    switch (field.fieldOptionId) {
+      case 'integer':
+      case 'double':
+        return (
+          <div className="field-setting__item field-setting__item--toggle">
+            <p>integer</p>
+            <Toggle
+              onChange={this.handleIntegerOnChange}
+              checked={field.isInteger}
+              icons={false} />
+          </div>
+        )
+      case 'multiple-checkbox':
+      case 'radiobuttonlist':
+        return (
+          <div className="field-setting__item field-setting__item--toggle">
+            <p>allow multiple answers</p>
+            <Toggle
+              onChange={this.handleAllowMultipleOnChange}
+              checked={field.allowMultiple}
+              icons={false} />
+          </div>
+        )
+      default:
+        return ''
+    }
   }
 
   render() {
@@ -51,12 +101,13 @@ export default class BuilderFieldSettings extends Component {
       fieldOrder = this.props.fieldSchema.order.indexOf(field.id) + 1
 
       return (
-        <div className={this.props.className}>
+        <div className="builder__field-settings">
           <ul className="list-group">
             <div className="field-setting__item field-setting__item--select-container">
               <Select
                 optionComponent={FieldSelectOption}
-                options={_.values(FIELD_OPTION_CONFIG)}
+                options={values(FIELD_OPTION_CONFIG)
+                  .filter(fieldOption => fieldOption.default)}
                 placeholder={`Q${fieldOrder} ${FIELD_OPTION_CONFIG[field.fieldOptionId].label}`}
                 value={FIELD_OPTION_CONFIG[field.fieldOptionId]}
                 valueComponent={FieldSelectValue}
@@ -79,6 +130,7 @@ export default class BuilderFieldSettings extends Component {
                   .properties[this.props.currentFieldIdInFocus].showDescription}
                 icons={false} />
             </div>
+            { this.renderSettingsBaseOnFieldOption(field) }
           </ul>
         </div>
       )
@@ -86,3 +138,20 @@ export default class BuilderFieldSettings extends Component {
 
   }
 }
+
+const mapState = (state) => ({
+  currentFieldIdInFocus: getCurrentFieldIdInFocus(state),
+  fieldSchema: getFormFieldSchema(state),
+  requiredFields: getRequiredFields(state)
+})
+
+const actions = {
+  updatePropertyInFocus,
+  toggleRequiredField,
+  toggleShowDescription,
+  toggleIsInteger,
+  toggleAllowMultiple
+}
+
+
+export default connect(mapState, actions)(BuilderFieldSettings)
