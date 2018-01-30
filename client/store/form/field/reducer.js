@@ -162,9 +162,13 @@ function updateTitle(state, fieldId, htmlEncodedTitle) {
 function updateEnum(state, fieldId, fieldEnum) {
   var updatedTraverseArray
   if ('enum' in state.schema.properties[fieldId]) {
-    state.schema.properties[fieldId].enum = fieldEnum
+    state.schema.properties[fieldId].htmlEncodedEnum = fieldEnum
+    state.schema.properties[fieldId].enum = fieldEnum.map(option =>
+      decodeAndSanitizeHtmlEntities(option))
   } else {
-    state.schema.properties[fieldId].items.enum = fieldEnum
+    state.schema.properties[fieldId].items.htmlEncodedEnum = fieldEnum
+    state.schema.properties[fieldId].items.enum = fieldEnum.map(option =>
+      decodeAndSanitizeHtmlEntities(option))
   }
   updatedTraverseArray = updateFieldTraversalArray(state, fieldId, 'enum', fieldEnum)
   state.schema.properties[fieldId].traverseArray = updatedTraverseArray
@@ -175,8 +179,11 @@ function addEnum(state, fieldId, updatedEnumArray) {
   var updatedTraverseArray
   if ('enum' in state.schema.properties[fieldId]) {
     state.schema.properties[fieldId].enum = updatedEnumArray
+    state.schema.properties[fieldId].htmlEncodedEnum = updatedEnumArray.map(option =>
+      decodeAndSanitizeHtmlEntities(option))
   } else {
-    state.schema.properties[fieldId].items.enum = updatedEnumArray
+    state.schema.properties[fieldId].items.htmlEncodedEnum = updatedEnumArray.map(option =>
+      decodeAndSanitizeHtmlEntities(option))
   }
   updatedTraverseArray = updateFieldTraversalArray(state, fieldId, 'enum', updatedEnumArray)
   state.schema.properties[fieldId].traverseArray = updatedTraverseArray

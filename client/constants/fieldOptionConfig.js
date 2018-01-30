@@ -13,7 +13,11 @@ export default {
       traverseArray: ['title']
     },
     uiSchema: {
-      classNames: "col-lg-12 field__default-bootstrap"
+      classNameDict: {
+        column: "col-lg-12",
+        theme: "field__default-bootstrap"
+      },
+      column: "12"
     },
     formData: {},
     default: false
@@ -32,7 +36,11 @@ export default {
       traverseArray: ['title']
     },
     uiSchema: {
-      classNames: "col-lg-12 field__default-bootstrap",
+      classNameDict: {
+        column: "col-lg-12",
+        theme: "field__default-bootstrap"
+      },
+      column: "12",
       "ui:widget": "updown"
     },
     formData: {},
@@ -51,7 +59,11 @@ export default {
       traverseArray: ['title']
     },
     uiSchema: {
-      classNames: "col-lg-12 field__default-bootstrap"
+      classNameDict: {
+        column: "col-lg-12",
+        theme: "field__default-bootstrap"
+      },
+      column: "12",
     },
     formData: {},
     default: true
@@ -70,7 +82,11 @@ export default {
     },
     uiSchema: {
       "ui:widget": "textarea",
-      classNames: "col-lg-12 field__default-bootstrap"
+      classNameDict: {
+        column: "col-lg-12",
+        theme: "field__default-bootstrap"
+      },
+      column: "12",
     },
     formData: {},
     default: true
@@ -86,6 +102,7 @@ export default {
       showDescription: false,
       items: {
         type: "string",
+        htmlEncodedEnum: ["option 1"],
         enum: ["option 1"],
       },
       allowMultiple: true,
@@ -94,9 +111,11 @@ export default {
     },
     uiSchema: {
       "ui:widget": "checkboxes",
-      classNames: "col-lg-12 field__default-bootstrap"
-      // multiple:true => checkboxes
-      // multiple:false => radio
+      classNameDict: {
+        column: "col-lg-12",
+        theme: "field__default-bootstrap"
+      },
+      column: "12",
     },
     formData: {},
     default: true
@@ -109,6 +128,7 @@ export default {
       type: "string",
       title: "test",
       htmlEncodedTitle: "test",
+      htmlEncodedEnum: ["option 1"],
       enum: ["option 1"],
       showDescription: false,
       allowMultiple: false,
@@ -116,7 +136,11 @@ export default {
     },
     uiSchema: {
       "ui:widget": "radio",
-      classNames: "col-lg-12 field__default-bootstrap"
+      classNameDict: {
+        column: "col-lg-12",
+        theme: "field__default-bootstrap"
+      },
+      column: "12",
     },
     formData: {},
     default: false
@@ -131,12 +155,17 @@ export default {
       title: "test",
       htmlEncodedTitle: "test",
       showDescription: false,
-      enum: [""],
+      enum: ["option 1"],
+      htmlEncodedEnum: ["option 1"],
       traverseArray: ['title', '0']
     },
     uiSchema: {
       "ui:widget": "select",
-      classNames: "col-lg-12 field__default-bootstrap"
+      classNameDict: {
+        column: "col-lg-12",
+        theme: "field__default-bootstrap"
+      },
+      column: "12",
     },
     formData: {},
     default: true
@@ -155,7 +184,11 @@ export default {
       "format": "date"
     },
     uiSchema: {
-      classNames: "col-lg-12 field__default-bootstrap"
+      classNameDict: {
+        column: "col-lg-12",
+        theme: "field__default-bootstrap"
+      },
+      column: "12",
     },
     formData: {},
     default: true

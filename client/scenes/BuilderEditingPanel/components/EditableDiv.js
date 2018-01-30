@@ -70,9 +70,7 @@ export default class EditableDiv extends Component {
   constructor(props) {
     super(props)
     autoBind(this)
-    this.state = {
-      property: ''
-    }
+    this.state = {}
   }
 
   componentDidMount() {
@@ -104,6 +102,9 @@ export default class EditableDiv extends Component {
   }
 
   handleOnClick() {
+    this.setState({
+      focus: true
+    })
     this.refs.input.htmlEl.focus()
     this.props.changeToolbarTab('fieldSettings')
     this.props.updateFieldInFocus(this.props.fieldId)
@@ -111,17 +112,20 @@ export default class EditableDiv extends Component {
   }
 
   handleOnBlur(e){
-    // this.props.updateProperty(this.props.fieldId, this.state.property, this.props.optionIndex)
     this.setState({
       focus: false
     })
   }
 
   handleOnChange(e) {
-    if (e.target.value) {
+    if (e.target.value !== this.props.propertyValue) {
       this.props.updateProperty(
         this.props.fieldId,
-        e.target.value)
+        e.target.value,
+        this.props.optionIndex)
+      this.setState({
+        property: e.target.value
+      })
     }
 
   }

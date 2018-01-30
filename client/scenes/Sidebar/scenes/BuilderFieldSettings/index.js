@@ -14,24 +14,32 @@ import FieldSelectValue from './components/FieldSelectValue'
 import { getFormFieldSchema } from '../../../../store/form/field/reducer'
 import { getRequiredFields } from '../../../../store/form/validation/reducer'
 import { getCurrentFieldIdInFocus } from '../../../../store/sidebar/reducer'
+import { getFieldUiSchema } from '../../../../store/form/ui/reducer'
 import {
   toggleRequiredField,
   toggleShowDescription,
   updatePropertyInFocus,
   toggleIsInteger,
-  toggleAllowMultiple
+  toggleAllowMultiple,
+  updateColumn
 } from '../../../../store'
 
 class BuilderFieldSettings extends Component {
   static propTypes = {
     currentFieldIdInFocus: PropTypes.string,
     fieldSchema: PropTypes.object.isRequired,
+    uiSchema: PropTypes.object.isRequired,
     toggleRequiredField: PropTypes.func.isRequired,
     toggleShowDescription: PropTypes.func.isRequired,
     updatePropertyInFocus: PropTypes.func.isRequired,
     toggleIsInteger: PropTypes.func.isRequired,
+    updateColumn: PropTypes.func.isRequired,
     toggleAllowMultiple: PropTypes.func.isRequired,
     requiredFields: PropTypes.array,
+  }
+
+  state = {
+    selectedOption: '12',
   }
 
   constructor(props) {
@@ -85,6 +93,12 @@ class BuilderFieldSettings extends Component {
     }
   }
 
+  handleSpacingSelectOnChange = (selectedOption) => {
+    if (selectedOption !== this.props.uiSchema[this.props.currentFieldIdInFocus].column) {
+      this.props.updateColumn(this.props.currentFieldIdInFocus, selectedOption.value)
+    }
+  }
+
   render() {
     const isEmptyForm = isEmpty(this.props.fieldSchema.properties)
 
@@ -92,8 +106,8 @@ class BuilderFieldSettings extends Component {
 
     if (isEmptyForm || !this.props.currentFieldIdInFocus) {
       return (
-        <div className={this.props.className}>
-          add a field first
+        <div className="builder__field-settings--empty">
+          Select a field first
         </div>
       )
     } else {
@@ -104,6 +118,9 @@ class BuilderFieldSettings extends Component {
         <div className="builder__field-settings">
           <ul className="list-group">
             <div className="field-setting__item field-setting__item--select-container">
+              <div className="field-setting__select-label">
+                field options
+              </div>
               <Select
                 optionComponent={FieldSelectOption}
                 options={values(FIELD_OPTION_CONFIG)
@@ -131,6 +148,24 @@ class BuilderFieldSettings extends Component {
                 icons={false} />
             </div>
             { this.renderSettingsBaseOnFieldOption(field) }
+            <div className="field-setting__item field-setting__item--select-container">
+              <div className="field-setting__select-label">
+                Width percentage in one line
+              </div>
+              <Select
+                name="field-setting__width-percentage-select"
+                value={this.props.uiSchema[this.props.currentFieldIdInFocus].column}
+                onChange={this.handleSpacingSelectOnChange}
+                options={[
+                  { value: '12', label: '100%' },
+                  { value: '9', label: '75%' },
+                  { value: '8', label: '66%' },
+                  { value: '6', label: '50%' },
+                  { value: '4', label: '33%' },
+                  { value: '3', label: '25%' },
+                ]}
+              />
+            </div>
           </ul>
         </div>
       )
@@ -142,7 +177,8 @@ class BuilderFieldSettings extends Component {
 const mapState = (state) => ({
   currentFieldIdInFocus: getCurrentFieldIdInFocus(state),
   fieldSchema: getFormFieldSchema(state),
-  requiredFields: getRequiredFields(state)
+  requiredFields: getRequiredFields(state),
+  uiSchema: getFieldUiSchema(state)
 })
 
 const actions = {
@@ -150,7 +186,8 @@ const actions = {
   toggleRequiredField,
   toggleShowDescription,
   toggleIsInteger,
-  toggleAllowMultiple
+  toggleAllowMultiple,
+  updateColumn
 }
 
 

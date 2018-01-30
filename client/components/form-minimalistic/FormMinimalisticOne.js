@@ -53,8 +53,4 @@ class FormMinimalisticOne extends Component {
   }
 }
 
-FormMinimalisticOne.propTypes = {
-
-}
-
 export default FormMinimalisticOne

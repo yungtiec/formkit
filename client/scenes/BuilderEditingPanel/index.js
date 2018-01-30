@@ -16,6 +16,9 @@ import {
   updatePropertyInFocus
 } from '../../store'
 import {
+  getFieldUiSchema
+} from '../../store/form/ui/reducer'
+import {
   getFormFieldSchema,
   getLatestAddedFieldId
 } from '../../store/form/field/reducer'
@@ -45,6 +48,7 @@ class BuilderEditingPanel extends Component {
     updateFieldEnum: PropTypes.func.isRequired,
     addEnum: PropTypes.func.isRequired,
     fieldSchema: PropTypes.object,
+    formUiSchema: PropTypes.object,
     latestAddedFieldId: PropTypes.string
   }
 
@@ -101,7 +105,7 @@ class BuilderEditingPanel extends Component {
 
                 <TextInputField
                   title={formFields[fieldId].htmlEncodedTitle}
-                  description={formFields[fieldId].description}
+                  description={this.props.formUiSchema[fieldId].htmlEncodedDescription}
                   showDescription={formFields[fieldId].showDescription}
                   changeToolbarTab={this.props.changeToolbarTab}
                   updateFieldInFocus={this.props.updateFieldInFocus}
@@ -122,7 +126,7 @@ class BuilderEditingPanel extends Component {
                       updateFieldInFocus={this.props.updateFieldInFocus}
                       updateFieldEnum={this.props.updateFieldEnum}
                       fieldId={fieldId}
-                      fieldEnum={formFields[fieldId].enum || formFields[fieldId].items.enum}
+                      fieldEnum={formFields[fieldId].htmlEncodedEnum || formFields[fieldId].items.htmlEncodedEnum}
                       addEnum={this.props.addEnum}
                       currentFieldIdInFocus={this.props.currentFieldIdInFocus}
                       currentPropertyInFocus={this.props.currentPropertyInFocus}
@@ -142,6 +146,7 @@ class BuilderEditingPanel extends Component {
 
 const mapState = (state) => ({
   fieldSchema: getFormFieldSchema(state),
+  formUiSchema: getFieldUiSchema(state),
   latestAddedFieldId: getLatestAddedFieldId(state),
   currentFieldIdInFocus: getCurrentFieldIdInFocus(state),
   currentPropertyInFocus: getCurrentPropertyInFocus(state)

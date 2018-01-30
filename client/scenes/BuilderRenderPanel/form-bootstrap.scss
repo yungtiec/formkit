@@ -1,9 +1,14 @@
-.form__bootstrap-default p,
-.form__bootstrap-default .form-group fieldset legend {
+.form__default-bootstrap p,
+.form__default-bootstrap .form-group fieldset legend {
   padding-right: 15px;
   padding-left: 15px;
 }
 
-.form__bootstrap-default .form-group fieldset legend {
+.form__default-bootstrap .form-group fieldset legend {
   border-bottom: none;
+}
+
+.field__default-bootstrap p {
+  padding-right: 0;
+  padding-left: 0;
 }

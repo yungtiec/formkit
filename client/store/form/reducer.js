@@ -6,6 +6,8 @@ import validation from './validation/reducer'
 import { createSelector } from 'reselect'
 import { getFormField } from './field/reducer'
 import { getRequiredFields } from './validation/reducer'
+import { getFieldUiSchema } from './ui/reducer'
+import { values } from 'lodash'
 
 const initialState = {
   error: null,
@@ -72,4 +74,23 @@ export const getFormJsonSchema = createSelector(
     properties: field.schema.properties,
     required
   })
+)
+
+export const getFormUiSchema = createSelector(
+  getFormField,
+  getFieldUiSchema,
+  (field, uiSchema) => {
+    var reselectUiSchema = clone(uiSchema || {})
+    for (var fieldId in reselectUiSchema) {
+      if (!field.schema.properties[fieldId].showDescription &&
+        'ui:description' in reselectUiSchema[fieldId]) {
+        delete reselectUiSchema[fieldId]['ui:description']
+      }
+      reselectUiSchema[fieldId].classNames = values(reselectUiSchema[fieldId].classNameDict).join(' ')
+    }
+    return {
+      ...reselectUiSchema,
+      'ui:order': field.schema.order
+    }
+  }
 )

@@ -1,5 +1,6 @@
 import { XmlEntities } from 'html-entities'
 import sanitizeHtml from 'sanitize-html'
+import isHtml from 'is-html'
 
 const entities = new XmlEntities();
 
@@ -9,9 +10,5 @@ export const doesBrowserSupportSVG = function() {
 
 export const decodeAndSanitizeHtmlEntities = function(text) {
   var dirty = entities.decode(text)
-  var clean = sanitizeHtml(dirty, {
-    allowedTags: [],
-    allowedAttributes: []
-  })
-  return clean
+  return isHtml(dirty) ? sanitizeHtml(dirty) : dirty.replace(/&nbsp;/g, ' ')
 }
