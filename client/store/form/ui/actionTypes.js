@@ -1,1 +1,2 @@
 export const DESCRIPTION_UPDATED = 'form.ui.DESCRIPTION_UPDATED'
+export const COLUMN_UPDATED = 'form.ui.COLUMN_UPDATED'

@@ -2,7 +2,6 @@
   padding: 0.5rem;
   margin-bottom: 15px;
   width: 190px;
-  height: 42px;
 }
 
 .field-setting__item--select-container .Select {
@@ -34,4 +33,15 @@
 
 .field-setting__react-toggle.react-toggle--checked .react-toggle-track {
   background-color: #57AAED;
+}
+
+
+.builder__field-settings--empty {
+  width: 100%;
+  padding: 21px 31px;
+  font-size: 13px;
+}
+
+.field-setting__select-label {
+  margin-bottom: 10px;
 }

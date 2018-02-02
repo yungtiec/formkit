@@ -1,0 +1,12 @@
+.empty-panel__stripe-pattern {
+  height: 90%;
+  width: 86%;
+  margin: 0 auto;
+  background-image: repeating-linear-gradient(180deg, #fff, #fff 30px, #f2f4f8 30px, #f2f4f8 60px);
+}
+
+.builder__render-panel--empty h4 {
+  width: 86%;
+  margin: 0 auto;
+  margin-top: 20px;
+}

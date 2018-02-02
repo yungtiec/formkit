@@ -1,5 +1,7 @@
 import * as types from '../actionTypes';
 import * as uiTypes from './actionTypes'
+import * as fieldTypes from '../field/actionTypes'
+import { decodeAndSanitizeHtmlEntities } from '../../../utils'
 
 const initialState = {
   error: null,
@@ -38,9 +40,26 @@ function setSchema(state, data) {
 }
 
 function updateDescription(state, fieldId, description) {
-  state.schema[fieldId]['ui:description'] = description
+  state.schema[fieldId]['ui:description'] = decodeAndSanitizeHtmlEntities(description)
+  state.schema[fieldId].htmlEncodedDescription = description
   return { ...state }
 }
+
+function updateMultipleChoiceWidget(state, fieldId) {
+  if (state.schema[fieldId]['ui:widget'] === 'checkboxes') {
+    state.schema[fieldId]['ui:widget'] = 'radio'
+  } else {
+    state.schema[fieldId]['ui:widget'] = 'checkboxes'
+  }
+  return { ...state }
+}
+
+function updateColumn(state, fieldId, column) {
+  state.schema[fieldId].columnn = column
+  state.schema[fieldId].classNameDict.column = `col-lg-${column}`
+  return { ...state }
+}
+
 
 export default function form(state = initialState, action) {
   switch (action.type) {
@@ -58,10 +77,14 @@ export default function form(state = initialState, action) {
       return setSchema(clone(state), action.data);
     case uiTypes.DESCRIPTION_UPDATED:
       return updateDescription(clone(state), action.fieldId, action.description)
+    case uiTypes.COLUMN_UPDATED:
+      return updateColumn(clone(state), action.fieldId, action.column)
+    case fieldTypes.ALLOW_MULTIPLE_TOGGLED:
+      return updateMultipleChoiceWidget(clone(state), action.fieldId)
     default:
       return state;
   }
 }
 
-export const getFormUiSchema = state =>
+export const getFieldUiSchema = state =>
   state.form.ui.schema

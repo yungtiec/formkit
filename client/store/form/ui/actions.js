@@ -5,3 +5,9 @@ export const updateFieldDescription = (fieldId, description) => ({
   fieldId,
   description
 })
+
+export const updateColumn = (fieldId, column) => ({
+  type: types.COLUMN_UPDATED,
+  fieldId,
+  column
+})

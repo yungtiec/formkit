@@ -3,6 +3,7 @@ import React, {Component} from 'react'
 import autoBind from 'react-autobind';
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
+import {isEmpty} from 'lodash'
 import {Logo} from '../../components'
 import BuilderFieldOptions from './scenes/BuilderFieldOptions'
 import BuilderFieldSettings from './scenes/BuilderFieldSettings'
@@ -12,8 +13,7 @@ import {getRequiredFields} from '../../store/form/validation/reducer'
 import {
   getCurrentToolbarTab,
   getCurrentFieldIdInFocus
-}
-from '../../store/sidebar/reducer'
+} from '../../store/sidebar/reducer'
 import {
   addField,
   changeToolbarTab,
@@ -43,6 +43,7 @@ class Sidebar extends Component {
   }
 
   getToolbarTabDisplay() {
+
     switch (this.props.currentToolbarTab) {
       case 'fieldOptions':
         return <BuilderFieldOptions
@@ -52,15 +53,7 @@ class Sidebar extends Component {
           changeToolbarTab={this.props.changeToolbarTab}
           updateFieldInFocus={this.props.updateFieldInFocus} />
       case 'fieldSettings':
-        return <BuilderFieldSettings
-          className="builder__field-settings"
-          currentFieldIdInFocus={this.props.currentFieldIdInFocus}
-          fieldSchema={this.props.fieldSchema}
-          toggleRequiredField={this.props.toggleRequiredField}
-          toggleShowDescription={this.props.toggleShowDescription}
-          updatePropertyInFocus={this.props.updatePropertyInFocus}
-          requiredFields={this.props.requiredFields}
-        />
+        return <BuilderFieldSettings />
       case 'fieldLayout':
         return (<div></div>)
       case 'fieldStyling':
@@ -71,12 +64,15 @@ class Sidebar extends Component {
   }
 
   render() {
+    var isEmptyForm = isEmpty(this.props.fieldSchema.properties)
+
     return (
       <div className={this.props.className}>
         <Logo />
         <div className="builder__control-panel">
           <BuilderToolbar
             className="builder__toolbar"
+            isEmptyForm={isEmptyForm}
             changeToolbarTab={this.props.changeToolbarTab}
             currentToolbarTab={this.props.currentToolbarTab} />
           {this.getToolbarTabDisplay()}
@@ -90,7 +86,7 @@ const mapState = (state) => ({
   currentToolbarTab: getCurrentToolbarTab(state),
   currentFieldIdInFocus: getCurrentFieldIdInFocus(state),
   fieldSchema: getFormFieldSchema(state),
-  requiredFields: getRequiredFields(state)
+  requiredFields: getRequiredFields(state),
 })
 
 const actions = {

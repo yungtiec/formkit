@@ -23,7 +23,9 @@ export default class FieldOptionsContainer extends Component {
       <div className={this.props.className}>
         <ul className="list-group">
           {
-            _.values(FIELD_OPTION_CONFIG).map((fieldOption, index) =>
+            _.values(FIELD_OPTION_CONFIG)
+            .filter(fieldOption => fieldOption.default)
+            .map((fieldOption, index) =>
               (<DraggableFieldOption
                 key={index}
                 optionId={fieldOption.id}

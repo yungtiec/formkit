@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import EditableDiv from '../../components/EditableDiv'
 import {clone} from 'lodash'
 
-export default class TextInputField extends Component {
+export default class MultipleChoiceField extends Component {
   static propTypes = {
     changeToolbarTab: PropTypes.func.isRequired,
     updateFieldInFocus: PropTypes.func.isRequired,
@@ -26,7 +26,7 @@ export default class TextInputField extends Component {
 
   handleEnumUpdate(fieldId, newOptionValue, optionIndex) {
     var updatedFieldEnum = clone(this.props.fieldEnum)
-    updatedFieldEnum[optionIndex] = newOptionValue.trim();
+    updatedFieldEnum[optionIndex] = newOptionValue;
     this.props.updateFieldEnum(fieldId, updatedFieldEnum)
   }
 

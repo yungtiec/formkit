@@ -1,6 +1,8 @@
 import * as generalTypes from '../actionTypes';
 import * as fieldType from './actionTypes'
-import { keys } from 'lodash'
+import { keys, pick } from 'lodash'
+import FIELD_OPTION_CONFIG from '../../../constants/fieldOptionConfig'
+import { decodeAndSanitizeHtmlEntities } from '../../../utils'
 
 const initialState = {
   error: null,
@@ -8,18 +10,7 @@ const initialState = {
   description: '',
   type: 'object',
   schema: {
-    properties: {
-      // Q1: {
-      //   title:'test',
-      //   description:'',
-      //   traverseArray: ['title'],
-      //   showDescription: false,
-      //   fieldIcon: 'bars',
-      //   fieldOptionId: 'text',
-      //   type: 'string',
-      //   id: 'Q1'
-      // }
-    },
+    properties: {},
     order: [],
   },
   latestAddedFieldId: ''
@@ -55,10 +46,6 @@ function removeField(state, fieldId) {
   state.schema.order = state.schema.order.filter(
     field => field !== fieldId);
   return { ...state, error: null };
-}
-
-function updateField() {
-
 }
 
 function insertField(state, field, before, currentIndex) {
@@ -128,17 +115,60 @@ function updateShowDescription(state, fieldId) {
   return { ...state }
 }
 
-function updateTitle(state, fieldId, title) {
-  state.schema.properties[fieldId].title = title
+function updateIsInteger(state, fieldId) {
+  var isInteger, fieldOptionId
+  state.schema.properties[fieldId].isInteger = !state.schema.properties[fieldId].isInteger
+  isInteger = state.schema.properties[fieldId].isInteger
+  fieldOptionId = isInteger ? 'integer' : 'double'
+  state.schema.properties[fieldId].type = FIELD_OPTION_CONFIG[fieldOptionId].jsonSchema.type
+  state.schema.properties[fieldId].fieldOptionId = fieldOptionId
+  return { ...state }
+}
+
+function updateAllowMultiple(state, fieldId) {
+  var allowMultiple, fieldOptionId, updatedProperties, fieldEnum
+
+  fieldEnum = state.schema.properties[fieldId].allowMultiple ?
+    state.schema.properties[fieldId].items.enum :
+    state.schema.properties[fieldId].enum
+  state.schema.properties[fieldId].allowMultiple = !state.schema.properties[fieldId].allowMultiple
+  allowMultiple = state.schema.properties[fieldId].allowMultiple
+  fieldOptionId = allowMultiple ? 'multiple-checkbox' : 'radiobuttonlist'
+  updatedProperties = pick(state.schema.properties[fieldId], [
+    'id', 'title', 'description', 'showDescription', 'allowMultiple', 'traverseArray', 'fieldIcon'
+  ])
+  updatedProperties.fieldOptionId = fieldOptionId
+  if (allowMultiple) {
+    updatedProperties.type = 'array'
+    updatedProperties.items = {
+      type: 'string',
+      enum: fieldEnum
+    }
+    updatedProperties.uniqueItems = true
+  } else {
+    updatedProperties.type = 'string'
+    updatedProperties.enum = fieldEnum
+  }
+  state.schema.properties[fieldId] = updatedProperties
+  return { ...state }
+}
+
+function updateTitle(state, fieldId, htmlEncodedTitle) {
+  state.schema.properties[fieldId].htmlEncodedTitle = htmlEncodedTitle
+  state.schema.properties[fieldId].title = decodeAndSanitizeHtmlEntities(htmlEncodedTitle)
   return { ...state }
 }
 
 function updateEnum(state, fieldId, fieldEnum) {
   var updatedTraverseArray
   if ('enum' in state.schema.properties[fieldId]) {
-    state.schema.properties[fieldId].enum = fieldEnum
+    state.schema.properties[fieldId].htmlEncodedEnum = fieldEnum
+    state.schema.properties[fieldId].enum = fieldEnum.map(option =>
+      decodeAndSanitizeHtmlEntities(option))
   } else {
-    state.schema.properties[fieldId].items.enum = fieldEnum
+    state.schema.properties[fieldId].items.htmlEncodedEnum = fieldEnum
+    state.schema.properties[fieldId].items.enum = fieldEnum.map(option =>
+      decodeAndSanitizeHtmlEntities(option))
   }
   updatedTraverseArray = updateFieldTraversalArray(state, fieldId, 'enum', fieldEnum)
   state.schema.properties[fieldId].traverseArray = updatedTraverseArray
@@ -149,8 +179,11 @@ function addEnum(state, fieldId, updatedEnumArray) {
   var updatedTraverseArray
   if ('enum' in state.schema.properties[fieldId]) {
     state.schema.properties[fieldId].enum = updatedEnumArray
+    state.schema.properties[fieldId].htmlEncodedEnum = updatedEnumArray.map(option =>
+      decodeAndSanitizeHtmlEntities(option))
   } else {
-    state.schema.properties[fieldId].items.enum = updatedEnumArray
+    state.schema.properties[fieldId].items.htmlEncodedEnum = updatedEnumArray.map(option =>
+      decodeAndSanitizeHtmlEntities(option))
   }
   updatedTraverseArray = updateFieldTraversalArray(state, fieldId, 'enum', updatedEnumArray)
   state.schema.properties[fieldId].traverseArray = updatedTraverseArray
@@ -174,6 +207,10 @@ export default function form(state = initialState, action) {
       return setSchema(clone(state), action.data);
     case fieldType.SHOW_DESCRIPTION_TOGGLED:
       return updateShowDescription(clone(state), action.fieldId)
+    case fieldType.IS_INTEGER_TOGGLED:
+      return updateIsInteger(clone(state), action.fieldId)
+    case fieldType.ALLOW_MULTIPLE_TOGGLED:
+      return updateAllowMultiple(clone(state), action.fieldId)
     case fieldType.TITLE_UPDATED:
       return updateTitle(clone(state), action.fieldId, action.title)
     case fieldType.ENUM_ADDED:

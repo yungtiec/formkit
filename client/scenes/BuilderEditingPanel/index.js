@@ -16,6 +16,9 @@ import {
   updatePropertyInFocus
 } from '../../store'
 import {
+  getFieldUiSchema
+} from '../../store/form/ui/reducer'
+import {
   getFormFieldSchema,
   getLatestAddedFieldId
 } from '../../store/form/field/reducer'
@@ -45,6 +48,7 @@ class BuilderEditingPanel extends Component {
     updateFieldEnum: PropTypes.func.isRequired,
     addEnum: PropTypes.func.isRequired,
     fieldSchema: PropTypes.object,
+    formUiSchema: PropTypes.object,
     latestAddedFieldId: PropTypes.string
   }
 
@@ -100,8 +104,8 @@ class BuilderEditingPanel extends Component {
                 handleFieldOnClick={this.handleFieldOnClick}>
 
                 <TextInputField
-                  title={formFields[fieldId].title}
-                  description={formFields[fieldId].description}
+                  title={formFields[fieldId].htmlEncodedTitle}
+                  description={this.props.formUiSchema[fieldId].htmlEncodedDescription}
                   showDescription={formFields[fieldId].showDescription}
                   changeToolbarTab={this.props.changeToolbarTab}
                   updateFieldInFocus={this.props.updateFieldInFocus}
@@ -114,14 +118,15 @@ class BuilderEditingPanel extends Component {
                   traverseArray={formFields[fieldId].traverseArray}
                   fieldOrder={this.props.fieldSchema.order} />
                 {
-                  (formFields[fieldId].fieldOptionId === 'multiple-choice' ||
-                  formFields[fieldId].fieldOptionId === 'select') ?
+                  (formFields[fieldId].fieldOptionId === 'multiple-checkbox' ||
+                  formFields[fieldId].fieldOptionId === 'select' ||
+                  formFields[fieldId].fieldOptionId === 'radiobuttonlist') ?
                     <MultipleChoiceField
                       changeToolbarTab={this.props.changeToolbarTab}
                       updateFieldInFocus={this.props.updateFieldInFocus}
                       updateFieldEnum={this.props.updateFieldEnum}
                       fieldId={fieldId}
-                      fieldEnum={formFields[fieldId].enum || formFields[fieldId].items.enum}
+                      fieldEnum={formFields[fieldId].htmlEncodedEnum || formFields[fieldId].items.htmlEncodedEnum}
                       addEnum={this.props.addEnum}
                       currentFieldIdInFocus={this.props.currentFieldIdInFocus}
                       currentPropertyInFocus={this.props.currentPropertyInFocus}
@@ -141,6 +146,7 @@ class BuilderEditingPanel extends Component {
 
 const mapState = (state) => ({
   fieldSchema: getFormFieldSchema(state),
+  formUiSchema: getFieldUiSchema(state),
   latestAddedFieldId: getLatestAddedFieldId(state),
   currentFieldIdInFocus: getCurrentFieldIdInFocus(state),
   currentPropertyInFocus: getCurrentPropertyInFocus(state)

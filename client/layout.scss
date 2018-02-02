@@ -17,8 +17,10 @@ body,
 }
 
 .form-builder__sidebar {
-  -ms-flex-preferred-size: 200px;
-  flex-basis: 350px;
+  -ms-flex-preferred-size: 300px;
+  flex-basis: 300px;
+  width: 300px;
+  min-width: 300px;
 }
 
 .form-builder__container {
@@ -41,7 +43,7 @@ body,
 
 .form-builder__nav {
   min-height: 50px;
-  border-bottom: 1.5px solid #F2F4F8;
+  border-bottom: 1px solid #F2F4F8;
 }
 
 .form-builder__content {
@@ -57,16 +59,33 @@ body,
 }
 
 .builder__editing-panel {
-  -webkit-box-flex: 4;
-  -ms-flex-positive: 4;
-  flex-grow: 4;
-  max-width: 400px;
-  width: 400px;
+  max-width: 35%;
+  width: 35%;
+  overflow: auto;
 }
 
 .builder__render-panel {
-  -webkit-box-flex: 6;
-  -ms-flex-positive: 6;
-  flex-grow: 6;
-  border-left: 1.5px solid #F2F4F8;
+  -webkit-box-flex: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  border-left: 1px solid #F2F4F8;
+  padding: 15px;
+  max-width: 65%;
+  width: 65%;
+  overflow: auto;
+}
+
+::-webkit-scrollbar {
+  height: 12px;
+  width: 12px;
+  background: #F2F4F8;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #dcdee0;
+  -webkit-border-radius: 2px;
+}
+
+::-webkit-scrollbar-corner {
+  background: #F2F4F8;
 }

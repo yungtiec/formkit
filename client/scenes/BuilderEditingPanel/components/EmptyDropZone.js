@@ -1,11 +1,8 @@
+import './EmptyDropZone.scss'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { DropTarget } from 'react-dnd'
-
-const style = {
-  height: '100vh',
-  width: '100%',
-}
+import { doesBrowserSupportSVG } from '../../../utils'
 
 const boxTarget = {
   drop(props) {
@@ -29,9 +26,22 @@ export default class EmptyDropZone extends Component {
     const { canDrop, isOver, connectDropTarget } = this.props
     const isActive = canDrop && isOver
 
+    var placeholderSource = './assets/paint-roller.svg'
+
+    if (!doesBrowserSupportSVG()) {
+      placeholderSource = './assets/paint-roller.png'
+    }
+
     return connectDropTarget(
-      <div style={style}>
-      </div>,
+      <div className="editing-panel__empty-drop-zone">
+        <div className="empty-drop-zone__placeholder-container">
+          <h4>Drag and drop a field here</h4>
+          <img
+            height="120px"
+            className="logo__large"
+            src={placeholderSource} />
+        </div>
+      </div>
     )
   }
 }
