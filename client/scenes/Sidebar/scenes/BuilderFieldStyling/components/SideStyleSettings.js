@@ -26,7 +26,7 @@ export default class SideStyleSettings extends Component {
     } = this.props
 
     return (
-      <div className="field-subsetting__item">
+      <div className="field-subsetting__item d-flex flex-row align-baseline space-between">
         <p>
           <input
             onChange={handleSideChecked}
@@ -37,7 +37,7 @@ export default class SideStyleSettings extends Component {
           />
           {side}
         </p>
-        <div className="field-setting__width-input-container">
+        <div className="field-setting__width-input-container d-flex flex-row space-between">
           <input
             type="number"
             className="field-setting__width-input"

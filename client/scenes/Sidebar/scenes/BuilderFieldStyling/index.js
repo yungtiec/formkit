@@ -4,8 +4,8 @@ import Select from 'react-select';
 import autoBind from 'react-autobind';
 import PropTypes from 'prop-types'
 import { isEmpty } from 'lodash'
-import LabelBorderStyleSettings from './components/LabelBorderStyleSettings'
-import LabelPaddingStyleSettings from './components/LabelPaddingStyleSettings'
+import LabelSettings from './scenes/LabelSettings'
+import FieldSettings from './scenes/FieldSettings'
 import { getFormFieldSchema } from '../../../../store/form/field/reducer'
 import { getCurrentFieldIdInFocus } from '../../../../store/sidebar/reducer'
 import { getFieldUiSchema, getFormCssSchema } from '../../../../store/form/ui/reducer'
@@ -14,7 +14,7 @@ import {
   toggleCssPropertyToWhichSide,
   updateSideSelect
 } from '../../../../store'
-import { keys, range } from 'lodash'
+import { range } from 'lodash'
 
 class BuilderFieldStyling extends Component {
   static propTypes = {
@@ -50,47 +50,41 @@ class BuilderFieldStyling extends Component {
     }
   }
 
-  handleLabelBorderSideSelect(selectedOptions) {
-    this.props.updateSideSelect('LABEL_BORDER', selectedOptions.map(s => s.value))
-  }
-
-  getLabelBorderSelect(property) {
-    return keys(this.props.cssSchema[property].applyTo)
-      .filter(side =>
-        this.props.cssSchema[property].applyTo[side] && side !== 'all')
-      .map(side => ({value: side, label: side}))
-  }
-
-  handleLabelBorderWidthOnChange(e, side) {
-    if (e.target.value !== this.props.cssSchema.labelBorder[side].width.value) {
-      this.props.updateCss(`LABEL_BORDER_WIDTH_${side.toUpperCase()}`, e.target.value)
+  // field - color
+  handleFieldBorderColorInputOnChange(e) {
+    if (e.target.value !== this.props.cssSchema.fieldBorderColor.value) {
+      this.props.updateCss('FIELD_BORDER_COLOR', e.target.value)
     }
   }
 
-  handleLabelBorderRadiusOnChange(e) {
-    if (e.target.value !== this.props.cssSchema.labelBorderRadius.value) {
-      this.props.updateCss('LABEL_BORDER_RADIUS', e.target.value)
+  handleFieldBorderColorPickerOnChange(color, e) {
+    if (color.hex !== this.props.cssSchema.fieldBorderColor.value) {
+      this.props.updateCss('FIELD_BORDER_COLOR', color.hex)
     }
   }
 
-  handleLabelBorderStyleSelect(selectedOption) {
-    if (selectedOption.value !== this.props.cssSchema.labelBorderStyle.value) {
-      this.props.updateCss('LABEL_BORDER_STYLE', selectedOption.value )
+  handleFieldColorInputOnChange(e) {
+    if (e.target.value !== this.props.cssSchema.fieldColor.value) {
+      this.props.updateCss('FIELD_COLOR', e.target.value)
     }
   }
 
-  handleLabelPaddingApplyToAll() {
-    this.props.toggleCssPropertyToWhichSide('LABEL_PADDING', 'APPLY_TO_ALL')
-  }
-
-  handleLabelPaddingSizeOnChange(e, side) {
-    if (e.target.value !== this.props.cssSchema.labelPadding[side].width.value) {
-      this.props.updateCss(`LABEL_PADDING_SIZE_${side.toUpperCase()}`, e.target.value)
+  handleFieldColorPickerOnChange(color, e) {
+    if (color.hex !== this.props.cssSchema.fieldColor.value) {
+      this.props.updateCss('FIELD_COLOR', color.hex)
     }
   }
 
-  handleLabelPaddingSideSelect(selectedOptions) {
-    this.props.updateSideSelect('LABEL_PADDING', selectedOptions.map(s => s.value))
+  handleFieldBackgroundColorInputOnChange(e) {
+    if (e.target.value !== this.props.cssSchema.fieldBackgroundColor.value) {
+      this.props.updateCss('FIELD_BACKGROUND_COLOR', e.target.value)
+    }
+  }
+
+  handleFieldBackgroundColorPickerOnChange(color, e) {
+    if (color.hex !== this.props.cssSchema.fieldBackgroundColor.value) {
+      this.props.updateCss('FIELD_BACKGROUND_COLOR', color.hex)
+    }
   }
 
   render() {
@@ -106,56 +100,9 @@ class BuilderFieldStyling extends Component {
         <div className="builder__field-settings">
           <ul className="list-group">
             <div className="field-setting__group-label">
-                Label
-            </div>
-            <div className="field-setting__item field-setting__item--select-container-inline">
-              <div className="field-setting__select-label">
-                alignment
-              </div>
-              <Select
-                name="field-setting__label-alignment-select"
-                value={this.props.cssSchema.labelAlignment.value}
-                onChange={this.handleLabelSelectOnChange}
-                clearable={false}
-                options={[
-                  { value: 'top', label: 'top' },
-                  { value: 'left', label: 'left' },
-                  { value: 'right', label: 'right' }
-                ]}
-              />
-            </div>
-            <div className="field-setting__item field-setting__item--select-container-inline">
-              <div className="field-setting__select-label">
-                width
-              </div>
-              <div className="field-setting__label-width-input-container">
-                <input
-                  type="number"
-                  className="field-setting__label-width-input"
-                  value={this.props.cssSchema.labelMinWidth.value.replace('px', '')}
-                  onChange={this.handleMinWidthOnChange}
-                />
-                <p>px</p>
-              </div>
-            </div>
-            <LabelBorderStyleSettings
-              labelBorderSchema={this.props.cssSchema.labelBorder}
-              labelBorderStyle={this.props.cssSchema.labelBorderStyle.value}
-              labelBorderRadius={this.props.cssSchema.labelBorderRadius.value.replace('px', '')}
-              handleLabelBorderWidthOnChange={this.handleLabelBorderWidthOnChange}
-              handleLabelBorderStyleSelect={this.handleLabelBorderStyleSelect}
-              handleLabelBorderRadiusOnChange={this.handleLabelBorderRadiusOnChange}
-              toggleCssPropertyToWhichSide={this.props.toggleCssPropertyToWhichSide}
-            />
-            <LabelPaddingStyleSettings
-              labelPaddingSchema={this.props.cssSchema.labelPadding}
-              toggleCssPropertyToWhichSide={this.props.toggleCssPropertyToWhichSide}
-              handleLabelPaddingSizeOnChange={this.handleLabelPaddingSizeOnChange}
-            />
-            <div className="field-setting__group-label">
               font
             </div>
-            <div className="field-setting__item field-setting__item--select-container-inline">
+            <div className="field-setting__item d-flex flex-row space-between">
               <div className="field-setting__select-label">
                 font size
               </div>
@@ -167,6 +114,8 @@ class BuilderFieldStyling extends Component {
                 options={range(21).map(num => ({value: num + 10, label: `${num + 10}px`}))}
               />
             </div>
+            <LabelSettings />
+            <FieldSettings />
           </ul>
         </div>
       )

@@ -61,33 +61,10 @@ export default class FormStylist extends Component {
               })
             }
           }
-
-          // if ('suffixes' in cssSchema[item]) {
-          //   for (var suffix in cssSchema[item].suffixes) {
-          //     cssPrefixes.forEach(prefix => {
-          //       elements.forEach(el => {
-          //         el.style[`${prefix}-${suffix}`] = cssSchema[item].suffixes[suffix].value
-          //       })
-          //     })
-          //     cssPrefixesForCleanup.forEach(prefix => {
-          //       elements.forEach(el => {
-          //         el.style[`${prefix}-width`] = '0px'
-          //       })
-          //     })
-          //   }
-          // } else {
-          //   cssPrefixes.forEach(prefix => {
-          //     elements.forEach(el => {
-          //       el.style[prefix] = cssSchema[item].value
-          //     })
-          //   })
-          //   cssPrefixesForCleanup.forEach(prefix => {
-          //     elements.forEach(el => {
-          //       el.style[prefix] = '0px'
-          //     })
-          //   })
-          // }
         } else {
+          if (item === 'labelBorderColor') {
+            console.log(cssSchema[item].cssProperty, cssSchema[item])
+          }
           elements.forEach(el => {
             el.style[cssSchema[item].cssProperty] = cssSchema[item].value
           })

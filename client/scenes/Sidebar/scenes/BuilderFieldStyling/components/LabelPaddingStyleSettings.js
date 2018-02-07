@@ -84,8 +84,8 @@ export default class LabelPaddingStyleSettings extends Component {
     }
 
     return (
-      <div className="field-setting__item field-setting__item--group-input">
-        <div className="field-setting__item--border-apply-to-all">
+      <div className="field-setting__item d-flex flex-column align-flex-end">
+        <div className="field-setting__item-apply-to-all d-flex space-between">
           <p>padding</p>
           <div>
             <input
@@ -100,10 +100,10 @@ export default class LabelPaddingStyleSettings extends Component {
         </div>
         {
           labelPaddingSchema.applyTo.all && (
-            <div className="field-subsetting__item">
+            <div className="field-subsetting__item d-flex flex-row align-baseline space-between">
               <p><i className="fa fa-caret-right"></i>
-              width</p>
-              <div className="field-setting__width-input-container">
+              size</p>
+              <div className="field-setting__width-input-container  d-flex flex-row space-between">
                 <input
                   type="number"
                   className="field-setting__width-input"
