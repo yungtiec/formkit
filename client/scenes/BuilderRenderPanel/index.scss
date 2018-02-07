@@ -1,0 +1,115 @@
+.inline-checkboxes .radio+.radio,
+.inline-checkboxes .checkbox+.checkbox {
+  margin-top: 0px !important;
+}
+
+.inline-checkboxes .checkboxes,
+.inline-checkboxes .field-radio-group {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+// font-size
+.form-group .form-control {
+  font-size: inherit;
+}
+
+// label alignment
+.form-group.flex-row .control-label {
+  padding-right: 10px;
+  margin-bottom: 0px;
+  min-width: 62px;
+  word-wrap: break-word;
+}
+
+.form-group.flex-row.control-label--right-align .control-label{
+  text-align: right;
+}
+
+.form-group .checkboxes .checkbox label span span,
+.form-group .field-radio-group .radio label span span {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin-left: -20px;
+  height: 36px;
+  margin-right: 20px;
+}
+
+// checkboxes and radio
+.form-group .checkboxes .checkbox label span span:before,
+.form-group .field-radio-group .radio label span span:before {
+  content: "";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  margin-right: 10px;
+  border: 1px solid #555;
+  border-radius: 3px;
+  background-color: #fff;
+  -webkit-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+  -o-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+  transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+}
+
+.form-group .checkboxes .checkbox label span span:after,
+.form-group .field-radio-group .radio label span span:after {
+  display: inline-block;
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  left: -1px;
+  top: 10px;
+  padding-left: 3px;
+  padding-top: 1px;
+  font-size: 10px;
+  color: #555555;
+}
+
+.form-group .checkboxes .checkbox input[type="checkbox"]:checked+span:after,
+.form-group .field-radio-group .radio input[type="radio"]:checked+span:after {
+  font-family: "FontAwesome";
+  content: "\f00c";
+}
+
+.form-group .field-radio-group .radio input[type="radio"],
+.form-group .field-radio-group .radio-inline input[type="radio"],
+.form-group .checkboxes .checkbox input[type="checkbox"],
+.form-group .checkboxes .checkbox-inline input[type="checkbox"] {
+  opacity: 0;
+  z-index: 1;
+  width: 20px;
+  height: 20px;
+}
+
+.form-group .field-radio-group .radio label span span:before {
+  border-radius: 50%;
+}
+
+.form-group .checkboxes,
+.form-group .field-radio-group {
+  width: 100%;
+}
+
+.form-group .checkboxes .checkbox,
+.form-group .field-radio-group .radio {
+  margin: 0;
+}
+
+// no box shadow
+.form-control {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+// description
+.help-block {
+  position: absolute;
+}

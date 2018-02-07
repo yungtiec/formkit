@@ -82,25 +82,62 @@ function updateFieldTraversalArray(state, fieldId, fieldProperty, fieldEnum) {
     .schema.properties[fieldId].traverseArray
   var hasDescription = state
     .schema.properties[fieldId].showDescription
+  var hasPlaceholder = state
+    .schema.properties[fieldId].showPlaceholder
   var updatedTraverseArray
   if (fieldProperty === 'description') {
-    updatedTraverseArray = toggleDescriptionInFieldTraversalArray(
-      hasDescription, clone(traverseArray))
-
+    updatedTraverseArray = toggleDescriptionInFieldTraversalArray({
+      hasDescription,
+      traverseArray: clone(traverseArray)
+    })
+  } else if (fieldProperty === 'placeholder') {
+    updatedTraverseArray = togglePlaceholderInFieldTraversalArray({
+      hasDescription,
+      hasPlaceholder,
+      traverseArray: clone(traverseArray)
+    })
   } else if (fieldProperty === 'enum') {
-    updatedTraverseArray = updateEnumInFieldTraversalArray(hasDescription, clone(traverseArray), fieldEnum)
+    updatedTraverseArray = updateEnumInFieldTraversalArray({
+      hasDescription,
+      traverseArray: clone(traverseArray),
+      fieldEnum
+    })
   }
   return updatedTraverseArray
 }
 
-function toggleDescriptionInFieldTraversalArray(hasDescription, traverseArray) {
+function toggleDescriptionInFieldTraversalArray({
+  hasDescription,
+  traverseArray
+}) {
   hasDescription ?
     traverseArray.splice(1, 0, 'description') :
     traverseArray.splice(1, 1)
   return traverseArray
 }
 
-function updateEnumInFieldTraversalArray(hasDescription, traverseArray, fieldEnum) {
+function togglePlaceholderInFieldTraversalArray({
+  hasDescription,
+  hasPlaceholder,
+  traverseArray
+}) {
+  if (hasPlaceholder && !hasDescription) {
+    traverseArray.splice(1, 0, 'placeholder')
+  } else if (!hasPlaceholder && !hasDescription) {
+    traverseArray.splice(1, 1)
+  } else if (hasPlaceholder && hasDescription) {
+    traverseArray.splice(2, 0, 'placeholder')
+  } else if (!hasPlaceholder && hasDescription) {
+    traverseArray.splice(2, 1)
+  }
+  return traverseArray
+}
+
+function updateEnumInFieldTraversalArray({
+  hasDescription,
+  traverseArray,
+  fieldEnum
+}) {
   return hasDescription ?
     traverseArray.slice(0, 2).concat(keys(fieldEnum)) :
     traverseArray.slice(0, 1).concat(keys(fieldEnum))
@@ -111,6 +148,14 @@ function updateShowDescription(state, fieldId) {
   var updatedTraverseArray
   state.schema.properties[fieldId].showDescription = !state.schema.properties[fieldId].showDescription
   updatedTraverseArray = updateFieldTraversalArray(state, fieldId, 'description')
+  state.schema.properties[fieldId].traverseArray = updatedTraverseArray
+  return { ...state }
+}
+
+function updateShowPlaceholder(state, fieldId) {
+  var updatedTraverseArray
+  state.schema.properties[fieldId].showPlaceholder = !state.schema.properties[fieldId].showPlaceholder
+  updatedTraverseArray = updateFieldTraversalArray(state, fieldId, 'placeholder')
   state.schema.properties[fieldId].traverseArray = updatedTraverseArray
   return { ...state }
 }
@@ -126,28 +171,32 @@ function updateIsInteger(state, fieldId) {
 }
 
 function updateAllowMultiple(state, fieldId) {
-  var allowMultiple, fieldOptionId, updatedProperties, fieldEnum
-
+  var allowMultiple, fieldOptionId, updatedProperties, fieldEnum, htmlEncodedEnum
   fieldEnum = state.schema.properties[fieldId].allowMultiple ?
     state.schema.properties[fieldId].items.enum :
     state.schema.properties[fieldId].enum
+  htmlEncodedEnum = state.schema.properties[fieldId].allowMultiple ?
+    state.schema.properties[fieldId].items.htmlEncodedEnum :
+    state.schema.properties[fieldId].htmlEncodedEnum
   state.schema.properties[fieldId].allowMultiple = !state.schema.properties[fieldId].allowMultiple
   allowMultiple = state.schema.properties[fieldId].allowMultiple
   fieldOptionId = allowMultiple ? 'multiple-checkbox' : 'radiobuttonlist'
   updatedProperties = pick(state.schema.properties[fieldId], [
-    'id', 'title', 'description', 'showDescription', 'allowMultiple', 'traverseArray', 'fieldIcon'
+    'id', 'title', 'htmlEncodedTitle', 'description', 'showDescription', 'allowMultiple', 'traverseArray', 'fieldIcon'
   ])
   updatedProperties.fieldOptionId = fieldOptionId
   if (allowMultiple) {
     updatedProperties.type = 'array'
     updatedProperties.items = {
       type: 'string',
-      enum: fieldEnum
+      enum: fieldEnum,
+      htmlEncodedEnum
     }
     updatedProperties.uniqueItems = true
   } else {
     updatedProperties.type = 'string'
     updatedProperties.enum = fieldEnum
+    updatedProperties.htmlEncodedEnum = htmlEncodedEnum
   }
   state.schema.properties[fieldId] = updatedProperties
   return { ...state }
@@ -207,6 +256,8 @@ export default function form(state = initialState, action) {
       return setSchema(clone(state), action.data);
     case fieldType.SHOW_DESCRIPTION_TOGGLED:
       return updateShowDescription(clone(state), action.fieldId)
+    case fieldType.SHOW_PLACEHOLDER_TOGGLED:
+      return updateShowPlaceholder(clone(state), action.fieldId)
     case fieldType.IS_INTEGER_TOGGLED:
       return updateIsInteger(clone(state), action.fieldId)
     case fieldType.ALLOW_MULTIPLE_TOGGLED:

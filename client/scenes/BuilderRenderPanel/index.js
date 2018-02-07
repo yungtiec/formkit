@@ -1,11 +1,17 @@
 import './form-bootstrap.scss'
+import './index.scss'
 import React, {Component} from 'react'
 import autoBind from 'react-autobind';
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import EmptyRenderPanel from './components/EmptyRenderPanel'
-import { getFormJsonSchema } from '../../store/form/reducer'
-import { getFormUiSchema } from '../../store/form/reducer'
+import FormStylist from './components/FormStylist'
+import {
+  getFormJsonSchema,
+  getFormUiSchema
+} from '../../store/form/reducer'
+import { getFormCssSchema } from '../../store/form/ui/reducer'
+
 import Form from 'react-jsonschema-form';
 import { isEmpty } from 'lodash'
 
@@ -20,20 +26,25 @@ class BuilderRenderPanel extends Component {
   constructor(props) {
     super(props)
     autoBind(this)
+
   }
 
   render () {
-    const {jsonSchema, uiSchema} = this.props
+    const {jsonSchema, uiSchema, cssSchema} = this.props
 
     if (isEmpty(jsonSchema.properties)) return <EmptyRenderPanel />
+
     return (
       <div className="builder__render-panel">
-        <Form schema={jsonSchema}
-          uiSchema={uiSchema}
-          className="form form__default-bootstrap"
-          onChange={log('changed')}
-          onSubmit={log('submitted')}
-          onError={log('errors')} />
+        <FormStylist cssSchema={cssSchema}>
+          <Form schema={jsonSchema}
+            uiSchema={uiSchema}
+            className="form form__default-bootstrap"
+            onChange={log('changed')}
+            onSubmit={log('submitted')}
+            onError={log('errors')} />
+        </FormStylist>
+
       </div>)
   }
 }
@@ -41,7 +52,8 @@ class BuilderRenderPanel extends Component {
 
 const mapState = (state) => ({
   jsonSchema: getFormJsonSchema(state),
-  uiSchema: getFormUiSchema(state)
+  uiSchema: getFormUiSchema(state),
+  cssSchema: getFormCssSchema(state)
 })
 
 const actions = {}

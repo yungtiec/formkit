@@ -72,21 +72,6 @@ export default class BuilderToolbar extends Component {
           <span>Modify field settings</span>
         </ReactTooltip>
         <div
-          ref="fieldLayout"
-          data-tip data-for="toolbar_field-layout"
-          onClick={() => this.props.changeToolbarTab('fieldLayout')}
-          className="builder__toolbar-option">
-          <FontAwesome
-            style={this.getIconColor('fieldLayout')}
-            className=""
-            name="th-list"
-            size="lg"
-          />
-        </div>
-        <ReactTooltip id="toolbar_field-layout" type="info" effect="solid">
-          <span>Adjust form layout</span>
-        </ReactTooltip>
-        <div
           ref="fieldStyling"
           data-tip data-for="toolbar_field-styling"
           onClick={() => this.props.changeToolbarTab('fieldStyling')}
@@ -99,7 +84,7 @@ export default class BuilderToolbar extends Component {
           />
         </div>
         <ReactTooltip id="toolbar_field-styling" type="info" effect="solid">
-          <span>Styling</span>
+          <span>Theme and style</span>
         </ReactTooltip>
       </div>)
   }

@@ -6,6 +6,11 @@ export const toggleShowDescription = fieldId => ({
   fieldId
 })
 
+export const toggleShowPlaceholder = fieldId => ({
+  type: types.SHOW_PLACEHOLDER_TOGGLED,
+  fieldId
+})
+
 export const updateFieldTitle = (fieldId, title) => ({
   type: types.TITLE_UPDATED,
   fieldId,

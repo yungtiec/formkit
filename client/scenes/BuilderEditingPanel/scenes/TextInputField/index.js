@@ -10,11 +10,14 @@ export default class TextInputField extends Component {
     updateFieldInFocus: PropTypes.func.isRequired,
     updateFieldTitle: PropTypes.func.isRequired,
     updateFieldDescription: PropTypes.func.isRequired,
+    updateFieldPlaceholder: PropTypes.func.isRequired,
     updatePropertyInFocus: PropTypes.func.isRequired,
     fieldId: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     description: PropTypes.string,
+    placeholder: PropTypes.string,
     showDescription: PropTypes.bool.isRequired,
+    showPlaceholder: PropTypes.bool,
     currentFieldIdInFocus: PropTypes.string,
     currentPropertyInFocus: PropTypes.string,
     traverseArray: PropTypes.array.isRequired,
@@ -104,6 +107,24 @@ export default class TextInputField extends Component {
             updateFieldInFocus={this.props.updateFieldInFocus}
             updatePropertyInFocus={this.props.updatePropertyInFocus}
             updateProperty={this.props.updateFieldDescription}
+            fieldId={this.props.fieldId}
+            currentFieldIdInFocus={this.props.currentFieldIdInFocus}
+            currentPropertyInFocus={this.props.currentPropertyInFocus}
+            traverseArray={this.props.traverseArray}
+            fieldOrder={this.props.fieldOrder}
+          /> : ''
+        }
+        {
+          this.props.showPlaceholder ?
+          <EditableDiv
+            className="draggable-field__description-input"
+            property="placeholder"
+            propertyLabel="Type the placeholder here"
+            propertyValue={this.props.placeholder}
+            changeToolbarTab={this.props.changeToolbarTab}
+            updateFieldInFocus={this.props.updateFieldInFocus}
+            updatePropertyInFocus={this.props.updatePropertyInFocus}
+            updateProperty={this.props.updateFieldPlaceholder}
             fieldId={this.props.fieldId}
             currentFieldIdInFocus={this.props.currentFieldIdInFocus}
             currentPropertyInFocus={this.props.currentPropertyInFocus}
