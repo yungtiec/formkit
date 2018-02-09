@@ -1,13 +1,14 @@
 export default {
   double: {
     id: "double",
-    icon: "circle-o",
+    icon: "hashtag",
     label: "Number",
     jsonSchema: {
       type: "number",
       title: "test",
       htmlEncodedTitle: "test",
       showDescription: false,
+      showPlaceholder: false,
       isInteger: false,
       description: "",
       traverseArray: ['title']
@@ -15,22 +16,25 @@ export default {
     uiSchema: {
       classNameDict: {
         column: "col-lg-12",
-        theme: "field__default-bootstrap"
+        theme: "field__default-bootstrap",
+        fieldBoxShadow: "field--box-shadow"
       },
-      column: "12"
+      column: "12",
+      labelAlignment: "top"
     },
     formData: {},
     default: false
   },
   integer: {
     id: "integer",
-    icon: "clone",
+    icon: "hashtag",
     label: "Number",
     jsonSchema: {
       type: "integer",
       title: "test",
       htmlEncodedTitle: "test",
       showDescription: false,
+      showPlaceholder: false,
       isInteger: true,
       description: "",
       traverseArray: ['title']
@@ -38,9 +42,11 @@ export default {
     uiSchema: {
       classNameDict: {
         column: "col-lg-12",
-        theme: "field__default-bootstrap"
+        theme: "field__default-bootstrap",
+        fieldBoxShadow: "field--box-shadow"
       },
       column: "12",
+      labelAlignment: "top",
       "ui:widget": "updown"
     },
     formData: {},
@@ -55,14 +61,17 @@ export default {
       title: "test",
       htmlEncodedTitle: "test",
       showDescription: false,
+      showPlaceholder: false,
       description: "",
       traverseArray: ['title']
     },
     uiSchema: {
       classNameDict: {
         column: "col-lg-12",
-        theme: "field__default-bootstrap"
+        theme: "field__default-bootstrap",
+        fieldBoxShadow: "field--box-shadow"
       },
+      labelAlignment: "top",
       column: "12",
     },
     formData: {},
@@ -77,15 +86,21 @@ export default {
       title: "test",
       htmlEncodedTitle: "test",
       showDescription: false,
+      showPlaceholder: false,
       description: "",
       traverseArray: ['title']
     },
     uiSchema: {
       "ui:widget": "textarea",
+      "ui:options": {
+        rows: 5
+      },
       classNameDict: {
         column: "col-lg-12",
-        theme: "field__default-bootstrap"
+        theme: "field__default-bootstrap",
+        fieldBoxShadow: "field--box-shadow"
       },
+      labelAlignment: "top",
       column: "12",
     },
     formData: {},
@@ -102,19 +117,23 @@ export default {
       showDescription: false,
       items: {
         type: "string",
-        htmlEncodedEnum: ["option 1"],
-        enum: ["option 1"],
+        htmlEncodedEnum: ["option 1", "option 2", "option 3"],
+        enum: ["option 1", "option 2", "option 3"],
       },
       allowMultiple: true,
       uniqueItems: true,
-      traverseArray: ['title', '0']
+      traverseArray: ['title', '0', '1', '2']
     },
     uiSchema: {
       "ui:widget": "checkboxes",
       classNameDict: {
         column: "col-lg-12",
-        theme: "field__default-bootstrap"
+        theme: "field__default-bootstrap",
+        inlineCheckboxes: "inline-checkboxes",
+        fieldBoxShadow: "field--box-shadow"
       },
+      labelAlignment: "top",
+      inlineCheckboxes: true,
       column: "12",
     },
     formData: {},
@@ -128,19 +147,23 @@ export default {
       type: "string",
       title: "test",
       htmlEncodedTitle: "test",
-      htmlEncodedEnum: ["option 1"],
-      enum: ["option 1"],
+      htmlEncodedEnum: ["option 1", "option 2", "option 3"],
+      enum: ["option 1", "option 2", "option 3"],
       showDescription: false,
       allowMultiple: false,
-      traverseArray: ['title', '0']
+      traverseArray: ['title', '0', '1', '2']
     },
     uiSchema: {
       "ui:widget": "radio",
       classNameDict: {
         column: "col-lg-12",
-        theme: "field__default-bootstrap"
+        theme: "field__default-bootstrap",
+        inlineCheckboxes: "inline-checkboxes",
+        fieldBoxShadow: "field--box-shadow"
       },
       column: "12",
+      labelAlignment: "top",
+      inlineCheckboxes: true,
     },
     formData: {},
     default: false
@@ -155,6 +178,7 @@ export default {
       title: "test",
       htmlEncodedTitle: "test",
       showDescription: false,
+      showPlaceholder: false,
       enum: ["option 1"],
       htmlEncodedEnum: ["option 1"],
       traverseArray: ['title', '0']
@@ -163,9 +187,11 @@ export default {
       "ui:widget": "select",
       classNameDict: {
         column: "col-lg-12",
-        theme: "field__default-bootstrap"
+        theme: "field__default-bootstrap",
+        fieldBoxShadow: "field--box-shadow"
       },
       column: "12",
+      labelAlignment: "top",
     },
     formData: {},
     default: true
@@ -186,9 +212,11 @@ export default {
     uiSchema: {
       classNameDict: {
         column: "col-lg-12",
-        theme: "field__default-bootstrap"
+        theme: "field__default-bootstrap",
+        fieldBoxShadow: "field--box-shadow"
       },
       column: "12",
+      labelAlignment: "top",
     },
     formData: {},
     default: true

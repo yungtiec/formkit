@@ -11,6 +11,7 @@ import {
   updateFieldInFocus,
   updateFieldTitle,
   updateFieldDescription,
+  updateFieldPlaceholder,
   updateFieldEnum,
   addEnum,
   updatePropertyInFocus
@@ -45,6 +46,7 @@ class BuilderEditingPanel extends Component {
     updatePropertyInFocus: PropTypes.func.isRequired,
     updateFieldTitle: PropTypes.func.isRequired,
     updateFieldDescription: PropTypes.func.isRequired,
+    updateFieldPlaceholder: PropTypes.func.isRequired,
     updateFieldEnum: PropTypes.func.isRequired,
     addEnum: PropTypes.func.isRequired,
     fieldSchema: PropTypes.object,
@@ -107,10 +109,13 @@ class BuilderEditingPanel extends Component {
                   title={formFields[fieldId].htmlEncodedTitle}
                   description={this.props.formUiSchema[fieldId].htmlEncodedDescription}
                   showDescription={formFields[fieldId].showDescription}
+                  placeholder={this.props.formUiSchema[fieldId].htmlEncodedPlaceholder}
+                  showPlaceholder={formFields[fieldId].showPlaceholder}
                   changeToolbarTab={this.props.changeToolbarTab}
                   updateFieldInFocus={this.props.updateFieldInFocus}
                   updateFieldTitle={this.props.updateFieldTitle}
                   updateFieldDescription={this.props.updateFieldDescription}
+                  updateFieldPlaceholder={this.props.updateFieldPlaceholder}
                   fieldId={fieldId}
                   currentFieldIdInFocus={this.props.currentFieldIdInFocus}
                   currentPropertyInFocus={this.props.currentPropertyInFocus}
@@ -118,6 +123,7 @@ class BuilderEditingPanel extends Component {
                   traverseArray={formFields[fieldId].traverseArray}
                   fieldOrder={this.props.fieldSchema.order} />
                 {
+
                   (formFields[fieldId].fieldOptionId === 'multiple-checkbox' ||
                   formFields[fieldId].fieldOptionId === 'select' ||
                   formFields[fieldId].fieldOptionId === 'radiobuttonlist') ?
@@ -161,6 +167,7 @@ const actions = {
   updatePropertyInFocus,
   updateFieldTitle,
   updateFieldDescription,
+  updateFieldPlaceholder,
   updateFieldEnum,
   addEnum
 }

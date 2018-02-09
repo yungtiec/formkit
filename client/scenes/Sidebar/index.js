@@ -7,6 +7,7 @@ import {isEmpty} from 'lodash'
 import {Logo} from '../../components'
 import BuilderFieldOptions from './scenes/BuilderFieldOptions'
 import BuilderFieldSettings from './scenes/BuilderFieldSettings'
+import BuilderFieldStyling from './scenes/BuilderFieldStyling'
 import BuilderToolbar from './scenes/BuilderToolbar'
 import {getFormFieldSchema} from '../../store/form/field/reducer'
 import {getRequiredFields} from '../../store/form/validation/reducer'
@@ -54,10 +55,8 @@ class Sidebar extends Component {
           updateFieldInFocus={this.props.updateFieldInFocus} />
       case 'fieldSettings':
         return <BuilderFieldSettings />
-      case 'fieldLayout':
-        return (<div></div>)
       case 'fieldStyling':
-        return (<div></div>)
+        return <BuilderFieldStyling />
       default:
         return (<div></div>)
     }

@@ -1,0 +1,78 @@
+.field-setting__item div input[type="checkbox"] {
+  margin: 0 5px 0 0;
+}
+
+.field-setting__item-apply-to-all {
+  margin-bottom: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.field-subsetting__item {
+  position: relative;
+  width: 100%;
+  margin-top: 5px;
+}
+
+.field-subsetting__item .Select,
+.field-setting__item .Select {
+  width: 62%;
+}
+
+.field-setting__item--select-container .Select{
+  width: 100%;
+}
+
+.field-setting__width-input-container,
+.field-setting__color-input-container {
+  position: relative;
+}
+
+.field-setting__width-input-container p,
+.field-setting__color-input-container p {
+  margin: 0 5px;
+}
+
+.field-setting__width-input,
+.field-setting__color-input {
+  border-color: #d9d9d9 #ccc #b3b3b3;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  outline: none;
+  line-height: 24px;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 88px;
+}
+
+.field-setting__color-box {
+  width: 26px;
+  height: 26px;
+  border-radius: 4px;
+  margin-right: 3px;
+  cursor: pointer;
+}
+
+.field-setting__color-hidden-input {
+  width: 24px;
+  height: 24px;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.field-setting__color-input-container .chrome-picker {
+  width: 180px !important;
+  position: absolute;
+  top: 38px;
+  z-index: 2;
+  right: 0;
+}
+
+.field-subsetting__item p i {
+  margin-right: 3px;
+}
