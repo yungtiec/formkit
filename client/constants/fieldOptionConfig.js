@@ -1,7 +1,7 @@
 export default {
   double: {
     id: "double",
-    icon: "circle-o",
+    icon: "hashtag",
     label: "Number",
     jsonSchema: {
       type: "number",
@@ -16,7 +16,8 @@ export default {
     uiSchema: {
       classNameDict: {
         column: "col-lg-12",
-        theme: "field__default-bootstrap"
+        theme: "field__default-bootstrap",
+        fieldBoxShadow: "field--box-shadow"
       },
       column: "12",
       labelAlignment: "top"
@@ -26,7 +27,7 @@ export default {
   },
   integer: {
     id: "integer",
-    icon: "clone",
+    icon: "hashtag",
     label: "Number",
     jsonSchema: {
       type: "integer",
@@ -41,7 +42,8 @@ export default {
     uiSchema: {
       classNameDict: {
         column: "col-lg-12",
-        theme: "field__default-bootstrap"
+        theme: "field__default-bootstrap",
+        fieldBoxShadow: "field--box-shadow"
       },
       column: "12",
       labelAlignment: "top",
@@ -66,7 +68,8 @@ export default {
     uiSchema: {
       classNameDict: {
         column: "col-lg-12",
-        theme: "field__default-bootstrap"
+        theme: "field__default-bootstrap",
+        fieldBoxShadow: "field--box-shadow"
       },
       labelAlignment: "top",
       column: "12",
@@ -89,9 +92,13 @@ export default {
     },
     uiSchema: {
       "ui:widget": "textarea",
+      "ui:options": {
+        rows: 5
+      },
       classNameDict: {
         column: "col-lg-12",
-        theme: "field__default-bootstrap"
+        theme: "field__default-bootstrap",
+        fieldBoxShadow: "field--box-shadow"
       },
       labelAlignment: "top",
       column: "12",
@@ -122,7 +129,8 @@ export default {
       classNameDict: {
         column: "col-lg-12",
         theme: "field__default-bootstrap",
-        inlineCheckboxes: "inline-checkboxes"
+        inlineCheckboxes: "inline-checkboxes",
+        fieldBoxShadow: "field--box-shadow"
       },
       labelAlignment: "top",
       inlineCheckboxes: true,
@@ -150,7 +158,8 @@ export default {
       classNameDict: {
         column: "col-lg-12",
         theme: "field__default-bootstrap",
-        inlineCheckboxes: "inline-checkboxes"
+        inlineCheckboxes: "inline-checkboxes",
+        fieldBoxShadow: "field--box-shadow"
       },
       column: "12",
       labelAlignment: "top",
@@ -169,6 +178,7 @@ export default {
       title: "test",
       htmlEncodedTitle: "test",
       showDescription: false,
+      showPlaceholder: false,
       enum: ["option 1"],
       htmlEncodedEnum: ["option 1"],
       traverseArray: ['title', '0']
@@ -177,7 +187,8 @@ export default {
       "ui:widget": "select",
       classNameDict: {
         column: "col-lg-12",
-        theme: "field__default-bootstrap"
+        theme: "field__default-bootstrap",
+        fieldBoxShadow: "field--box-shadow"
       },
       column: "12",
       labelAlignment: "top",
@@ -201,7 +212,8 @@ export default {
     uiSchema: {
       classNameDict: {
         column: "col-lg-12",
-        theme: "field__default-bootstrap"
+        theme: "field__default-bootstrap",
+        fieldBoxShadow: "field--box-shadow"
       },
       column: "12",
       labelAlignment: "top",

@@ -36,3 +36,7 @@ export const updateSideSelect = (property, sides) => ({
   type: `form.ui.${property}_SIDE_SELECTED`,
   sides
 })
+
+export const toggleFieldBoxShadow = () => ({
+  type: types.FIELD_BOX_SHADOW_TOGGLED
+})

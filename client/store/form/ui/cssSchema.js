@@ -8,71 +8,74 @@ export const css = {
     value: 'top',
     responsibleFor: ['descriptionPositionRight', 'descriptionMarginTop']
   },
-  descriptionPositionLeft: {
-    cssProperty: 'left',
-    derived: {
-      basedOn: 'labelAlignment',
-      type: 'enum',
-      top: {
-        value: 'inherit'
-      },
-      left: {
-        basedOn: 'labelMinWidth',
-        type: 'base',
-        delta: 15,
-        unit: 'px'
-      },
-      right: {
-        basedOn: 'labelMinWidth',
-        type: 'base',
-        delta: 15,
-        unit: 'px'
-      },
-      value: 'inherit',
-      unit: 'px',
-    },
-    selectors: ['.help-block'],
+  fieldBoxShadow: {
+    value: true,
   },
-  descriptionMarginTop: {
-    cssProperty: 'margin-top',
-    derived: {
-      basedOn: 'labelAlignment',
-      type: 'enum',
-      top: {
-        value: 0,
-        unit: 'px'
-      },
-      left: {
-        basedOn: 'fontSize',
-        type: 'base',
-        multiplier: 2,
-        delta: 0,
-        unit: 'px'
-      },
-      right: {
-        basedOn: 'fontSize',
-        type: 'base',
-        multiplier: 2,
-        delta: 0,
-        unit: 'px'
-      },
-      value: 0,
-      unit: 'px'
-    },
-    selectors: ['.help-block'],
-  },
-  fieldMarginBottom: {
-    cssProperty: 'margin-bottom',
-    derived: {
-      basedOn: 'fontSize',
-      type: 'base',
-      multiplier: 2,
-      delta: 8,
-      unit: 'px',
-      value: 36,
-    },
-    selectors: ['.form-group.field__default-bootstrap'],
-  },
+  // descriptionPositionLeft: {
+  //   cssProperty: 'left',
+  //   derived: {
+  //     basedOn: 'labelAlignment',
+  //     type: 'enum',
+  //     top: {
+  //       value: 'inherit'
+  //     },
+  //     left: {
+  //       basedOn: 'labelMinWidth',
+  //       type: 'base',
+  //       delta: 15,
+  //       unit: 'px'
+  //     },
+  //     right: {
+  //       basedOn: 'labelMinWidth',
+  //       type: 'base',
+  //       delta: 15,
+  //       unit: 'px'
+  //     },
+  //     value: 'inherit',
+  //     unit: 'px',
+  //   },
+  //   selectors: ['.help-block'],
+  // },
+  // descriptionMarginTop: {
+  //   cssProperty: 'margin-top',
+  //   derived: {
+  //     basedOn: 'labelAlignment',
+  //     type: 'enum',
+  //     top: {
+  //       value: 3,
+  //       unit: 'px'
+  //     },
+  //     left: {
+  //       basedOn: 'fontSize',
+  //       type: 'base',
+  //       multiplier: 2,
+  //       delta: 3,
+  //       unit: 'px'
+  //     },
+  //     right: {
+  //       basedOn: 'fontSize',
+  //       type: 'base',
+  //       multiplier: 2,
+  //       delta: 3,
+  //       unit: 'px'
+  //     },
+  //     value: 0,
+  //     unit: 'px'
+  //   },
+  //   selectors: ['.help-block'],
+  // },
+  // fieldMarginBottom: {
+  //   cssProperty: 'margin-bottom',
+  //   derived: {
+  //     basedOn: 'fontSize',
+  //     type: 'base',
+  //     multiplier: 2,
+  //     delta: 8,
+  //     unit: 'px',
+  //     value: 36,
+  //   },
+  //   selectors: ['.form-group.field__default-bootstrap'],
+  // },
   labelVerticalAlignment: {
     cssProperty: 'align-self',
     selectors: ['.control-label'],
@@ -81,7 +84,13 @@ export const css = {
   labelMinWidth: {
     cssProperty: 'min-width',
     selectors: ['.control-label'],
-    value: 62,
+    value: 100,
+    unit: 'px'
+  },
+  labelWidth: {
+    cssProperty: 'width',
+    selectors: ['.control-label'],
+    value: 100,
     unit: 'px'
   },
   fontSize: {
@@ -99,7 +108,7 @@ export const css = {
       unit: 'px',
       value: 34
     },
-    selectors: ['.form-control']
+    selectors: ['input.form-control', 'select.form-control']
   },
   lineHeight: {
     cssProperty: 'line-height',
@@ -244,60 +253,60 @@ export const css = {
     },
     all: {
       width: {
-        value: 1,
+        value: 0,
         unit: 'px',
       }
     },
     top: {
       width: {
-        value: 1,
+        value: 0,
         unit: 'px',
       }
     },
     bottom: {
       width: {
-        value: 1,
+        value: 0,
         unit: 'px',
       }
     },
     left: {
       width: {
-        value: 1,
+        value: 0,
         unit: 'px',
       }
     },
     right: {
       width: {
-        value: 1,
+        value: 0,
         unit: 'px',
       }
     },
-    selectors: ['.field__default-bootstrap.form-group .form-control']
+    selectors: ['.field__default-bootstrap.form-group .form-control', '.field__default-bootstrap.form-group .checkboxes','.field__default-bootstrap.form-group .field-radio-group']
   },
   fieldBorderStyle: {
     cssProperty: 'border-style',
-    selectors: ['.field__default-bootstrap.form-group .form-control'],
+    selectors: ['.field__default-bootstrap.form-group .form-control', '.field__default-bootstrap.form-group .checkboxes','.field__default-bootstrap.form-group .field-radio-group'],
     value: 'solid',
   },
   fieldBorderRadius: {
     cssProperty: 'border-radius',
-    selectors: ['.field__default-bootstrap.form-group .form-control'],
+    selectors: ['.field__default-bootstrap.form-group .form-control', '.field__default-bootstrap.form-group .checkboxes','.field__default-bootstrap.form-group .field-radio-group'],
     value: 4,
     unit: 'px'
   },
   fieldBorderColor: {
     cssProperty: 'border-color',
-    selectors: ['.field__default-bootstrap.form-group .form-control'],
+    selectors: ['.field__default-bootstrap.form-group .form-control', '.field__default-bootstrap.form-group .checkboxes','.field__default-bootstrap.form-group .field-radio-group'],
     value: '#cccccc',
   },
   fieldColor: {
     cssProperty: 'color',
-    selectors: ['.field__default-bootstrap.form-group .form-control'],
+    selectors: ['.field__default-bootstrap.form-group .form-control', '.field__default-bootstrap.form-group .checkboxes','.field__default-bootstrap.form-group .field-radio-group'],
     value: '#555555',
   },
   fieldBackgroundColor: {
     cssProperty: 'background-color',
-    selectors: ['.field__default-bootstrap.form-group .form-control'],
+    selectors: ['.field__default-bootstrap.form-group .form-control', '.field__default-bootstrap.form-group .checkboxes','.field__default-bootstrap.form-group .field-radio-group'],
     value: '#ffffff',
   },
 }

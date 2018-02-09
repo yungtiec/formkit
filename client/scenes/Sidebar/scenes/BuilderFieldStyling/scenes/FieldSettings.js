@@ -7,7 +7,8 @@ import ColorSettings from '../components/ColorSettings'
 import { getFormCssSchema } from '../../../../../store/form/ui/reducer'
 import {
   updateCss,
-  toggleCssPropertyToWhichSide
+  toggleCssPropertyToWhichSide,
+  toggleFieldBoxShadow
 } from '../../../../../store'
 
 class FieldSettings extends Component {
@@ -15,6 +16,7 @@ class FieldSettings extends Component {
     cssSchema: PropTypes.object.isRequired,
     updateCss: PropTypes.func.isRequired,
     toggleCssPropertyToWhichSide: PropTypes.func.isRequired,
+    toggleFieldBoxShadow: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -116,12 +118,14 @@ class FieldSettings extends Component {
           borderStyle={this.props.cssSchema.fieldBorderStyle.value}
           borderRadius={this.props.cssSchema.fieldBorderRadius.value.replace('px', '')}
           borderColor={this.props.cssSchema.fieldBorderColor.value}
+          fieldBoxShadow={this.props.cssSchema.fieldBoxShadow.value}
           handleBorderWidthOnChange={this.handleFieldBorderWidthOnChange}
           handleBorderStyleSelect={this.handleFieldBorderStyleSelect}
           handleBorderRadiusOnChange={this.handleFieldBorderRadiusOnChange}
           handleBorderColorInputOnChange={this.handleFieldBorderColorInputOnChange}
           handleBorderColorPickerOnChange={this.handleFieldBorderColorPickerOnChange}
           toggleCssPropertyToWhichSide={this.props.toggleCssPropertyToWhichSide}
+          toggleFieldBoxShadow={this.props.toggleFieldBoxShadow}
         />
       </div>
     )
@@ -134,7 +138,8 @@ const mapState = (state) => ({
 
 const actions = {
   updateCss,
-  toggleCssPropertyToWhichSide
+  toggleCssPropertyToWhichSide,
+  toggleFieldBoxShadow
 }
 
 

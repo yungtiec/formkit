@@ -111,16 +111,30 @@ function getLabelAlignmentClasses(labelAlignment) {
       classes = ''
       break
     case 'left':
-      classes = 'd-flex flex-row'
+      classes = 'd-table'
       break
     case 'right':
-      classes = 'd-flex flex-row control-label--right-align'
+      classes = 'd-table control-label--right-align'
       break
     default:
       classes = ''
       break
   }
   return classes
+}
+
+function updateFieldBoxShadow(state) {
+  state.css.fieldBoxShadow.value = !state.css.fieldBoxShadow.value
+  if (state.css.fieldBoxShadow.value) {
+    for (var fieldId in state.schema) {
+      state.schema[fieldId].classNameDict.fieldBoxShadow = 'field--box-shadow'
+    }
+  } else {
+    for (var fieldId in state.schema) {
+      delete state.schema[fieldId].classNameDict.fieldBoxShadow
+    }
+  }
+  return { ...state }
 }
 
 function updateFieldBorderApplication(state, side) {
@@ -318,6 +332,8 @@ export default function form(state = initialState, action) {
       return updateFieldColor(clone(state), action.value)
     case uiTypes.FIELD_BACKGROUND_COLOR_UPDATED:
       return updateFieldBackgroundColor(clone(state), action.value)
+    case uiTypes.FIELD_BOX_SHADOW_TOGGLED:
+      return updateFieldBoxShadow(clone(state))
     // label border
     // side select
     case uiTypes.LABEL_BORDER_APPLY_TO_ALL_TOGGLED:

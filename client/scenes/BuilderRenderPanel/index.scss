@@ -1,3 +1,21 @@
+.form__default-bootstrap {
+  width: 90%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.field__default-bootstrap .checkboxes,
+.field__default-bootstrap .field-radio-group {
+  padding: 15px;
+}
+
+// field box shadow
+.field--box-shadow .form-control,
+.field--box-shadow .checkboxes,
+.field--box-shadow .field-radio-group {
+  box-shadow: rgba(50, 50, 50, 0.2) 0px 0px 7px 0px;
+}
+
 .inline-checkboxes .radio+.radio,
 .inline-checkboxes .checkbox+.checkbox {
   margin-top: 0px !important;
@@ -19,14 +37,25 @@
 }
 
 // label alignment
-.form-group.flex-row .control-label {
-  padding-right: 10px;
-  margin-bottom: 0px;
-  min-width: 62px;
-  word-wrap: break-word;
+
+.d-table {
+  display: table;
 }
 
-.form-group.flex-row.control-label--right-align .control-label{
+.form-group.d-table .control-label {
+  padding-right: 10px;
+  margin-bottom: 0px;
+  min-width: 15%;
+  word-wrap: break-word;
+  display: table-cell;
+  height: 100%;
+}
+
+.form-group.d-table {
+  height: 100%;
+}
+
+.form-group.d-table.control-label--right-align .control-label {
   text-align: right;
 }
 
@@ -51,7 +80,7 @@
   width: 15px;
   height: 15px;
   margin-right: 10px;
-  border: 1px solid #555;
+  box-shadow: rgba(41, 39, 39, 0.37) 0px 0px 7px 0px;
   border-radius: 3px;
   background-color: #fff;
   -webkit-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
@@ -109,7 +138,3 @@
   box-shadow: none;
 }
 
-// description
-.help-block {
-  position: absolute;
-}

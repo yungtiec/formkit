@@ -136,6 +136,7 @@ class BuilderFieldSettings extends Component {
       case 'double':
       case 'text':
       case 'multilinetext':
+      case 'select':
         return (
           <div className="field-setting__item field-setting__item--toggle">
             <p>placeholder</p>

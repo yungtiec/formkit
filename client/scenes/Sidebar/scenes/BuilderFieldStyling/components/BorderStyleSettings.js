@@ -21,6 +21,8 @@ export default class BorderStyleSettings extends Component {
     handleBorderColorInputOnChange: PropTypes.func.isRequired,
     handleBorderColorPickerOnChange: PropTypes.func.isRequired,
     toggleCssPropertyToWhichSide: PropTypes.func.isRequired,
+    fieldBoxShadow: PropTypes.bool,
+    toggleFieldBoxShadow: PropTypes.func
   }
 
   state = {
@@ -84,6 +86,10 @@ export default class BorderStyleSettings extends Component {
     })
   }
 
+  handleFieldBoxShadowToggle() {
+    this.props.toggleFieldBoxShadow()
+  }
+
   render() {
     const {
       cssProperty,
@@ -95,7 +101,8 @@ export default class BorderStyleSettings extends Component {
       handleBorderStyleSelect,
       handleBorderRadiusOnChange,
       handleBorderColorInputOnChange,
-      handleBorderColorPickerOnChange
+      handleBorderColorPickerOnChange,
+      fieldBoxShadow
     } = this.props
 
     const sideFuncs = {
@@ -196,6 +203,21 @@ export default class BorderStyleSettings extends Component {
             ]}
           />
         </div>
+        {
+          cssProperty === 'FIELD_BORDER' &&
+          <div className="field-subsetting__item d-flex space-between">
+            <p style={{opacity: 0}}><i className="fa fa-caret-right"></i></p>
+            <div>
+              <input
+                onChange={this.handleFieldBoxShadowToggle}
+                type="checkbox"
+                name="border-apply-to-all"
+                value="border-apply-to-all"
+                checked={fieldBoxShadow ? 'checked' : ''}
+              />apply box shadow
+            </div>
+          </div>
+        }
         <ColorSettings
           subsetting={true}
           label="color"
@@ -204,6 +226,7 @@ export default class BorderStyleSettings extends Component {
           handleColorInputOnChange={handleBorderColorInputOnChange}
           handleColorPickerOnChange={handleBorderColorPickerOnChange}
         />
+
       </div>
     )
   }

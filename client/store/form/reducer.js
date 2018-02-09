@@ -83,8 +83,8 @@ export const getFormUiSchema = createSelector(
     var reselectUiSchema = clone(uiSchema || {})
     for (var fieldId in reselectUiSchema) {
       if (!field.schema.properties[fieldId].showDescription &&
-        'ui:description' in reselectUiSchema[fieldId]) {
-        delete reselectUiSchema[fieldId]['ui:description']
+        'ui:help' in reselectUiSchema[fieldId]) {
+        delete reselectUiSchema[fieldId]['ui:help']
       }
       reselectUiSchema[fieldId].classNames = values(reselectUiSchema[fieldId].classNameDict).join(' ')
     }
